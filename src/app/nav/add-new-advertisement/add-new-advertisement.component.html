@@ -1,0 +1,122 @@
+<div class="row formModal" @inOutPaneAnimation>
+    <div class="col-lg-12 add-form">
+      <div class=" heading-container d-flex justify-content-between align-items-center">
+        <span class="form-heading">ADD NEW ADVERTISEMENT</span>
+        <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt="" width="28px"></a>
+      </div>
+
+    <div>
+      <form [formGroup]="addAssetForm" autocomplete="off" (ngSubmit)="submit()">
+        <div class="row">
+          <!-- <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">Upload</label>
+            <input type="file" class="form-control" id="inputGroupFile01" type="file" formControlName="adFile"  (change)="onFileSelected($event)">
+          </div> -->
+          <div class="col-lg-12 col-md-6 mb-3">
+            <div
+              [class.valid]="addAssetForm.controls['adFile'].valid || !submit"
+              [class.invalid]="(addAssetForm.controls['adFile'].hasError('required')) && submit || (addAssetForm.controls['adFile'].invalid)">
+              <div  class=" file-upload pointer">
+                <a (click)="fileInput.click()" >
+                  <img src="assets/icons/file-earmark-plus.svg" alt="">
+                  Drag and drop or <span style="color: rgb(212, 95, 11);">Browse</span> your file
+                </a>
+              </div>
+            </div>
+            
+            <div>
+               <input hidden (change)="onFileSelected($event)" #fileInput type="file" formControlName="adFile">
+              
+             @if (selectedFile) {
+               <mat-card class="mt-2">
+                <div class="d-flex align-items-center justify-content-between p-2">
+                <span>
+                  {{ selectedFile?.name }}
+                </span>
+               @if (selectedFile) {
+                <a  class="pointer text-end" (click)="deleteFile()">
+                  <img style="color: #bdb8b8;" src="assets/icons/delete_black.svg" width="18" height="18">
+                </a>
+               }
+              </div>
+              </mat-card>
+             }
+            </div>
+            <!-- <span class="ms-3" style="color: #f44336; font-size: 12px; font-weight: 500;" ngIf="(addAssetForm.controls['file'].hasError('required')) && submit">File is required</span>
+            <span class="ms-3" style="color: #f44336; font-size: 12px; font-weight: 500;" ngIf="isAudio">Please select valid file</span> -->
+          </div>
+
+
+          <div class="col-6">
+            <!-- <p>SiteId</p> -->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>siteId</mat-label>
+              <mat-select formControlName="siteId">
+            @for (item of sitesList; track $index) {
+              <mat-option [value]="item.siteId">{{item.siteId}}</mat-option>
+            }
+              </mat-select>
+              <mat-error>siteId is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <!-- <p>Add Name</p> -->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Add Name</mat-label>
+              <input matInput formControlName="adName">
+            </mat-form-field>
+          </div>
+         
+          
+          <div class=" col-6">
+            <!-- <p>Category</p> -->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Select Category</mat-label>
+              <mat-select formControlName="category">
+                @for (item of listCategoriesData; track $index) {
+
+                  <mat-option [value]="item.category">{{item.category}}</mat-option>
+                }
+              </mat-select>
+              <mat-error>category is required</mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="col-6">
+            <p>add type</p>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>add type</mat-label>
+              <mat-select formControlName="adType">
+                <mat-option></mat-option>
+              </mat-select>
+              <mat-error>category is required</mat-error>
+            </mat-form-field>
+          </div> -->
+          <div class="col-6">
+            <!-- <p>Add Type</p> -->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Add Type</mat-label>
+              <input matInput formControlName="adType">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <!-- <p>Description</p> -->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description">
+            </mat-form-field>
+          </div>
+
+          <div class="col-12">
+            <button class="ad-button">ADD</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <!-- <div class="col-lg-6"></div> -->
+</div>
+
+
+
+

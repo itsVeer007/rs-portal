@@ -1,0 +1,66 @@
+
+.Main-container {
+    background: #000000 0% 0% no-repeat padding-box;
+    height: calc(100vh - 50px);
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    padding: 16px 35px 16px 35px;
+   
+
+}
+.grid-item {
+    background-color: #272525;
+    border: 1px solid #635d5d;
+    border-radius: 4px;
+    padding: 12px;
+    height: 160px;
+    /* width: 120px; */      
+ }
+
+ .add-new-button {
+    border: 1px dashed var(--unnamed-color-989fb4);
+    border: 1px dashed #989FB4;
+    border-radius: 3px;
+    opacity: 0.5;
+    text-align: center;
+    padding: 34px;
+ }
+.add-button {
+    color: var(--unnamed-color-989fb4);
+    text-align: center;
+    font: normal normal 600 10px/13px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    text-transform: uppercase;
+    opacity: 1;
+}
+ 
+.time-ads {
+    text-align: center;
+    font: normal normal medium 10px/13px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    opacity: 1;
+}
+
+.name-ads {
+    color: var(--unnamed-color-989fb4);
+    text-align: center;
+    font: italic normal medium 8px/10px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    opacity: 0.5;
+}
+
+.pepsi-ads {
+    color: var(--unnamed-color-989fb4);
+    text-align: center;
+    font: normal normal 600 10px/13px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    text-transform: uppercase;
+    opacity: 1;
+}

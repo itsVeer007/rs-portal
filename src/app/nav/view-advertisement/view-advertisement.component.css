@@ -1,0 +1,117 @@
+.formModal {
+    height: 86vh;
+    /* overflow-y: auto; */
+
+    position: fixed;
+    top: 65px;
+    /* left: 102px; */
+    right: 20px;
+    width: 83%;
+    z-index: 99;
+    /* width: 91%; */
+    /* padding-bottom: 22px; */
+    /* padding: 24px; */
+
+
+    
+  }
+
+  .form-heading {
+    text-align: left;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    opacity: 1;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .add-form {
+    background-color: #272525;
+    /* background-color: aliceblue; */
+  
+    border: 1px solid #635d5d;
+  }
+
+  .first-device {
+    /* width: 60px; */
+    height: 30px;
+    border: 1px solid var(--unnamed-color-989fb4);
+    background: #989FB466 0% 0% no-repeat padding-box;
+    border: 1px solid #fd6327;
+    border-radius: 3px;
+    opacity: 0.5;
+  }
+
+  .device-heading {
+    color: var(--unnamed-color-fd6327);
+    /* text-align: left; */
+    font: normal normal 600 8px/10px Montserrat;
+    letter-spacing: 0px;
+    color: #FD6327;
+    text-transform: uppercase;
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:8px;
+    /* padding: 1px 15px 1px 65px; */
+  
+   
+
+}
+.grid-container-rule {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:8px;
+    padding: 16px 15px 16px 65px;
+  border-bottom: 1px solid #989FB4;
+  border-top: 1px solid #989FB4;
+   
+
+}
+.first-rule {
+    border: 0.5px solid var(--unnamed-color-989fb4);
+    border: 0.5px solid #989FB4;
+    border-radius: 3px;
+    opacity: 1;
+    height: 30px;
+    color: #989FB4;
+   
+}
+
+.rule-heading {
+    color: var(--unnamed-color-989fb4);
+    text-align: left;
+    font: normal normal normal 8px/10px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    opacity: 1;
+}
+.rule {
+    color: var(--unnamed-color-989fb4);
+    text-align: left;
+    font: normal normal normal 8px/10px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    opacity: 1;
+}
+
+.grid-container-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:8px;
+    padding: 16px 15px 16px 65px;
+}
+.first-days {
+    border: 0.5px solid var(--unnamed-color-989fb4);
+    border: 0.5px solid #989FB4;
+    border-radius: 3px;
+    opacity: 1;
+    height: 35px;
+    /* width: 20px; */
+    color: #989FB4;
+   
+}

@@ -1,0 +1,46 @@
+
+<div class="Main-container">
+    <div  class="grid-container">
+        <div class="add-new-button">
+            <a (click)="openAddForm()">
+                <img src="assets/icons/plus (1).svg" alt="" class="mb-4">
+                <p class="add-button">Add New</p>
+            </a>
+        </div>
+
+        @for (item of myobj; track $index) {  
+            <div class="grid-item" (click)="openViewAddForm()">
+                <div class="d-flex justify-content-between align-items-center">
+                    <img src="assets/icons/bavarchi.svg" alt="">
+                    <img src="assets/icons/bx-dots-vertical-rounded.svg" alt="">
+                </div>
+                <div style="color: antiquewhite; text-align: center;">
+                    <img src="assets/icons/bulb.svg" alt="" width="24px" class="mt-2 mb-2">
+                    <p class="pepsi-ads">HAVELLS</p>
+                    <p class="name-ads mb-2">Electricals</p>
+                    <p class="time-ads">15 sec</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@if(showForm) {
+    <div class="m-4">
+        <app-add-new-advertisement (newItemEvent)="close()"></app-add-new-advertisement> 
+    </div>
+}
+
+
+
+@if(viewAddForm) {
+    <div class="m-4">
+        <app-view-advertisement (newItemEvent)="closeViewForm()"></app-view-advertisement> 
+    </div>
+}
+
+
+
+
+

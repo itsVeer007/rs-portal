@@ -1,0 +1,125 @@
+<div class="row formModal">
+    <div class="col-lg-6"></div>
+    <div class="col-lg-6 add-form p-3" @inOutPaneAnimation>
+      <div class=" heading-container d-flex justify-content-between align-items-center">
+        <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt="" width="28px"></a>
+        <!-- <span class="form-heading" style="color: #989fb4;">Add Rule</span> -->
+        <span class="total-rules" style="font-weight: bold;">CREATE NEW RULE</span>
+      </div>
+
+      <div >
+        <!-- <p class="total-rules" style="font-weight: bold;">CREATE NEW RULE</p> -->
+      </div>
+<!-- 
+      <div class="mt-4">
+       <input type="text" class="input-search mb-3 p-3" placeholder="Search-Rule">
+       <div class="search-image">
+        <img src="assets/icons/search.svg" alt="">
+        </div>
+      </div> -->
+
+      <p class="total-rules-heading mt-5">SELECT TIME</p>
+      <div>
+        <mat-slider min="0" max="100000" step="1000" showTickMarks discrete [displayWith]="formatLabel" class="w-100">
+            <input matSliderThumb>
+          </mat-slider>
+      </div>
+
+      
+      <div class="rules-list p-3">
+        <p>Working Days</p>
+
+            <div>
+                <div class="grid-container-days">
+                  @for (item of myobj; track $index) {
+                
+                    <div class="first-days text-center">
+                      <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                        <span class="rule">{{'sunday'}}</span>
+                      </a>
+                    </div> 
+                  }
+                </div>
+            </div>
+          
+    
+            <!-- <div>
+                <div class="first-rule text-center p-1">
+                    <a class="pointer" style="text-decoration: none;">
+                          <span class="rule-heading">Device Camera</span>
+                      </a>
+                </div>
+            </div> -->
+      </div>
+
+      <p class="total-rules-heading mt-3">SELECT Temperature</p>
+      <div>
+        <mat-slider min="0" max="100000" step="1000" showTickMarks discrete [displayWith]="formatLabel" class="w-100">
+            <input matSliderThumb>
+          </mat-slider>
+      </div>
+
+    <p>Object Detection</p>
+    <div class="d-flex">
+      <div class="mt-2">
+        <img src="assets/icons/person count imaage.svg" alt="">
+      </div>
+      <div class="col-6 mx-3">
+        <!-- <p>Add Name</p> -->
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>enter count</mat-label>
+          <input matInput >
+        </mat-form-field>
+      </div>
+
+      <div class="mt-2">
+        <img src="assets/icons/object count image.svg" alt="">
+      </div>
+    </div>
+
+      <p>Camera Type</p>
+     <div class="d-flex mb-3">
+        <div class="first-rule text-center p-1">
+            <a class="pointer" style="text-decoration: none;">
+                <img src="assets/icons/plus (1).svg" alt="" class="me-2" width="6px">
+                  <span class="rule-heading">Device Camera</span>
+              </a>
+        </div>
+        <div class="first-rule text-center p-1 ms-2">
+            <a class="pointer" style="text-decoration: none;">
+                <img src="assets/icons/plus (1).svg" alt="" class="me-2" width="6px">
+                  <span class="rule-heading">Existing Camera</span>
+              </a>
+        </div>
+     </div>
+
+     <div class="col-12">
+        <!-- <p>SiteId</p> -->
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select</mat-label>
+          <mat-select formControlName="siteId">
+        @for (item of myobj; track $index) {
+          <mat-option></mat-option>
+        }
+          </mat-select>
+          <mat-error>siteId is required</mat-error>
+        </mat-form-field>
+      </div>
+  
+
+   
+    <div class="text-center">
+        <button  class="cancel-button me-2">CANCEL</button>
+        <button  class="add-button">ADD</button>
+    </div>
+
+    </div>
+  </div>
+
+
+
+  
+
+
+
+

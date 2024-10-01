@@ -1,0 +1,117 @@
+.formModal {
+    height: 87vh;
+    /* overflow-y: auto; */
+
+    position: fixed;
+    top: 65px;
+    /* left: 102px; */
+    right: 20px;
+    width: 83%;
+    z-index: 99;
+    /* width: 91%; */
+    /* padding-bottom: 22px; */
+    /* padding: 24px; */
+  }
+  .add-form {
+    /* background-color: #272525; */
+    background-color: #ffffff;
+  
+    border: 1px solid #635d5d;
+  }
+  .add-device {
+    text-align: left;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    opacity: 1;
+    font-weight: bold;
+  }
+
+  .input-search {
+    height: 40px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #FD6327;
+    border-radius: 20px;
+    opacity: 1;
+    width: 100%;
+    position: relative;
+}
+
+.input-search:focus {
+    border: 1px solid #FD6327;
+    outline: none;
+}
+
+.search-image {
+    position: absolute;
+    top: 80px;
+    right: 30px;
+}
+.total-rules {
+    color: var(--unnamed-color-989fb4);
+    text-align: left;
+    letter-spacing: 0px;
+    color: #989FB4;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:6px;
+    /* padding: 1px 15px 1px 65px; */
+}
+
+.first-device {
+    /* width: 60px; */
+    height: 30px;
+    border: 1px solid var(--unnamed-color-989fb4);
+    background: #989FB466 0% 0% no-repeat padding-box;
+    border: 1px solid #fd6327;
+    border-radius: 3px;
+    opacity: 0.5;
+  }
+
+  .grid-item {
+    background: #989FB41A 0% 0% no-repeat padding-box;
+    border: 1px solid #989FB480;
+    border-radius: 3px;
+    opacity: 0.5;
+
+    padding: 12px;
+    /* width: 75px; */
+    /* height: 75px;     */
+ }
+ .device-heading {
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+    font-size: 12px;
+ }
+
+ .hall-heading {
+    color: var(--unnamed-color-989fb4);
+    text-align: center;
+    font: normal normal medium 7px/9px Montserrat;
+    letter-spacing: 0px;
+    color: #989FB4;
+    text-transform: uppercase;
+    opacity: 1;
+    font-size: 12px;
+ }
+
+ .cancel-button {
+    border: 1px solid #0D0D0D;
+    border-radius: 3px;
+    opacity: 1;
+    width: 150px;
+    height: 40px;
+ }
+ .add-button {
+    border: 1px solid var(--unnamed-color-fd6327);
+    border: 1px solid #FD6327;
+    border-radius: 3px;
+    opacity: 1;
+    width: 150px;
+    height: 40px;
+ }

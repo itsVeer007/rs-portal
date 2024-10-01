@@ -1,0 +1,178 @@
+<div class="row formModal">
+    <div class="col-lg-6"></div>
+    <div class="col-lg-6 add-form p-3" @inOutPaneAnimation>
+      <div class=" heading-container d-flex justify-content-between align-items-center">
+        <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt="" width="28px"></a>
+        <div class="first-rule text-center p-1">
+          <a class="pointer" style="text-decoration: none;" (click)="openCreateRuleForm()">
+              <img src="assets/icons/plus (1).svg" alt="" class="me-2" width="6px">
+                <span class="rule-heading">NEW RULE</span>
+            </a>
+      </div>
+      </div>
+
+      <div class="d-flex justify-content-end align-items-center">
+        <!-- <p class="total-rules">ADD Rule</p> -->
+        
+        <!-- <div class="first-rule text-center p-1">
+            <a class="pointer" style="text-decoration: none;" (click)="openCreateRuleForm()">
+                <img src="assets/icons/plus (1).svg" alt="" class="me-2" width="6px">
+                  <span class="rule-heading">NEW RULE</span>
+              </a>
+        </div> -->
+      </div>
+
+      <div class="mt-4">
+       <input type="text" class="input-search mb-3 p-3" placeholder="Search-Rule">
+       <div class="search-image">
+        <img src="assets/icons/search.svg" alt="">
+        </div>
+      </div>
+
+      <p class="total-rules-heading mb-3">TOTAL RULES - 2</p>
+
+      <div class="rules-list p-3">
+        <p>RULE - 1</p>
+        <p>Working Days</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="grid-container-days">
+                  @for (item of myobj; track $index) {
+                
+                    <div class="first-days text-center">
+                      <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                        <span class="rule">{{'su'}}</span>
+                      </a>
+                    </div> 
+                  }
+                </div>
+            </div>
+          
+            <div>
+                <div class="grid-container-time">
+                    @for (item of timeobj; track $index) {
+                  
+                      <div class="first-time text-center">
+                        <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                          <span class="rule">{{'10-12'}}</span>
+                        </a>
+                      </div> 
+                    }
+                  </div>
+            </div>
+            <div>
+                <div class="grid-container-time">
+                    @for (item of timeobj; track $index) {
+                  
+                      <div class="first-time text-center">
+                        <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                          <span class="rule">{{'10-12'}}</span>
+                        </a>
+                      </div> 
+                    }
+                  </div>
+            </div>
+            <div>
+                <div class="first-rule text-center p-1">
+                    <a class="pointer" style="text-decoration: none;">
+                          <span class="rule-heading">Device Camera</span>
+                      </a>
+                </div>
+            </div>
+        </div>
+
+      </div>
+      <div class="rules-list p-3 mt-3">
+        <p>RULE - 2</p>
+        <p>Working Days</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div class="grid-container-days">
+                  @for (item of myobj; track $index) {
+                
+                    <div class="first-days text-center">
+                      <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                        <span class="rule">{{'su'}}</span>
+                      </a>
+                    </div> 
+                  }
+                </div>
+            </div>
+          
+            <div>
+                <div class="grid-container-time">
+                    @for (item of timeobj; track $index) {
+                  
+                      <div class="first-time text-center">
+                        <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                          <span class="rule">{{'10-12'}}</span>
+                        </a>
+                      </div> 
+                    }
+                  </div>
+            </div>
+            <div>
+                <div class="grid-container-time">
+                    @for (item of timeobj; track $index) {
+                  
+                      <div class="first-time text-center">
+                        <a class="pointer" style="text-decoration: none; color: #989fb4;">
+                          <span class="rule">{{'10-12'}}</span>
+                        </a>
+                      </div> 
+                    }
+                  </div>
+            </div>
+            <div>
+                <div class="first-rule text-center p-1">
+                    <a class="pointer" style="text-decoration: none;">
+                          <span class="rule-heading">Device Camera</span>
+                      </a>
+                </div>
+            </div>
+        </div>
+
+      </div>
+  
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="col-lg-6 me-1">
+                <p>Start Date</p>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Choose a date</mat-label>
+                  <input matInput [matDatepicker]="picker1">
+          
+                  <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6">
+                  <p>End Date</p>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Choose a date</mat-label>
+                  <input matInput [matDatepicker]="picker2">
+          
+                  <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+             </div>
+    </div>
+    <div class="text-center">
+        <button  class="cancel-button me-2">CANCEL</button>
+        <button  class="add-button">ADD</button>
+    </div>
+
+    </div>
+  </div>
+
+
+
+  @if (showCreateRuleForm) {
+    <div>
+        <app-create-new-rule (newItemEvent)="closeCreateRuleForm()"></app-create-new-rule>
+    </div>
+  }
+  
+
+
+
