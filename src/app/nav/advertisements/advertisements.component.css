@@ -1,7 +1,7 @@
 
 .Main-container {
     background: #000000 0% 0% no-repeat padding-box;
-    height: calc(100vh - 50px);
+    height: calc(100vh - 75px);
 }
 .grid-container {
     display: grid;

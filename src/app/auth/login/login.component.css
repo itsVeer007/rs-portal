@@ -1,5 +1,5 @@
 .login-background{
-    background: url("/assets/icons/Mask Group 1.png");
+    background: url("/assets/icons/Group 273.png");
     background-size: cover;
     background-repeat: no-repeat;
     /* width: 100%; */
@@ -13,9 +13,9 @@
    
 }
 
-.login-image img {
+/* .login-image img {
     filter: grayscale(100%);
-}
+} */
 .login-heading {
     position: absolute;
     left: 50px;

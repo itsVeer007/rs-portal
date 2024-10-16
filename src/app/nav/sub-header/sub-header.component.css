@@ -59,12 +59,6 @@
     border: 1px solid rgb(227, 217, 217);
 }
 
-.grid-high:hover {
-    background-color: #FD6327;
-    border-radius: 2px;
-    padding: 2px;
-}
-
 .site-info {
     position: relative;
     border-right: 1px solid rgb(156, 154, 150);

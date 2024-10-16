@@ -1,41 +1,21 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { HeaderComponent } from '../../header/header.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { MatMenuModule } from '@angular/material/menu';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ConfigService } from '../../../services/config.service';
-import {MatInputModule} from '@angular/material/input';
-import { SanitizePipe } from '../../../pipes/sanitize.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
-import { VideoPlrComponent } from "../../video-plr/video-plr.component";
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-live-view',
+  selector: 'app-sub-header',
   standalone: true,
   imports: [
-    HeaderComponent,
-    MatGridListModule,
-    MatMenuModule,
-    MatInputModule,
-    SanitizePipe,
-    FormsModule,
-    ReactiveFormsModule,
-    SearchPipe,
-    VideoPlrComponent,
-    CommonModule
-],
-  templateUrl: './live-view.component.html',
-  styleUrl: './live-view.component.css'
+ FormsModule,
+ ReactiveFormsModule,
+ SearchPipe
+  ],
+  templateUrl: './sub-header.component.html',
+  styleUrl: './sub-header.component.css'
 })
-export class LiveViewComponent {
-
-  // @HostListener('click', ['$event'])
-  // onClick() {
-  //   this.opensiteDialog == true ? this.opensiteDialog = false : null;
-  // }
-
+export class SubHeaderComponent {
   constructor(
     private configSrvc: ConfigService,
     private http: HttpClient

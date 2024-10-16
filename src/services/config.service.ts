@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { environment } from '../environments/environment';
@@ -16,7 +16,7 @@ export class ConfigService {
 
   public getSitesListForUserName(): Observable<any> {
     let user = this.storageSrvc.getData('userData');
-    let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisus'}`;
+    let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisusnew'}`;
     return this.http.get(url);
   }
 
@@ -62,6 +62,26 @@ export class ConfigService {
   list_categories() {
     let url = this.baseUrl + '/proximity_ads/list_categories_1_0';
     return this.http.get(url)
+  }
+
+  listAdsInfo_1_0() {
+    let url = this.baseUrl + '/proximity_ads/listAdsInfo_1_0';
+    return this.http.get(url)
+  }
+
+  
+
+  incidentList(payload:any) {
+    let url = `${environment.incidentUrl}/incidents/incidentList_1_0`;
+    let params = new HttpParams();
+    // if(payload?.siteId) {
+      params = params.set('siteId', 36337)
+    // }
+    // if(payload?.fromDate) {
+      params = params.set('fromDate','2024-9-10')
+    // }
+
+    return this.http.get(url, {params:params})
   }
 
 }

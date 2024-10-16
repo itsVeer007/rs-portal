@@ -1,7 +1,4 @@
-<!-- sub header -->
-
-<!-- <app-header></app-header> -->
-<div class="sub-header">
+<div class="sub-header" #gridContainer>
     <div>
         <span class="site-info me-2 ms-4">
             <a class="pointer mx-2" (click)="openSites()">
@@ -86,70 +83,12 @@
                 </div>
             </mat-menu>
         </div> -->
-        <div>
+        <!-- <div>
             <div class="pointer me-2">
                 @for (item of gridTypes; track $index) {
-                    <a (click)="changeGrid(item)" class="grid-high m-3" [style.background]="selectedGrid == item.noOfItems ? 'orange': '' "><img [src]="item.path" width="18" alt=""></a>
+                    <a (click)="changeGrid(item)" class=" m-3"><img [src]="item.path" width="18" alt=""></a>
                 }
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
-
-<!-- grid container -->
-     <div class="grid-container" #gridContainer>
-        @if(camerasList.length !== 0) {
-
-            @for(cam of getCurrentItems; track $index) {
-            <div class="grid-item" (dblclick)="
-                changeGrid({
-                    label: this.gridTypes[0].label,
-                    noOfItems: this.gridTypes[0].noOfItems,
-                    path: this.gridTypes[0].path
-                }); playCurrentCam(cam)">
-
-                <iframe class="d-none" (load)="getUrl(cam?.httpUrl, cam)"></iframe>
-                @if (cam.videoUrl && selectedGrid !== 1) {
-                    <ng-container>
-                        <app-video-plr [videoData]="cam?.videoUrl" [camerasForPage]="4"></app-video-plr>
-                    </ng-container>
-                }
-        
-                @if(cam.videoUrl && selectedGrid === 1) {
-                <ng-container>
-                    <div class="d-flex align-items-center justify-content-around h-100">
-                        <a class="first-arrow" (click)="loadPrevCam()">
-                            <img src="assets/icons/arrow-down-short-orange.svg" alt="">
-                        </a>
-        
-                        <div>
-                            <ng-container>
-                                <!-- <app-video-plr [videoData]="currentCam?.videoUrl"></app-video-plr> -->
-                                <iframe class="iframe" [src]="currentCam?.httpUrl | sanitize" frameborder="0"></iframe>
-                            </ng-container>
-        
-                            <div class="camera-tile-list">
-                                @for (item of camerasList; track $index) {
-                                <!-- <iframe class="d-none" (load)="getUrl(item?.httpUrl, item)"></iframe> -->
-                                <div class=" d-flex flex-column">
-                                    <div [ngClass]="currentCam.cameraId == item.cameraId ? 'camera-tile tile-active' : 'camera-tile'"
-                                        (click)="playCurrentCam(item)">
-                                        <img [src]="item.snapshotUrl" width="100%" height="100%" alt="">
-                                         <!-- <img src="assets/icons/camera-grey (2).svg" alt=""> -->
-                                    </div>
-                                    <p class="tile-name">{{item.name}}</p>
-                                </div>
-                                }
-                            </div>
-                        </div>
-        
-                        <a class="second-arrow" (click)="loadNextCam()">
-                            <img src="assets/icons/arrow-down-short-orange.svg" alt="">
-                        </a>
-                    </div>
-                </ng-container>
-                }
-            </div>
-            }
-        }
-     </div>

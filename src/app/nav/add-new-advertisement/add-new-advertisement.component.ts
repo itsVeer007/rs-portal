@@ -10,6 +10,9 @@ import {MatSelectModule} from '@angular/material/select';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { ConfigService } from '../../../services/config.service';
 import { MetadataService } from '../../../services/metadata.service';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { AlertService } from '../../../services/alert.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -21,27 +24,28 @@ import { MetadataService } from '../../../services/metadata.service';
     MatCard,
     MatDatepickerModule,
     MatSelectModule,
+    MatButtonToggleModule
     ],
   templateUrl: './add-new-advertisement.component.html',
   styleUrl: './add-new-advertisement.component.css',
-   animations:[
-    trigger("inOutPaneAnimation", [
-      transition(":enter", [
-        style({ opacity: 0, transform: "translateX(-100%)" }),
-        animate(
-          "500ms ease-in-out",
-          style({ opacity: 1, transform: "translateX(0)" })
-        )
-      ]),
-      transition(":leave", [
-        style({ opacity: 1, transform: "translateX(0)" }),
-        animate(
-          "500ms ease-in-out",
-          style({ opacity: 0, transform: "translateX(100%)" })
-        )
-      ])
-    ])
-  ]
+  //  animations:[
+  //   trigger("inOutPaneAnimation", [
+  //     transition(":enter", [
+  //       style({ opacity: 0, transform: "translateX(-100%)" }),
+  //       animate(
+  //         "500ms ease-in-out",
+  //         style({ opacity: 1, transform: "translateX(0)" })
+  //       )
+  //     ]),
+  //     transition(":leave", [
+  //       style({ opacity: 1, transform: "translateX(0)" }),
+  //       animate(
+  //         "500ms ease-in-out",
+  //         style({ opacity: 0, transform: "translateX(100%)" })
+  //       )
+  //     ])
+  //   ])
+  // ]
 })
 export class AddNewAdvertisementComponent {
   constructor(
@@ -49,7 +53,7 @@ export class AddNewAdvertisementComponent {
     private fb: FormBuilder,
     // private assetSer: AssetService,
     // private dropDown: MetadataService,
-    // private alertSer: AlertService,
+    private alertSer: AlertService,
     // private siteService: SiteService,
     private metaSer:MetadataService,
     private configSrvc: ConfigService,
@@ -63,7 +67,7 @@ export class AddNewAdvertisementComponent {
   isAudio: boolean = false;
   onFileSelected(event: any) {
     console.log(event.target.files)
-    // let x = event.target.files[0].type;
+    let x = event.target.files[0].type;
     
     // if(this.currentDeviceType === 1 || this.newData?.deviceTypeId == 1) {
     //   if(x === 'audio/mpeg' || x === 'video/mp4' || x === 'video/avi' || x == 'audio/wav' || x == 'audio/vnd.dlna.adts') {
@@ -100,9 +104,6 @@ export class AddNewAdvertisementComponent {
     this.personshow = !this.personshow;
   }
 
-
-
-
   sitesList!: Array<any>;
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
@@ -127,30 +128,73 @@ export class AddNewAdvertisementComponent {
 
     })
   }
+  getType(type: any) {
+    return this.storageSer.getType(type)[0].metadata
+  }
 
   user: any;
   ngOnInit(): void {
+    let user = this.storageSer.getData('user')
     this.addAssetForm = this.fb.group({
-      'adFile': new FormControl('',Validators.required),
-      'siteId': new FormControl('', Validators.required),
-      'adName': new FormControl('', Validators.required),
-      'category': new FormControl('', Validators.required),
-      'adType': new FormControl('', Validators.required),
+      // 'adFile': new FormControl('',Validators.required),
+      // 'adName': new FormControl('', Validators.required),
+      // 'category': new FormControl('', Validators.required),
+      // 'adType': new FormControl(1, Validators.required),
       'generic': new FormControl(''),
+      'siteId': new FormControl('36337'),
       'createdBy': new FormControl('1545'),
-      'description': new FormControl('')
+      // 'description': new FormControl('')
+      description: [{ value: '', disabled: true }],
+      adType: [{ value: 1, disabled: true }, Validators.required],
+      category: [{ value: '', disabled: true }, Validators.required],
+      adName: [{ value: '', disabled: true }, Validators.required],
+      adFile: [null, Validators.required],
+      
+      
     });
+
+    this.addAssetForm.get('adFile')?.valueChanges.subscribe((value:any) => {
+      if (value) {
+        this.enableFields();
+      } else {
+        this.disableFields();
+      }
+    });
+
 
     this.getSites()
     this.list_categories()
     this.getMetaData()
   };
 
+  enableFields(): void {
+    this.addAssetForm.get('adName')?.enable();
+    this.addAssetForm.get('description')?.enable();
+    this.addAssetForm.get('category')?.enable();
+    this.addAssetForm.get('adType')?.enable();
+  }
+
+  disableFields(): void {
+    this.addAssetForm.get('adName')?.disable();
+    this.addAssetForm.get('description')?.disable();
+    this.addAssetForm.get('category')?.disable();
+    this.addAssetForm.get('adType')?.disable();
+  }
+
+  deviceSelection:any = 1;
+
   submit() {
+    this.addAssetForm.createdBy = this.user?.UserId
    this.configSrvc.createAd(this.addAssetForm.value,this.selectedFile).subscribe({
     next:(res:any) => {
       console.log(res)
+      if(res?.statusCode === 200) {
+        this.alertSer.success(res?.message)
+      }
       this.newItemEvent.emit()
+    },
+    error:(err:HttpErrorResponse) => {
+      this.alertSer.error(err?.error?.message)
     }
    })
   }

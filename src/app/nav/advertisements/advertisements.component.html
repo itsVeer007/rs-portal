@@ -1,4 +1,5 @@
 
+<app-sub-header></app-sub-header>
 <div class="Main-container">
     <div  class="grid-container">
         <div class="add-new-button">
@@ -8,17 +9,17 @@
             </a>
         </div>
 
-        @for (item of myobj; track $index) {  
-            <div class="grid-item" (click)="openViewAddForm()">
+        @for (item of listAdsInfoNewData; track $index) {  
+            <div class="grid-item" (click)="openViewAddForm(item)">
                 <div class="d-flex justify-content-between align-items-center">
                     <img src="assets/icons/bavarchi.svg" alt="">
                     <img src="assets/icons/bx-dots-vertical-rounded.svg" alt="">
                 </div>
                 <div style="color: antiquewhite; text-align: center;">
                     <img src="assets/icons/bulb.svg" alt="" width="24px" class="mt-2 mb-2">
-                    <p class="pepsi-ads">HAVELLS</p>
-                    <p class="name-ads mb-2">Electricals</p>
-                    <p class="time-ads">15 sec</p>
+                    <p class="pepsi-ads">{{item.adName}}</p>
+                    <p class="name-ads mb-2">{{item.category}}</p>
+                    <p class="time-ads">{{item.duration}}</p>
                 </div>
             </div>
         }
@@ -36,7 +37,7 @@
 
 @if(viewAddForm) {
     <div class="m-4">
-        <app-view-advertisement (newItemEvent)="closeViewForm()"></app-view-advertisement> 
+        <app-view-advertisement [ParentToChild]="currentItem" (newItemEvent)="closeViewForm()"></app-view-advertisement> 
     </div>
 }
 

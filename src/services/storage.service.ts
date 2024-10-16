@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
+import { MetadataService } from './metadata.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
-  constructor() { }
+  constructor(
+    private metaSrvc: MetadataService
+  ) { }
+
+  getType(type: any) {
+    let data: any[] = this.getData('metaData');
+    return data.filter((item: any) => item.type == type);
+  }
 
   public saveData(name: any, data: any) {
     // let x = btoa(encodeURIComponent(JSON.stringify(data)));

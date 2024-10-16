@@ -3,4 +3,7 @@ export const environment = {
     configUrl: 'http://rsmgmt.ivisecurity.com:943',
     
     baseUrl: 'http://usstaging.ivisecurity.com:8080',
+
+    incidentUrl: 'http://rsmgmt.ivisecurity.com:945'
+    
 };

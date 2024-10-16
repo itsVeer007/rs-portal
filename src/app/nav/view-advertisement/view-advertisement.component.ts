@@ -42,6 +42,8 @@ export class ViewAdvertisementComponent {
   constructor(
     
   ) {}
+
+  @Input() ParentToChild:any
    @Output() newItemEvent = new EventEmitter<any>()
 
   viewAssetForm:any = FormGroup
@@ -81,6 +83,10 @@ export class ViewAdvertisementComponent {
    
 
   ]
+
+  ngOnInit() {
+    console.log(this.ParentToChild)
+  }
 
 
   submit() {

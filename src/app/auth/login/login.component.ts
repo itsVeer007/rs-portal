@@ -3,19 +3,26 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { StorageService } from '../../../services/storage.service';
+import { MetadataService } from '../../../services/metadata.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   constructor(
     private router: Router,
-    private fb:FormBuilder,
-    private auth:AuthService
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private storageSrvc: StorageService,
+    private metaSrvc: MetadataService
   ) {}
 
   loginForm:any =  FormGroup
@@ -32,17 +39,24 @@ export class LoginComponent {
     this.showPassword = !this.showPassword
   }
 
+  saveMetaData() {
+    this.metaSrvc.getMetadata().subscribe({
+      next: (res) =>
+         this.storageSrvc.saveData('metaData', res)
+    })
+  }
+
   login() {
     this.auth.login(this.loginForm.value).subscribe({
      next:(res:any) => {
-      console.log(res);
+      console.log(res)
       if(res.Status === 'Success') {
-        this.router.navigate(['/dashboard'])
+        this.saveMetaData();
+        this.storageSrvc.saveData('user', res)
+        this.router.navigate(['/dashboard']);
       }
      },
-     error: (err: HttpErrorResponse) => {
-      
-     }
+     error: (err: HttpErrorResponse) => {}
     })
   }
 
