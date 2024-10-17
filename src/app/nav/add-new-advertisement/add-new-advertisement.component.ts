@@ -181,9 +181,12 @@ export class AddNewAdvertisementComponent {
     this.addAssetForm.get('adType')?.disable();
   }
 
-  deviceSelection:any = 1;
+  // deviceSelection:any = 1;
+  submitted:boolean = false
 
   submit() {
+    this.submitted = true;
+    if(!this.addAssetForm.valid) return
     this.addAssetForm.createdBy = this.user?.UserId
    this.configSrvc.createAd(this.addAssetForm.value,this.selectedFile).subscribe({
     next:(res:any) => {

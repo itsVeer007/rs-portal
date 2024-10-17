@@ -74,11 +74,6 @@
     width: 202px;
   }
   
-  .file-upload a {
-    cursor: pointer;
-    text-decoration: none;
-    color: #989fb4;
-  }
   
   .form-control {
     box-shadow: none !important;
@@ -151,5 +146,23 @@
         border: 1px solid #989FB4;
         border-radius: 3px;
         background-color: #FD6327;
+        }
+
+         .file-upload a {
+          cursor: pointer;
+          text-decoration: none;
+          color: #989fb4;
+        }
+        
+        .file-upload  {
+          cursor: pointer;
+          text-decoration: none;
+          color: #989fb4;
+          border-radius: 12px;
+          /* border-color: #665d5d; */
+          /* border-style: dotted; */
+          padding: 120px;
+          /* height: 25vh; */
+         width: 100%;
         }
   
