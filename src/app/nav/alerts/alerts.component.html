@@ -3,15 +3,17 @@
 
 <div class="container-fluid">
   <div class="row m-0 mt-3">
-    <div class="col-2">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Site</mat-label>
-        <mat-select>
-          <mat-option></mat-option>
-        </mat-select>
-        <mat-error>category is required</mat-error>
-      </mat-form-field>
-    </div>
+     <div class="col-lg-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>siteId</mat-label>
+                  <mat-select formControlName="siteId">
+                    @for (item of sitesList; track $index) {
+                    <mat-option [value]="item.siteId">{{item.siteId}} - {{item.siteName}}</mat-option>
+                    }
+                  </mat-select>
+                  <mat-error>siteId is required</mat-error>
+                </mat-form-field>
+              </div>
     <div class="col-2">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Camera</mat-label>

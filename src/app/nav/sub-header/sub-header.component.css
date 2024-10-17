@@ -77,6 +77,17 @@
     overflow-y: auto;
 }
 
+.filter-list {
+    border-radius: 3px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 999;
+    top: 76px;
+    padding: 10px;
+    /* width: 20vw; */
+    height: 45vh;
+}
+
 .sites-list-items {
     border-bottom: 1px solid #989fb4;
     padding: 5px;

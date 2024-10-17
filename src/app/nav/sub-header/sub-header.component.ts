@@ -3,6 +3,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ConfigService } from '../../../services/config.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-sub-header',
@@ -10,7 +12,9 @@ import { SearchPipe } from '../../../pipes/search.pipe';
   imports: [
  FormsModule,
  ReactiveFormsModule,
- SearchPipe
+ SearchPipe,
+ MatSelectModule,
+ MatOptionModule
   ],
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.css'
@@ -22,6 +26,10 @@ export class SubHeaderComponent {
   ) {}
 
 
+  filterData:boolean = false;
+  openFilter() {
+    this.filterData = !this.filterData
+  }
 
   searchText:any;
 

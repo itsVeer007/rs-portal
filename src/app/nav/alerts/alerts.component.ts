@@ -39,7 +39,22 @@ export class AlertsComponent {
   ngOnInit() {
     this.incidentList()
     console.log(this.storageSrvc.getType(2))
+    this.getSites()
   }
+
+  sitesList!: Array<any>;
+  getSites() {
+    this.config.getSitesListForUserName().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.sitesList = res.sites;
+        // this.sitesList.forEach((item: any) => {
+        //   item.isOpen = false;
+        // })
+      }
+    })
+  }
+
 
   getType(type: any) {
     return this.storageSrvc.getType(type)[0].metadata

@@ -47,17 +47,40 @@ export class AdvertisementsComponent {
 
   devicesData:any = [];
   listAdsInfoNewData:any = [];
-  // listAdsInfoData:any = [];
-listAdsInfo_1_0() {
+  listAdsInfoData:any = [];
+// listAdsInfo_1_0() {
+//     this.configSrvc.listAdsInfo_1_0().subscribe({
+//       next:(res:any) =>  {
+//         console.log(res);
+//        this.listAdsInfoData =  res.sites.flatMap((item:any) => item.devices)
+//        console.log(this.listAdsInfoData)
+//        this.listAdsInfoNewData = this.listAdsInfoData.flatMap((item:any)=> item.ads)
+//        console.log(this.listAdsInfoNewData)
+//        this.listAdsInfoNewData =  res.sites.flatMap((item:any) => item.siteAds)
+//        console.log(this.listAdsInfoNewData)
+//       }
+//     })
+//   }
+
+  listAdsInfo_1_0() {
     this.configSrvc.listAdsInfo_1_0().subscribe({
-      next:(res:any) =>  {
+      next: (res: any) => {
         console.log(res);
-        // this.listAdsInfoData = res.sites;
-       this.devicesData =  res.sites.flatMap((item:any) => item.devices)
-       console.log(this.devicesData)
-       this.listAdsInfoNewData = this.devicesData.flatMap((item:any)=> item.ads)
+        
+        // Extracting ads from devices
+        this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
+        const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads);
+        console.log(devicesAds);
+        
+        // Extracting siteAds
+        const siteAds = res.sites.flatMap((item: any) => item.siteAds);
+        console.log(siteAds);
+        
+        // Merging both devicesAds and siteAds
+        this.listAdsInfoNewData = [...devicesAds, ...siteAds];
+        console.log(this.listAdsInfoNewData);
       }
-    })
+    });
   }
 
   showForm:boolean = false;

@@ -44,45 +44,9 @@ export class ViewAdvertisementComponent {
   ) {}
 
   @Input() ParentToChild:any
-   @Output() newItemEvent = new EventEmitter<any>()
+  @Output() newItemEvent = new EventEmitter<any>()
 
   viewAssetForm:any = FormGroup
-
-  
-  myobj = [
-    {
-      img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
-      name:"device-1",
-      age:10
-    },
-  
-    {
-      img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
-      name:"device-2",
-      age:10
-    },
-      {
-      img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
-      name:"device-3",
-      age:10
-    },
-    {
-      img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
-      name:"device-4",
-      age:10
-    },
-    {
-      img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
-      name:"device-5",
-      age:10
-    },
-    
-  
-    
-    
-   
-
-  ]
 
   ngOnInit() {
     console.log(this.ParentToChild)

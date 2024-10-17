@@ -26,7 +26,7 @@ export class ConfigService {
   }
 
 
-  baseUrl = 'http://192.168.0.107:8070';
+  baseUrl = 'http://192.168.0.107:8000';
 
 
   // createAd(payload:any) {
@@ -64,9 +64,22 @@ export class ConfigService {
     return this.http.get(url)
   }
 
-  listAdsInfo_1_0() {
-    let url = this.baseUrl + '/proximity_ads/listAdsInfo_1_0';
-    return this.http.get(url)
+  listAdsInfo_1_0(payload?:any) {
+    let url = this.baseUrl + '/proximity_ads/listAdsForSiteId_1_0';
+    let params = new HttpParams();
+    if(payload?.siteId) {
+      params = params.set('siteId', payload?.siteId)
+    }
+    if(payload?.deviceId) {
+      params = params.set('deviceId', payload?.deviceId)
+    }
+    if(payload?.category) {
+      params = params.set('category', payload?.category)
+    }
+    if(payload?.adType) {
+      params = params.set('adType', payload?.adType)
+    }
+    return this.http.get(url,{params:params})
   }
 
   

@@ -16,7 +16,8 @@
                     <img src="assets/icons/bx-dots-vertical-rounded.svg" alt="">
                 </div>
                 <div style="color: antiquewhite; text-align: center;">
-                    <img src="assets/icons/bulb.svg" alt="" width="24px" class="mt-2 mb-2">
+                    <img [src]="item.snapUrl" alt="" >
+                    <!-- <img src="assets/icons/bulb.svg" alt="" width="24px" class="mt-2 mb-2"> -->
                     <p class="pepsi-ads">{{item.adName}}</p>
                     <p class="name-ads mb-2">{{item.category}}</p>
                     <p class="time-ads">{{item.duration}}</p>

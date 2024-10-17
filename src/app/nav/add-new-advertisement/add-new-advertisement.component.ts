@@ -62,32 +62,75 @@ export class AddNewAdvertisementComponent {
   ) { }
 
   /* file upload */
-  selectedFile: any;
-  // selectedFiles: any = [];
-  isAudio: boolean = false;
-  onFileSelected(event: any) {
-    console.log(event.target.files)
-    let x = event.target.files[0].type;
-    
-    // if(this.currentDeviceType === 1 || this.newData?.deviceTypeId == 1) {
-    //   if(x === 'audio/mpeg' || x === 'video/mp4' || x === 'video/avi' || x == 'audio/wav' || x == 'audio/vnd.dlna.adts') {
-    //     this.isAudio = false
-    //   } else {
-    //     this.isAudio = true;
-    //   }
-    // } else if(this.currentDeviceType === 2 || this.newData?.deviceTypeId == 2 || this.currentDeviceType === 3 || this.newData?.deviceTypeId == 3) {
-    //   if(x === 'audio/mpeg' || x === 'audio/vnd.dlna.adts') {
-    //     this.isAudio = true
-    //   } else {
-    //     this.isAudio = false;
-    //   }
-    // } 
+  // selectedFile: any;
+  // isAudio: boolean = false;
+  // onFileSelected(event: any) {
+  //   console.log(event.target.files)
+  //   let x = event.target.files[0].type;
+  // }
 
-    if(typeof(event) == 'object') {
-      this.selectedFile = event.target.files[0] ?? null;
+  selectedFile: any;
+  isAudio: boolean = false;
+  isVideo: boolean = false;
+  disableOtherOptions: boolean = false;
+  fileUploadError: string | null = null; // To track the error message
+  
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const fileType = file.type;
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+  
+      const allowedAudioFormats = [
+        'audio/mpeg', // MP3
+        'audio/wav',  // WAV
+        'audio/ogg',  // OGG
+        'audio/aac',  // AAC
+        'audio/flac', // FLAC
+        'audio/mp4'   // M4A
+      ];
+  
+      const allowedVideoFormats = [
+        'video/mp4', // MP4
+        'video/webm', // WebM
+        'video/ogg'  // Ogg Video
+      ];
+  
+      // Prevent .xlsx files from being uploaded
+      if (fileExtension === 'xlsx') {
+        this.alertSer.error('Uploading .xlsx files is not allowed.');
+        this.addAssetForm.patchValue({ adFile: null });
+        this.addAssetForm.patchValue({ adType: null });
+        this.selectedFile = null;
+        return; // Stop further execution
+      }
+        // Clear any previous error messages
+    this.fileUploadError = null;
+  
+      // Check if the file is an audio format
+      this.isAudio = allowedAudioFormats.includes(fileType);
+      // Check if the file is a video format
+      this.isVideo = allowedVideoFormats.includes(fileType);
+  
+      if (this.isAudio) {
+        // Set the form control to 1 for "Audio"
+        this.addAssetForm.patchValue({ adType: 1 });
+        this.disableOtherOptions = false; // Enable all options
+      } else if (this.isVideo) {
+        // Set the form control to 2 for "Video"
+        this.addAssetForm.patchValue({ adType: 2 });
+        this.disableOtherOptions = true; // Disable other options
+      } else {
+        // If it's neither audio nor video, reset selection
+        this.addAssetForm.patchValue({ adType: null });
+        this.disableOtherOptions = false; // Enable all options
+      }
+  
+      // Store the selected file
+      this.selectedFile = file;
     }
   }
-
+  
   deleteFile() {
     this.isAudio = false
     this.selectedFile = null;
@@ -145,7 +188,7 @@ export class AddNewAdvertisementComponent {
       'createdBy': new FormControl('1545'),
       // 'description': new FormControl('')
       description: [{ value: '', disabled: true }],
-      adType: [{ value: 1, disabled: true }, Validators.required],
+      adType: [{ value: '', disabled: true }, Validators.required],
       category: [{ value: '', disabled: true }, Validators.required],
       adName: [{ value: '', disabled: true }, Validators.required],
       adFile: [null, Validators.required],
