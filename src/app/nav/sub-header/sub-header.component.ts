@@ -1,10 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { ConfigService } from '../../../services/config.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { map, Observable, startWith } from 'rxjs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AsyncPipe } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-sub-header',
@@ -14,17 +20,26 @@ import { MatOptionModule } from '@angular/material/core';
  ReactiveFormsModule,
  SearchPipe,
  MatSelectModule,
- MatOptionModule
+ MatOptionModule,
+ MatAutocompleteModule,
+ MatFormFieldModule,
+ MatInputModule,
+ MatAutocompleteModule,
+ AsyncPipe,
+ MatIconModule
   ],
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.css'
 })
 export class SubHeaderComponent {
+  myControl = new FormControl('');
+filteredOptions: any;
   constructor(
     private configSrvc: ConfigService,
     private http: HttpClient
   ) {}
 
+  @Output() newItemEvent = new EventEmitter<any>()
 
   filterData:boolean = false;
   openFilter() {
@@ -60,6 +75,9 @@ export class SubHeaderComponent {
   
   ngOnInit() {
     this.getSites();
+   
+
+
   }
   
   ngAfterViewInit() {
@@ -68,6 +86,13 @@ export class SubHeaderComponent {
       noOfItems: this.gridTypes[2].noOfItems,
       path: this.gridTypes[2].path
     });
+  }
+
+  /* searches */
+  siteSearch: any;
+  siteNg: any 
+  searchSites(event: any) {
+    this.siteSearch = (event.target as HTMLInputElement).value
   }
 
   getUrl(data: any, camData: any) {
@@ -86,17 +111,20 @@ export class SubHeaderComponent {
     this.opensiteDialog = !this.opensiteDialog
   }
 
-  sitesList!: Array<any>;
+  sitesList: Observable<string[]> | any;
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        // console.log(res);
         this.getCamerasForSite(res.sites[22]);
         // this.currentCam = res.sites[0]
         this.sitesList = res.sites;
+        this.siteNg = this.sitesList[0].siteId
+        this.listAdsInfo(this.sitesList[0])
       }
     })
   }
+
+  
 
   camerasList: any = [];
   currentSite: any;
@@ -105,12 +133,28 @@ export class SubHeaderComponent {
     this.currentSite = data
     // data.isOpen = !data.isOpen;
     // data.isOpen ? this.currentSite = data : this.currentSite = -1;
+
+    // this.listAdsInfo(data);
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {
         this.camerasList = res;
       }
     })
   }
+
+
+
+  listAdsInfo(data: any) {
+    console.log(data)
+    this.configSrvc.listAdsInfo_1_0(data).subscribe({
+      next: (res: any) => {
+        console.log(res)
+        this.configSrvc.dataFromSubheader.next(res.sites);
+      }
+    });
+  }
+
+
 
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   selectedGrid!: number;

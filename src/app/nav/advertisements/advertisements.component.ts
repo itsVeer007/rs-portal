@@ -39,9 +39,35 @@ export class AdvertisementsComponent {
   
 
 
-
+// dataFromSubHeader:any;
   ngOnInit(): void {
-    this.listAdsInfo_1_0()
+    // this.listAdsInfo_1_0()
+    // console.log(data)
+
+
+    this.configSrvc.dataFromSubheader.subscribe({
+      next:(res:any) => {
+        console.log(res)
+        this.listAdsInfoData = res[0]!.devices;
+        const devicesAds = this.listAdsInfoData?.flatMap((item: any) => item.ads);
+        console.log(devicesAds);
+        
+        // Extracting siteAds
+        const siteAds = res.flatMap((item: any) => item.siteAds);
+        console.log(siteAds);
+        
+        // Merging both devicesAds and siteAds
+        this.listAdsInfoNewData = [...devicesAds, ...siteAds];
+        console.log(this.listAdsInfoNewData);
+      }
+    })
+  }
+
+
+  siteDataForAds:any
+  openSiteForAdd(data:any) {
+    this.siteDataForAds = data
+
   }
 
 
@@ -63,24 +89,25 @@ export class AdvertisementsComponent {
 //   }
 
   listAdsInfo_1_0() {
-    this.configSrvc.listAdsInfo_1_0().subscribe({
-      next: (res: any) => {
-        console.log(res);
+
+    // this.configSrvc.listAdsInfo_1_0().subscribe({
+    //   next: (res: any) => {
+    //     console.log(res);
         
-        // Extracting ads from devices
-        this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
-        const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads);
-        console.log(devicesAds);
+    //     // Extracting ads from devices
+    //     this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
+    //     const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads);
+    //     console.log(devicesAds);
         
-        // Extracting siteAds
-        const siteAds = res.sites.flatMap((item: any) => item.siteAds);
-        console.log(siteAds);
+    //     // Extracting siteAds
+    //     const siteAds = res.sites.flatMap((item: any) => item.siteAds);
+    //     console.log(siteAds);
         
-        // Merging both devicesAds and siteAds
-        this.listAdsInfoNewData = [...devicesAds, ...siteAds];
-        console.log(this.listAdsInfoNewData);
-      }
-    });
+    //     // Merging both devicesAds and siteAds
+    //     this.listAdsInfoNewData = [...devicesAds, ...siteAds];
+    //     console.log(this.listAdsInfoNewData);
+    //   }
+    // });
   }
 
   showForm:boolean = false;
