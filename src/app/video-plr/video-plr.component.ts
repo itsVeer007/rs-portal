@@ -26,9 +26,6 @@ export class VideoPlrComponent {
   queuedCandidates: RTCIceCandidate[] = [];
   offerData: any;
 
-  ngOnChanges() {
-    console.log(this.videoData)
-  }
 
   hitStream: boolean = false;
   ngOnInit(): void {

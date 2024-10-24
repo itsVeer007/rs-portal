@@ -1,124 +1,187 @@
 <div class="row formModal">
-    <div class="col-lg-6"></div>
-    <div class="col-lg-6 add-form p-3" @inOutPaneAnimation>
-      <div class=" heading-container d-flex justify-content-between align-items-center">
-        <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt="" width="28px"></a>
-        <!-- <span class="form-heading" style="color: #989fb4;">Add Rule</span> -->
-        <span class="total-rules" style="font-weight: bold;">CREATE NEW RULE</span>
-      </div>
+  <div class="col-lg-12 add-form p-2">
+    <div class=" heading-container d-flex justify-content-between align-items-center">
+      <span class="form-heading" style="color: #989fb4; font-size: 18px;">Add Rule For {{ '-'}}</span>
+      <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt="" width="28px"></a>
+    </div>
 
-      <div >
-        <!-- <p class="total-rules" style="font-weight: bold;">CREATE NEW RULE</p> -->
-      </div>
-<!-- 
-      <div class="mt-4">
-       <input type="text" class="input-search mb-3 p-3" placeholder="Search-Rule">
-       <div class="search-image">
-        <img src="assets/icons/search.svg" alt="">
-        </div>
-      </div> -->
+    <div>
+      <form autocomplete="off" [formGroup]="addAssetForm" (ngSubmit)="addNewAsset()">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 mt-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>DeviceId</mat-label>
+              <mat-select formControlName="deviceId" >
+                @for(item of listAdsInfoData; track $index) {
+                  <mat-option [value]="item.deviceId">{{item.deviceId}}</mat-option>
+                  }
+                  
+                </mat-select>
+                <mat-error>Temperature from required</mat-error>
+              </mat-form-field>
+            </div>
+          <p class="mt-3">Select Time</p>
+          <div class="col-lg-10 mb-1">
+          <mat-card class="mb-1 mt-2">
+                <div class="d-flex flex-wrap">
+                  <mat-checkbox [checked]="selectAllAddTimes"  (change)="setAll($event.checked)">
+                    {{adTimes.name}}
+                  </mat-checkbox>
 
-      <p class="total-rules-heading mt-5">SELECT TIME</p>
-      <div>
-        <mat-slider min="0" max="100000" step="1000" showTickMarks discrete [displayWith]="formatLabel" class="w-100">
-            <input matSliderThumb>
-          </mat-slider>
-      </div>
+                  @for( subtask of adTimes.subtasks; track $index) {
+                    <div>
+                      <mat-checkbox [(ngModel)]="subtask.completed" formControlName="adHours" (ngModelChange)="updateAllComplete()">
+                        {{subtask.name}}
+                      </mat-checkbox>
+                    </div>
+                  }
+                  
+                </div>
+              </mat-card>
+            </div>
 
-      
-      <div class="rules-list p-3">
-        <p>Working Days</p>
 
-            <div>
-                <div class="grid-container-days">
-                  @for (item of myobj; track $index) {
-                
-                    <div class="first-days text-center">
-                      <a class="pointer" style="text-decoration: none; color: #989fb4;">
-                        <span class="rule">{{'sunday'}}</span>
-                      </a>
-                    </div> 
+          <p class="mt-2">WorkingDays</p>
+          <div class="col-lg-10 mb-1">
+          <mat-card class="mb-1 mt-2">
+                <div class="d-flex flex-wrap">
+                  <mat-checkbox [checked]="selectAllAddDays"  (change)="setAll1($event.checked)">
+                    {{adTimes.name}}
+                  </mat-checkbox>
+
+                  @for(subtask of adDays.subtasks; track $index) {
+                    <div >
+                      <mat-checkbox [(ngModel)]="subtask.completed" formControlName="workingDays" (ngModelChange)="updateAllComplete1()">
+                        {{subtask.first}}
+                      </mat-checkbox>
+                    </div>
                   }
                 </div>
+              </mat-card>
             </div>
           
-    
-            <!-- <div>
-                <div class="first-rule text-center p-1">
-                    <a class="pointer" style="text-decoration: none;">
-                          <span class="rule-heading">Device Camera</span>
-                      </a>
+          <p class="mt-2">Select Temperature</p>
+          <div class="col-10">
+        <mat-card class="mt-2 p-1">
+              <div class="col-lg-4 col-md-4 mt-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Temp from</mat-label>
+                  <mat-select formControlName="temp" >
+                    <!-- @for(item of getType(6); track $index) {
+                      <mat-option [value]="item.value">{{item.value}}</mat-option>
+                      }
+                       -->
+
+                       <mat-option></mat-option>
+                    </mat-select>
+                    <mat-error>Temperature from required</mat-error>
+                  </mat-form-field>
                 </div>
-            </div> -->
-      </div>
-
-      <p class="total-rules-heading mt-3">SELECT Temperature</p>
-      <div>
-        <mat-slider min="0" max="100000" step="1000" showTickMarks discrete [displayWith]="formatLabel" class="w-100">
-            <input matSliderThumb>
-          </mat-slider>
-      </div>
-
-    <p>Object Detection</p>
-    <div class="d-flex">
-      <div class="mt-2">
-        <img src="assets/icons/person count imaage.svg" alt="">
-      </div>
-      <div class="col-6 mx-3">
-        <!-- <p>Add Name</p> -->
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>enter count</mat-label>
-          <input matInput >
-        </mat-form-field>
-      </div>
-
-      <div class="mt-2">
-        <img src="assets/icons/object count image.svg" alt="">
-      </div>
-    </div>
-
-      <p>Camera Type</p>
-     <div class="d-flex mb-3">
-        <div class="first-rule text-center p-1">
-            <a class="pointer" style="text-decoration: none;">
-                <img src="assets/icons/plus (1).svg" alt="" class="me-2" width="6px">
-                  <span class="rule-heading">Device Camera</span>
-              </a>
+            
+          </mat-card>
         </div>
-        <div class="first-rule text-center p-1 ms-2">
-            <a class="pointer" style="text-decoration: none;">
-                <img src="assets/icons/plus (1).svg" alt="" class="me-2" width="6px">
-                  <span class="rule-heading">Existing Camera</span>
-              </a>
-        </div>
-     </div>
 
-     <div class="col-12">
-        <!-- <p>SiteId</p> -->
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Select</mat-label>
-          <mat-select formControlName="siteId">
-        @for (item of myobj; track $index) {
-          <mat-option></mat-option>
-        }
-          </mat-select>
-          <mat-error>siteId is required</mat-error>
-        </mat-form-field>
-      </div>
+        <p>Select</p>
+          <div class="col-lg-10 mt-3 ">
+            <mat-card class="p-4">
+              <div class="col-lg-6 col-md-6 d-flex justify-content-start align-items-center">
+                <p class="m-0">Object(Person/Vehicle)</p>
   
+                <div class="on-off-toggle ms-4">
+                  <input class="on-off-toggle__input" type="checkbox" id="object" formControlName="objectRule" [(ngModel)]="objectRule" (change)="toggleShowOnOff($event)">
+                  <label for="object" class="on-off-toggle__slider"></label>
+                  <!-- <span class="ms-2">{{ personshow ? 'Yes' : 'No' }}</span> -->
+                </div>
+              </div>
+            </mat-card>
+          </div>
 
-   
-    <div class="text-center">
-        <button  class="cancel-button me-2">CANCEL</button>
-        <button  class="add-button">ADD</button>
-    </div>
+          @if(personshow) {
+            <div class="col-lg-10 mb-1">
+              <mat-radio-group name="radioOpt3" class="w-100"  formControlName="modelObjectTypeId" [(ngModel)]="person">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <mat-radio-button class="ms-3" name="time1" [value]="1" >Person</mat-radio-button>
+                    <mat-radio-button class="ms-3" name="time2" [value]="2">Vehicle</mat-radio-button>
+                  </div>
+                </div>
+              </mat-radio-group>
+            </div>
+          }
 
+         @if(personshow) {
+          <div class="col-lg-6">
+            <div>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Object Count</mat-label>
+                <input matInput type="number" formControlName="objectCount">
+              </mat-form-field>
+            </div>
+          </div>
+         }
+
+          <!-- <div class="col-lg-12 mt-2">
+            <p style="font-size: 14px;"> <span style="font-weight: 500;">Note:</span>&nbsp;For Special Cases, Please Contact
+              <a href="https://www.ivisecurity.com/contact" target="_blank" style="text-decoration: none">support@ivisecurity.com</a>
+            </p>
+          </div> -->
+
+
+
+          @if(personshow) {
+            <div class="row">
+              <div class="col-lg-12 mt-2" style="font-size: 10px; font-weight: 700;">
+                <mat-radio-group class="w-50" [(ngModel)]="deviceCam" formControlName="deviceCam">
+                  <mat-label>Camera Type</mat-label>
+                  <mat-radio-button class="ms-3" name="camera" [value]="0">Device camera</mat-radio-button>
+                  <mat-radio-button class="ms-3" name="camera" [value]="1">Existing camera list</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              @if(deviceCam == 1) {
+                <div class="col-lg-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Camera Details</mat-label>
+                    <mat-select formControlName="cameraId">
+                      @for(item of cameralist; track $index) {
+
+                        <mat-option  [value]="item.cameraId"><span style="font-size: 11px;">{{item.cameraId}}-{{item.name}}-{{item.rtspUrl}}</span></mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              }
+             </div>
+          }
+
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker1" formControlName="fromDate">
+        
+              <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker2" formControlName="toDate">
+              <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+         </div>
+
+
+          <div class="text-center my-5">
+            <button class="btn btn-secondary">ADD</button>
+          </div>
+        </div>
+      </form>
     </div>
+    
   </div>
 
-
-
-  
+</div>
 
 
 

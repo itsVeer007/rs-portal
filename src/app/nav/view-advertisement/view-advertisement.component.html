@@ -10,8 +10,8 @@
         <!-- <button type="button" class="btn btn-success" style="height: 35px;">Active</button> -->
       </div>
       <!-- <form [formGroup]="viewAssetForm" autocomplete="off" (ngSubmit)="submit()"> -->
-        <div class="text-center mb-3" >
-          <video [src]="ParentToChild.adUrl" height="600px"  controls autoplay ></video>
+        <div class="text-center mb-3">
+          <video [src]="adsData.adUrl" height="600px"  controls autoplay ></video>
         </div>
         <!-- <div class="grid-container">
           <div class="first-device text-center">
@@ -19,7 +19,7 @@
               <img src="assets/icons/plus.svg" alt="" class="me-2">
                 <span class="device-heading">Device</span>
             </a>
-        </div>
+          </div>
         @for (item of myobj; track $index) {
       
           <div class="first-device text-center">
@@ -28,9 +28,9 @@
             </a>
           </div>
         }
-      </div>
+      </div> -->
 
-      <p style="color: rgb(107, 110, 109); font-size: 8px;">12 Jun, 2024 - 15 Aug, 2024</p>
+      <!-- <p style="color: rgb(107, 110, 109); font-size: 8px;">12 Jun, 2024 - 15 Aug, 2024</p>
 
       <div class="grid-container-rule">
         <div class="first-rule text-center">
@@ -48,9 +48,9 @@
             </a>
           </div> 
         }
-      </div>
+      </div> -->
 
-      <p style="color: rgb(107, 110, 109); font-size: 8px;">Working Days</p>
+      <!-- <p style="color: rgb(107, 110, 109); font-size: 8px;">Working Days</p>
       <div class="grid-container-days">
         @for (item of myobj; track $index) {
       
@@ -60,8 +60,8 @@
             </a>
           </div> 
         }
-      </div>
-    <div class="d-flex justify-content-between align-items-center">
+      </div> -->
+    <!-- <div class="d-flex justify-content-between align-items-center">
       <div>
         <p style="color: rgb(107, 110, 109); font-size: 8px;">Minimum Object Count</p>
         <button type="button" class="btn btn-outline-secondary">2</button>
@@ -99,16 +99,10 @@
 
 </div>
 
-<!-- 
-@if (showDeviceForm) {
+
+ <!-- @if (showDeviceForm) {
   <div>
       <app-add-device (newItemEvent)="closeDeviceForm()"></app-add-device>
   </div>
-}
-
-
-@if (showRuleForm) {
-  <div>
-    <app-new-rule (newItemEvent)="closeRuleForm()"></app-new-rule>
-  </div>
 } -->
+

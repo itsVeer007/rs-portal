@@ -1,12 +1,12 @@
-<app-sub-header></app-sub-header>
+<!-- <app-sub-header></app-sub-header> -->
 <hr class="m-0"/>
 
 <div class="container-fluid">
-  <div class="row m-0 mt-3">
+  <!-- <div class="row m-0 mt-3">
      <div class="col-lg-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>siteId</mat-label>
-                  <mat-select formControlName="siteId">
+                  <mat-select>
                     @for (item of sitesList; track $index) {
                     <mat-option [value]="item.siteId">{{item.siteId}} - {{item.siteName}}</mat-option>
                     }
@@ -53,18 +53,35 @@
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
    </div>
-  </div>
+  </div> -->
+
+
   
-  <div class="table-container">
+  <div class="table-container mt-5">
       <table class="table" >
           <thead>
             <tr>
-              <th>Camera</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Duration</th>
-              <th>Object Identified</th>
-              <th>Action Tag</th>
+              <th>
+                <img (click)="sort('name')" class="pointer ms-1" src="assets/icons/swap_vert_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">
+                Camera</th>
+              <th>
+                <img (click)="sort('eventFromTime')" class="pointer ms-1" src="assets/icons/swap_vert_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">Start Time</th>
+              <th>
+                <img (click)="sort('eventToTime')" class="pointer ms-1" src="assets/icons/swap_vert_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">End Time</th>
+              <th>
+                <img (click)="sort('eventFromTime')" class="pointer ms-1" src="assets/icons/swap_vert_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">
+                Duration</th>
+              <th>
+                <img (click)="sort('objectName')" class="pointer ms-1" src="assets/icons/swap_vert_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">
+                Object Identified</th>
+              <th>  <img (click)="sort('actionTag')" class="pointer ms-1" src="assets/icons/swap_vert_24dp_F3F3F3_FILL0_wght400_GRAD0_opsz24.svg" matTooltip="filter"
+                matTooltipPosition="right" width="15px">
+                Action Tag</th>
               <th>Event Clip</th>
             </tr>
           </thead>

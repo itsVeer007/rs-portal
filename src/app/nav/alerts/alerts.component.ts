@@ -32,14 +32,28 @@ export class AlertsComponent {
 
   constructor(
     private config: ConfigService,
-    private storageSrvc: StorageService
+    private storageSrvc: StorageService,
+    private configSrvc:ConfigService
   ) {}
 
 
   ngOnInit() {
     this.incidentList()
-    console.log(this.storageSrvc.getType(2))
+    // console.log(this.storageSrvc.getType(2))
     this.getSites()
+    this.getCamerasForSite()
+  }
+
+
+  camerasList: any = [];
+  currentSite: any;
+  getCamerasForSite(data?: any) {
+    this.configSrvc.getCamerasForSiteId(data).subscribe({
+      next: (res: any) => {
+        console.log(res)
+        this.camerasList = res;
+      }
+    })
   }
 
   sitesList!: Array<any>;
@@ -91,6 +105,22 @@ export class AlertsComponent {
   closeDialog() {
     const dialogElement = document.getElementById('playModel') as HTMLElement;
     dialogElement.style.display = 'none';
+  }
+
+  
+
+
+
+
+  sorted = false;
+  sort(label: any) {
+    this.sorted = !this.sorted;
+    var x = this.newIncidentListData;
+    if (this.sorted == false) {
+      x.sort((a: string, b: string) => a[label] > b[label] ? 1 : a[label] < b[label] ? -1 : 0);
+    } else {
+      x.sort((a: string, b: string) => b[label] > a[label] ? 1 : b[label] < a[label] ? -1 : 0);
+    }
   }
 
 

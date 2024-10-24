@@ -43,13 +43,13 @@ export class ViewAdvertisementComponent {
     
   ) {}
 
-  @Input() ParentToChild:any
+  @Input() adsData:any;
   @Output() newItemEvent = new EventEmitter<any>()
 
   viewAssetForm:any = FormGroup
 
   ngOnInit() {
-    console.log(this.ParentToChild)
+    console.log(this.adsData)
   }
 
 
@@ -73,14 +73,95 @@ closeDeviceForm() {
 }
 
 
-showRuleForm:boolean = false;
 
-openRuleForm() {
-  this.showRuleForm = true;
-}
-closeRuleForm() {
-  this.showRuleForm = false;
-}
+myobj = [
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"device-1",
+    age:10
+  },
+
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+    {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"device-1",
+    age:10
+  },
+
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+    {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  {
+    img:'https://img.freepik.com/free-photo/abstract-colorful-splash-3d-background-generative-ai-background_60438-2509.jpg',
+    name:"lav",
+    age:10
+  },
+  
+
+  
+  
+ 
+
+]
+
+
+
 
 
 }

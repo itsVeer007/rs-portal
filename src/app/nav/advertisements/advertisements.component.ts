@@ -11,6 +11,8 @@ import { AlertService } from '../../../services/alert.service';
 import { ConfigService } from '../../../services/config.service';
 import { MetadataService } from '../../../services/metadata.service';
 import { StorageService } from '../../../services/storage.service';
+import { LinkAddRuleDeviceComponent } from '../link-add-rule-device/link-add-rule-device.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-advertisements',
@@ -18,11 +20,15 @@ import { StorageService } from '../../../services/storage.service';
   imports: [AddNewAdvertisementComponent,
     FormsModule, ReactiveFormsModule,
     MatInputModule, LiveViewComponent,
-    ViewAdvertisementComponent, SubHeaderComponent],
+    ViewAdvertisementComponent, SubHeaderComponent,
+    LinkAddRuleDeviceComponent,
+    CommonModule
+  ],
   templateUrl: './advertisements.component.html',
   styleUrl: './advertisements.component.css'
 })
 export class AdvertisementsComponent {
+  
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -37,81 +43,51 @@ export class AdvertisementsComponent {
   ) { }
 
   
+  ngOnInit(): void {  
+  }
 
-
-// dataFromSubHeader:any;
-  ngOnInit(): void {
-    // this.listAdsInfo_1_0()
-    // console.log(data)
-
-
-    this.configSrvc.dataFromSubheader.subscribe({
-      next:(res:any) => {
-        console.log(res)
-        this.listAdsInfoData = res[0]!.devices;
-        const devicesAds = this.listAdsInfoData?.flatMap((item: any) => item.ads);
-        console.log(devicesAds);
-        
-        // Extracting siteAds
-        const siteAds = res.flatMap((item: any) => item.siteAds);
-        console.log(siteAds);
-        
-        // Merging both devicesAds and siteAds
-        this.listAdsInfoNewData = [...devicesAds, ...siteAds];
-        console.log(this.listAdsInfoNewData);
+  currentSite:any
+  ngAfterViewInit(): void {
+    this.configSrvc.current_site_sub.subscribe({
+      next: (res: any) => {        
+        this.currentSite = res
+        this.listAdsInfo(res)
       }
     })
+  }
+
+  getStatusCounts(value: any) {
+    return this.listAdsInfoData.map((item: any) => console.log(item))
   }
 
 
   siteDataForAds:any
   openSiteForAdd(data:any) {
     this.siteDataForAds = data
-
   }
 
 
   devicesData:any = [];
   listAdsInfoNewData:any = [];
   listAdsInfoData:any = [];
-// listAdsInfo_1_0() {
-//     this.configSrvc.listAdsInfo_1_0().subscribe({
-//       next:(res:any) =>  {
-//         console.log(res);
-//        this.listAdsInfoData =  res.sites.flatMap((item:any) => item.devices)
-//        console.log(this.listAdsInfoData)
-//        this.listAdsInfoNewData = this.listAdsInfoData.flatMap((item:any)=> item.ads)
-//        console.log(this.listAdsInfoNewData)
-//        this.listAdsInfoNewData =  res.sites.flatMap((item:any) => item.siteAds)
-//        console.log(this.listAdsInfoNewData)
-//       }
-//     })
-//   }
-
-  listAdsInfo_1_0() {
-
-    // this.configSrvc.listAdsInfo_1_0().subscribe({
-    //   next: (res: any) => {
-    //     console.log(res);
+  listAdsInfo(siteId: any) {
+    this.configSrvc.listAdsInfo(siteId).subscribe({
+      next: (res: any) => {
+  
+        // Extracting ads from devices
+        this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
+        const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads).map((ad: any) => ({ ...ad, type: 'deviceAd' }));
         
-    //     // Extracting ads from devices
-    //     this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
-    //     const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads);
-    //     console.log(devicesAds);
+        // Extracting siteAds
+        const siteAds = res.sites.flatMap((item: any) => item.siteAds).map((ad: any) => ({ ...ad, type: 'siteAd' }));
         
-    //     // Extracting siteAds
-    //     const siteAds = res.sites.flatMap((item: any) => item.siteAds);
-    //     console.log(siteAds);
-        
-    //     // Merging both devicesAds and siteAds
-    //     this.listAdsInfoNewData = [...devicesAds, ...siteAds];
-    //     console.log(this.listAdsInfoNewData);
-    //   }
-    // });
+        // Merging both devicesAds and siteAds
+        this.listAdsInfoNewData = [...devicesAds, ...siteAds];
+      }
+    });
   }
 
   showForm:boolean = false;
-
   openAddForm() {
     this.showForm = true;
   }
@@ -119,23 +95,27 @@ export class AdvertisementsComponent {
     this.showForm = false;
   }
 
+  viewLinkForm:boolean = false
 
-  viewAddForm:boolean = false;
+  currentItem:any
+  addRuleData:any;
+  openLinkForm(item: any) {
+    this.currentItem = item;
+    this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: item.adId}).subscribe({
+      next:(res: any) => {
+        this.addRuleData = res
+      }
+    })
+    this.viewLinkForm = true;
+  }
 
-  currentItem: any;
-  openViewAddForm(data: any) {
-    console.log(data)
-    this.viewAddForm = true;
-    this.currentItem = data
+  closeLinkForm() {
+    this.viewLinkForm = false;
+  }
+
+
+  openViewAddForm() {
 
   }
-  
-  closeViewForm() {
-    this.viewAddForm = false;
-  }
-
-
-
-
 
 }

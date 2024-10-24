@@ -15,7 +15,9 @@ export class ConfigService {
   ) { }
 
 
-  public dataFromSubheader:BehaviorSubject<any> = new BehaviorSubject([]);
+  public dataFromSubheader: BehaviorSubject<any> = new BehaviorSubject([]);
+  public numberFromSub: BehaviorSubject<any> = new BehaviorSubject(null);
+  public current_site_sub: BehaviorSubject<any> = new BehaviorSubject(null);
 
   public getSitesListForUserName(): Observable<any> {
     let user = this.storageSrvc.getData('userData');
@@ -67,7 +69,7 @@ export class ConfigService {
     return this.http.get(url)
   }
 
-  listAdsInfo_1_0(payload?:any) {
+  listAdsInfo(payload?:any) {
     let url = this.baseUrl + '/proximity_ads/listAdsForSiteId_1_0';
     let params = new HttpParams();
     if(payload?.siteId) {
@@ -85,6 +87,25 @@ export class ConfigService {
     return this.http.get(url,{params:params})
   }
 
+  genericAdsInfo() {
+    let url = this.baseUrl + '/proximity_ads/genericAdsInfo_1_0';
+    return this.http.get(url)
+  }
+
+  listDeviceRules(payload:any) {
+    let url = this.baseUrl + `/proximity_ads/listDeviceRules/${payload.adId}/${payload.siteId}`;
+    return this.http.get(url)
+  }
+
+  createRule(payload:any) {
+    console.log(payload)
+    let url = this.baseUrl + '/proximity_ads/createRule_1_0';
+    return this.http.post(url, payload)
+  }
+
+  
+
+
   
 
   incidentList(payload:any) {
@@ -100,4 +121,6 @@ export class ConfigService {
     return this.http.get(url, {params:params})
   }
 
+
+  
 }

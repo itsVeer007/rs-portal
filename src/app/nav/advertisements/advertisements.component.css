@@ -12,6 +12,7 @@
 
 }
 .grid-item {
+    cursor: pointer;
     background-color: #272525;
     border: 1px solid #635d5d;
     border-radius: 4px;
@@ -64,3 +65,12 @@
     text-transform: uppercase;
     opacity: 1;
 }
+
+.device-ad {
+    background-color: #caf6ac; /* Example: Orange */
+  }
+  
+  /* Site ads styling */
+  .site-ad {
+    background-color: #fae2cd; /* Example: Blue */
+  }

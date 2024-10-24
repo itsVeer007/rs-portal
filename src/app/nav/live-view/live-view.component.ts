@@ -10,6 +10,7 @@ import { SearchPipe } from '../../../pipes/search.pipe';
 import { VideoPlrComponent } from "../../video-plr/video-plr.component";
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { SubHeaderComponent } from "../sub-header/sub-header.component";
 
 @Component({
   selector: 'app-live-view',
@@ -24,7 +25,8 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     SearchPipe,
     VideoPlrComponent,
-    CommonModule
+    CommonModule,
+    SubHeaderComponent
 ],
   templateUrl: './live-view.component.html',
   styleUrl: './live-view.component.css'
@@ -44,42 +46,26 @@ export class LiveViewComponent {
 
 
   searchText:any;
-
-  gridTypes = [
-    {
-      label: '1*1',
-      noOfItems:1,
-      path: 'assets/icons/dot-1.svg'
-    },
-    {
-      label: '2*2',
-      noOfItems: 4,
-      path: 'assets/icons/dot-2.svg'
-    },
-    {
-      label: '3*3',
-      noOfItems: 9,
-      path: 'assets/icons/grid.svg'
-    },
-    {
-      label: '4*4',
-      noOfItems: 16,
-      path: 'assets/icons/dot4.svg'
-    }
-  ];
-
   
-  
+  data: any;
+  @ViewChild('gridContainer') gridContainer!: ElementRef;
   ngOnInit() {
     this.getSites();
   }
   
+  gridData: any;
   ngAfterViewInit() {
-    this.changeGrid({
-      label: this.gridTypes[2].label,
-      noOfItems: this.gridTypes[2].noOfItems,
-      path: this.gridTypes[2].path
-    });
+    this.configSrvc.numberFromSub.subscribe({
+      next:(res:any) => {
+        // this.changeGrid({
+        //   label: res.label,
+        //   noOfItems: res.noOfItems,
+        //   path: res.path
+        // });
+        this.selectedGrid = res.noOfItems;
+        this.gridContainer.nativeElement.style.gridTemplateColumns = `repeat(${Math.sqrt(res.noOfItems)}, 1fr)`;
+      }
+    })
   }
 
   getUrl(data: any, camData: any) {
@@ -102,49 +88,36 @@ export class LiveViewComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        // console.log(res);
-        this.getCamerasForSite(res.sites[22]);
-        // this.currentCam = res.sites[0]
         this.sitesList = res.sites;
+        this.configSrvc.dataFromSubheader.subscribe({
+          next: (res: any) => {
+            this.camerasList = [];
+            setTimeout(() => {
+              this.camerasList = res;
+              this.currentCam = this.camerasList[0]
+            }, 100)
+          }
+        })
       }
     })
   }
 
   camerasList: any = [];
   currentSite: any;
-  getCamerasForSite(data: any) {
-    this.camerasList = []
-    this.currentSite = data
-    // data.isOpen = !data.isOpen;
-    // data.isOpen ? this.currentSite = data : this.currentSite = -1;
-    this.configSrvc.getCamerasForSiteId(data).subscribe({
-      next: (res: any) => {
-        this.camerasList = res;
-      }
-    })
-  }
-
-  @ViewChild('gridContainer') gridContainer!: ElementRef;
   selectedGrid!: number;
   currentgridIcon!: string;
-  changeGrid(item: any) {
-    if(item.noOfItems === 1) {
-      this.playCurrentCam(this.camerasList[0]);
-    }
-    this.currentgridIcon = item.path;
-    this.selectedGrid = item.noOfItems;
-    this.gridContainer.nativeElement.style.gridTemplateColumns = `repeat(${Math.sqrt(item.noOfItems)}, 1fr)`;
-  }
 
   get getCurrentItems(): any {
     let startIndex = 0;
     let endIndex = this.selectedGrid;
-    return this.camerasList?.slice(startIndex, endIndex);
+    return this.camerasList.slice(startIndex, endIndex);
   }
 
 
   currentCam: any;
   playCurrentCam(item:any) {
+    this.configSrvc.numberFromSub.next({noOfItems: 1});
+    this.selectedGrid = 1;
     this.currentCam = item;
   }
 
