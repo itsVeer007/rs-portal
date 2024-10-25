@@ -19,7 +19,7 @@
                 <div style="color: antiquewhite; text-align: center;">
                     <img [src]="item.snapUrl" alt="" width="20px">
                     <!-- <img src="assets/icons/bulb.svg" alt="" width="24px" class="mt-2 mb-2"> -->
-                    <p class="name-ads mt-2">{{item.adName}}</p>
+                    <p class="name-ads mt-2" style="font-size: 24px;">{{item.adName}}</p>
                     <p class="name-ads mb-1">{{item.category}}</p>
                     <p class="name-ads">{{item.duration + 'seconds'}}</p>
                 </div>
@@ -31,7 +31,7 @@
 
 @if(showForm) {
     <div class="m-4">
-        <app-add-new-advertisement (newItemEvent)="close()"></app-add-new-advertisement> 
+        <app-add-new-advertisement (newItemEvent)="close(); listAdsInfo(currentSite)"></app-add-new-advertisement> 
     </div>
 }
 

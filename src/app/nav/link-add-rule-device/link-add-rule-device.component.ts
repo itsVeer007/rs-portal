@@ -16,6 +16,9 @@ import {MatSliderModule} from '@angular/material/slider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SearchPipe } from "../../../pipes/search.pipe";
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
+
 
 @Component({
   selector: 'app-link-add-rule-device',
@@ -34,7 +37,8 @@ import { SearchPipe } from "../../../pipes/search.pipe";
     MatSliderModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    SearchPipe
+    SearchPipe,
+    MatButtonToggleModule
 ],
   templateUrl:'./link-add-rule-device.component.html',
   styleUrl:'./link-add-rule-device.component.css'
@@ -66,6 +70,11 @@ export class LinkAddRuleDeviceComponent {
     this.searchDevice = (event.target as HTMLInputElement).value;
   }
 
+  fontStyleControl = new FormControl('');
+  fontStyle?: string;
+
+
+ 
 
   personshow : boolean = false;
   deviceCam: any = 0;
@@ -107,22 +116,20 @@ export class LinkAddRuleDeviceComponent {
     return this.storageSer.getType(type)[0].metadata;
   }
 
+  weekdayays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   listDeviceRules() {
-    const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId}).subscribe({
       next:(res: any) => {
-        console.log(res);
+        // console.log(res);
         this.devicesData = res.sites.flatMap((item:any) => item.Devices);
         this.rulesData = this.devicesData.flatMap((item:any) => item.rules);
 
         this.rulesData.forEach((el: any) => {
-          el.workingDays = el.workingDays.split(',')
+          el.workingDays = el.workingDays.split(',').map((el: any) => +el);
         });
-        console.log(this.rulesData)
       }
     })
-    // this.viewLinkForm = true;
   }
 
 
@@ -165,9 +172,34 @@ closeRuleForm() {
   this.showRuleForm = false;
 }
 
+body = {
+  fromDate:null,
+  toDate:null,
+  adId:null,
+  ruleId:null,
+  siteId:null,
+  createdBy:1545,
+  deviceId:null
+}
+
+
+
 @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
-openRuleFormFor()  {
+openRuleFormFor(item:any)  {
+this.currentItem = item
   this.dialog.open(this.addNewRuleForm)
+}
+
+submit() {
+  this.body.adId = this.currentAdd.adId
+  this.body.siteId = this.currentSite.siteId
+  this.body.deviceId = this.currentItem.deviceId
+  this.body.createdBy = 1545
+  this.configSrvc.deviceAdRuleConn(this.body).subscribe({
+    next: (res:any) => {
+      console.log(res);
+    }
+  })
 }
 
 // @ViewChild('openViewAdver') openViewAdver = {} as TemplateRef<any>

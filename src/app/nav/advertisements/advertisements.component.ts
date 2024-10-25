@@ -103,6 +103,7 @@ export class AdvertisementsComponent {
     this.currentItem = item;
     this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: item.adId}).subscribe({
       next:(res: any) => {
+        console.log(res);
         this.addRuleData = res
       }
     })

@@ -24,6 +24,9 @@
     
   }
 
+  .sunday-heading {
+    font-size: 24px;
+  }
   .add-name {
     color: var(--unnamed-color-ffffff);
     text-align: left;
@@ -67,6 +70,7 @@ opacity: 1;
     opacity: 0.5;
     padding: 12px;
     margin: 12px;
+    /* width: 550px; */
 
 }
 
@@ -95,6 +99,7 @@ opacity: 1;
     opacity: 0.5;
     padding: 8px;
     margin: 12px;
+    /* width: 50vw; */
 }
   .rules-heading {
     color: var(--unnamed-color-fd6327);
@@ -129,9 +134,10 @@ opacity: 1;
     font: normal normal normal 6px/8px Montserrat;
     color: #FFFFFF;
     opacity: 1;
+    font-size: 12px;
     }
-    .rules-side-container {
-        height: 60vh;
+    /* .rules-side-container {
+        height: 70vh;
         overflow-y: auto;
-    }
+    } */
   

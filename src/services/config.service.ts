@@ -103,6 +103,11 @@ export class ConfigService {
     return this.http.post(url, payload)
   }
 
+deviceAdRuleConn(payload:any) {
+  let url = this.baseUrl + '/proximity_ads/DeviceAdRuleConn_1_0';
+  return this.http.post(url, payload)
+}
+
   
 
 
