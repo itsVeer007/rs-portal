@@ -17,6 +17,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SearchPipe } from "../../../pipes/search.pipe";
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { NewRuleComponent } from '../new-rule/new-rule.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { formatDate } from '@angular/common';
+import { AlertService } from '../../../services/alert.service';
 
 
 
@@ -38,7 +42,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatDatepickerModule,
     MatCheckboxModule,
     SearchPipe,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    NewRuleComponent,
+    MatTooltipModule
 ],
   templateUrl:'./link-add-rule-device.component.html',
   styleUrl:'./link-add-rule-device.component.css'
@@ -48,7 +54,8 @@ export class LinkAddRuleDeviceComponent {
   constructor(
     private configSrvc: ConfigService,
     private storageSer: StorageService,
-    private dialog : MatDialog
+    private dialog : MatDialog,
+    private alertSer: AlertService,
   ) {}
 
   // @Input() dataFromAds: any;
@@ -90,6 +97,7 @@ export class LinkAddRuleDeviceComponent {
   modifiedWorkingDays: any;
   ngOnInit() {
     this.listDeviceRules()
+    console.log(this.currentRuleData)
 
   //   this.addAssetForm = this.fb.group({
   //     adId : new FormControl(''),
@@ -116,23 +124,36 @@ export class LinkAddRuleDeviceComponent {
     return this.storageSer.getType(type)[0].metadata;
   }
 
+  newRulesData:any = [];
+
   weekdayays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   listDeviceRules() {
 
     this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId}).subscribe({
       next:(res: any) => {
-        // console.log(res);
+        console.log(res);
         this.devicesData = res.sites.flatMap((item:any) => item.Devices);
         this.rulesData = this.devicesData.flatMap((item:any) => item.rules);
-
-        this.rulesData.forEach((el: any) => {
+        console.log(this.rulesData)
+        this.newRulesData = this.rulesData
+        this.newRulesData.forEach((el: any) => {
           el.workingDays = el.workingDays.split(',').map((el: any) => +el);
         });
       }
     })
   }
 
+  RuleForm:boolean = false;
 
+createRuleForm() {
+  this.RuleForm = true;
+}
+closereateRuleForm() {
+  this.RuleForm = false;
+}
+
+
+currentRuleData:any
   rulesData:any = [];
   devicesData:any = [];
   // getDevicesAndRulesData() {
@@ -146,7 +167,7 @@ export class LinkAddRuleDeviceComponent {
     this.newItemEvent.emit();
   }
 
-  checked = false;
+  // checked = false;
   disabled = false;
 
   viewAddForm:boolean = false;
@@ -165,39 +186,81 @@ export class LinkAddRuleDeviceComponent {
   
 showRuleForm:boolean = false;
 
-openRuleForm() {
+currentDeviceId: any
+openRuleForm(item:any) {
+  console.log(item)
+  this.currentDeviceId = item
+  this.showRuleForm = true;
+}
+
+openRuleFormNew() {
   this.showRuleForm = true;
 }
 closeRuleForm() {
   this.showRuleForm = false;
 }
 
-body = {
+body:any = {
   fromDate:null,
   toDate:null,
   adId:null,
   ruleId:null,
   siteId:null,
   createdBy:1545,
-  deviceId:null
+  deviceId:null,
+  objectRule:null
 }
 
 
 
-@ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
-openRuleFormFor(item:any)  {
-this.currentItem = item
-  this.dialog.open(this.addNewRuleForm)
+  @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
+  openRuleFormForAssociate(item:any)  {
+  this.currentItem = item
+    this.dialog.open(this.addNewRuleForm)
+  }
+
+openRuleFormFor(data:any) {
+  console.log(data)
+  this.newRulesData.filter((item:any)=> {
+    if(item.deviceId == data.deviceId) {
+      item.ruleAssociationStatus = 1
+    } else {
+      item.ruleAssociationStatus = 0
+    }
+  })
 }
+
+
 
 submit() {
+
+  if (!this.body.ruleId) {
+    this.alertSer.error('Please select a rule before proceeding.');
+    return; // Prevent submission if ruleId is not selected
+  }
+  this.body.fromDate = formatDate(this.body.fromDate , 'yyyy-MM-dd', 'en-us')
+  this.body.toDate = formatDate( this.body.toDate, 'yyyy-MM-dd', 'en-us')
   this.body.adId = this.currentAdd.adId
   this.body.siteId = this.currentSite.siteId
   this.body.deviceId = this.currentItem.deviceId
-  this.body.createdBy = 1545
-  this.configSrvc.deviceAdRuleConn(this.body).subscribe({
+  // this.body.ruleId = this.body.ruleId.toString()
+  this.body.ruleId = this.currentItem.objectRule
+  let obj = {...this.body, ...this.currentRuleData}
+  delete obj.ruleId
+  // delete obj.objectType
+  delete obj.cameraName
+  delete obj.cameraUrl
+  delete obj.ruleAssociationStatus
+  this.configSrvc.deviceAdRuleConn(obj).subscribe({
     next: (res:any) => {
       console.log(res);
+      if(res?.statusCode == 200) {
+        this.alertSer.success(res?.message)
+      } else {
+        this.alertSer.error(res?.message)
+      }
+      this.newItemEvent.emit()
+      this.listDeviceRules()
     }
   })
 }
@@ -206,5 +269,8 @@ submit() {
 // openAdverForm()  {
 //   this.dialog.open(this.openViewAdver)
 // }
+
+
+
 
 }

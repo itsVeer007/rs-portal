@@ -1,15 +1,33 @@
 .formModal {
-    height: 86vh;
+    /* height: 86vh;
     overflow-y: auto;
     background-color:#FFFFFF;
     position: fixed;
     top: 86px;
     right:37px;
     left: 37px;
-    z-index: 99;
+    z-index: 99; */
     /* width: 41%; */
     /* padding-bottom: 22px; */
     /* padding: 24px; */
+
+
+    height: 90vh;
+    overflow-y: auto;
+
+    position: fixed;
+    top: 75px;
+    /* left: 102px; */
+    right: 0px;
+    width: 100%;
+    z-index: 99;
+  }
+  
+  .add-form {
+    /* background-color: #272525; */
+    background-color: #fff;
+  
+    border: 1px solid #635d5d;
   }
   .form-heading {
     text-align: left;
@@ -158,10 +176,10 @@
           cursor: pointer;
           text-decoration: none;
           color: #989fb4;
-          border-radius: 12px;
+          border-radius: 42px;
           /* border-color: #665d5d; */
           /* border-style: dotted; */
-          padding: 130px;
+          padding: 22px;
           /* height: 25vh; */
          width: 100%;
         }

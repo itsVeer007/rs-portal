@@ -1,42 +1,46 @@
 <div class="row formModal">
-  <div class="col-lg-12 add-form p-2">
+  <div class="col-lg-12 add-form">
     <div class=" heading-container d-flex justify-content-between align-items-center">
-      <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt=""
-          width="28px"></a>
-      <span class="form-heading" style="color: #989fb4;" (click)="openRuleForm()">Add Rule</span>
-    </div>
+      <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt=""width="28px"></a>
 
+      <!-- <button class=" btn btn-secondary pointer" (click)="openRuleFormNew()">ADD RULE</button> -->
+
+    </div>
+    <!-- <p (click)="createRuleForm()" style="color: #989fb4;" >add</p> -->
     <div class="row main-container">
-      <div class="col-lg-4">
+      <div class="col-lg-5">
         <div class="d-flex justify-content-between align-items-center">
           <div class=" d-flex flex-row mb-2 mt-1">
-            <img [src]="currentAdd.snapUrl" alt="" width="20px">
-            <div class="ms-3">
+            <img [src]="currentAdd.snapShotUrl" alt="" width="50px" class="me-2">
+            <div>
               <p class="add-name" style="color: red;">{{currentAdd.adName}}</p>
               <p class="bevarege">{{currentAdd.category}}</p>
             </div>
           </div>
 
           <div>
-            <button type="button" class="btn btn-outline-secondary me-2"
+            <button type="button" class="btn btn-outline-secondary ms-3"
               (click)="openViewAddForm(currentAdd)">PLAY</button>
             <!-- <button type="button" class="btn btn-outline-secondary me-2" (click)="openAdverForm()">PLAY</button> -->
             <!-- <button type="button" class="btn btn-outline-success">ACTIVE</button> -->
           </div>
         </div>
 
+
+        <div class="col-12 ">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Search</mat-label>
+            <input matInput type="text" [(ngModel)]="deviceSearch">
+          </mat-form-field>
+        </div>
         <div class="d-flex justify-content-between align-items-center">
           <p class="total-devices">TOTAL DEVICES - {{devicesData.length}}</p>
-          <div class="col-6 mt-1">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Search</mat-label>
-              <input matInput type="text" [(ngModel)]="deviceSearch">
-            </mat-form-field>
-          </div>
+
         </div>
 
         <div class="device-main-container">
           @for (item of devicesData | search: deviceSearch; track $index) {
+          @if(item.deviceId && item.deviceName) {
           <div class="device-container d-flex justify-content-between align-items-center">
             <div class="d-flex flex-row">
               <!-- <img [src]="item.img" alt="" width="20px" class="me-2"> -->
@@ -45,30 +49,35 @@
                 <p class="device-details">{{item.deviceId}}</p>
               </div>
             </div>
+            <!-- <p class="device-details">{{item.main}}</p> -->
 
-            <p class="device-details">{{item.main}}</p>
+            <!-- <div>
+                @if (item.associationStatus === 1) {
+                <button class="btn btn-success pointer" matTooltip="Associated" (click)="openRuleFormFor(item)" >Associated</button>
+                }
+    
+                @if (item.associationStatus === 0) {
+                <button class=" btn btn-secondary pointer" (click)="openRuleForm(item)" matTooltip="Create New Rule">ADD RULE</button>
+                }
+                <button class="btn btn-dark ms-3" (click)="openRuleFormForAssociate(item)" matTooltip="Select Existing Rule">+</button>
+            </div> -->
 
-         <div>
-          @if (item.associationStatus === 1) {
-            <button class="btn btn-success">Associated</button>
-            }
-         </div>
-            <div (click)="openRuleFormFor(item)">
-              @if (item.associationStatus === 0) {
-              <button class="btn btn-success">Not Associated(+)</button>
-              }
+            <div>
+           
+              <button class=" btn btn-secondary pointer" (click)="openRuleForm(item)" matTooltip="Create New Rule">ADD RULE</button>
+         
+              <button class="btn btn-dark ms-3" (click)="openRuleFormForAssociate(item)" matTooltip="Select Existing Rule">+</button>
             </div>
-
-
           </div>
           }
-
+          }
         </div>
       </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-7 mt-5">
         <div class="d-flex justify-content-between align-items-center mt-5">
-          <p class="rules-heading">RULES - {{rulesData.length}}</p>
+          <p>RULES - {{rulesData.length}}</p>
+          <button class="btn btn-secondary pointer" (click)="listDeviceRules()">Total Rules</button>
           <!-- <div class="col-6 mt-1">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Search</mat-label>
@@ -78,15 +87,14 @@
         </div>
 
         <div class="rules-side-container">
-          @for (item of rulesData | search: ruleSearch; track $index) {
+          @for (item of newRulesData | search: ruleSearch; track $index) {
           <div class="rules-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <p class="rule-sub-heading">Rule - {{item.ruleId}}</p>
+              <p class="rule-sub-heading">Rule - {{$index+1}}</p>
               <!-- <p class="rule-sub-heading">Date : 01/09/2024 - 31/12/2024</p> -->
             </div>
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex">
-
                 <div class="me-3">
                   <p class="sunday-heading">Working Days</p>
                   <div class="d-flex flex-row justify-content-start">
@@ -112,14 +120,23 @@
                   </div>
                 </div>
 
+              <!-- @if(newRulesData.objectType && newRulesData.objectCount) { -->
                 <div class="me-3">
-                  <p class="sunday-heading">Object</p>
+                  <p class="sunday-heading">Object Type</p>
                   <div class="day-container m-1">
-                    <p class="sunday-heading">{{item.objectCount}}</p>
+                    <p class="sunday-heading">{{item.objectType == 1 ? 'Person' : item.objectType == 2 ? 'Vehicle' : '' }}</p>
                   </div>
                 </div>
 
                 <div class="me-3">
+                  <p class="sunday-heading">Object </p>
+                  <div class="day-container">
+                    <p class="sunday-heading">{{item.objectCount}}</p>
+                  </div>
+                </div>
+              <!-- } -->
+
+                <!-- <div class="me-3">
                   <p class="sunday-heading ms-1">Camera</p>
                   <div class="day-container m-1">
                     <select class="form-control custom-form-control" [(ngModel)]="item.objectType">
@@ -128,34 +145,14 @@
                       }
                     </select>
                   </div>
-                </div>
-                <!-- <div class="col-lg-2">
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Choose a date</mat-label>
-                            <input matInput [matDatepicker]="picker1">
-                      
-                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                          </mat-form-field>
-                        </div>
-                        <div class="col-lg-2">
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Choose a date</mat-label>
-                            <input matInput [matDatepicker]="picker2">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                          </mat-form-field>
-                       </div> -->
+                </div> -->
               </div>
               <div>
-                <button class="btn btn-success"></button>
-                <!-- <section class="example-section">
-                              <mat-slide-toggle
-                                  class="example-margin"
-                                  [checked]="checked"
-                                  [disabled]="disabled">
-                              </mat-slide-toggle>
-                            </section> -->
+                <!-- <button class="btn btn-success"></button> -->
+                <section class="example-section">
+                  <mat-slide-toggle class="example-margin" [checked]="item.ruleAssociationStatus === 1" [disabled]="disabled">
+                  </mat-slide-toggle>
+                </section>
               </div>
             </div>
 
@@ -192,35 +189,50 @@
 
 @if (showRuleForm) {
 <div>
-  <app-create-new-rule [inputData]="currentAdd" (newItemEvent)="closeRuleForm()"></app-create-new-rule>
+  <app-create-new-rule [inputData]="currentAdd" [second]="devicesData" [site]="currentSite" [deviceIdFromParent]="currentDeviceId"
+    (newItemEvent)="closeRuleForm(); listDeviceRules();"></app-create-new-rule>
 </div>
 }
+
+<!-- @if(RuleForm) {
+
+<div>
+  <app-new-rule></app-new-rule>
+</div>
+} -->
 
 
 
 <ng-template #addNewRuleForm>
   <div style="background-color: #989fb4;" class="p-4">
     <div class=" d-flex flex-row mb-2 mt-1">
-      <img [src]="currentAdd.snapUrl" alt="" width="20px">
+      <!-- <img [src]="currentAdd.snapUrl" alt="" width="20px"> -->
       <div class="ms-3">
-        <p class="add-name" style="color: red;">{{currentAdd.adName}}</p>
-        <p class="bevarege" style="color: red;">{{currentAdd.category}}</p>
+        <p class="add-name" style="color: rgb(112, 84, 84);">{{currentAdd.adName}}</p>
+        <p class="bevarege" style="color: rgb(141, 108, 108);">{{currentAdd.category}}</p>
       </div>
     </div>
     <!-- 
-    <div style="background-color: gainsboro" class="d-flex justify-content-between align-items-center p-2">
-      <p>Device Name - 9</p>
-      <p>RULE - 2</p>
-    </div> -->
+      <div style="background-color: gainsboro" class="d-flex justify-content-between align-items-center p-2">
+        <p>Device Name - 9</p>
+        <p>RULE - 2</p>
+      </div> -->
 
+    <p class="mb-3" style="color: rgb(112, 84, 84); font-size: 24px;">Select Rule</p>
+   <div class="rules-selection my-2">
     <section>
       <mat-button-toggle-group [(ngModel)]="body.ruleId" aria-label="Font Style">
         @for(item of rulesData | search: ruleSearch; track $index) {
-        <mat-button-toggle [value]="item.ruleId">Rule {{item.ruleId}}</mat-button-toggle>
+
+        <mat-button-toggle [value]="item.ruleId" (click)="currentRuleData = item">Rule {{$index+1}}</mat-button-toggle>
+
         }
       </mat-button-toggle-group>
 
+ 
+
     </section>
+   </div>
 
   </div>
 
@@ -245,8 +257,8 @@
       </div>
 
       <div class="text-center">
-        <button class="btn btn-secondary mx-2" mat-dialog-close>Cancle</button>
-        <button class="btn btn-secondary" (click)="submit()">Submit</button>
+        <button class="btn btn-secondary mx-2" mat-dialog-close>Cancel</button>
+        <button class="btn btn-secondary" (click)="submit()" mat-dialog-close>Submit</button>
       </div>
     </div>
   </mat-dialog-content>

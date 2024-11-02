@@ -19,6 +19,10 @@ export class ConfigService {
   public numberFromSub: BehaviorSubject<any> = new BehaviorSubject(null);
   public current_site_sub: BehaviorSubject<any> = new BehaviorSubject(null);
 
+  public devices: BehaviorSubject<any> = new BehaviorSubject(null);
+  public filter_sub: BehaviorSubject<any> = new BehaviorSubject({});
+
+
   public getSitesListForUserName(): Observable<any> {
     let user = this.storageSrvc.getData('userData');
     let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisusnew'}`;
@@ -31,7 +35,7 @@ export class ConfigService {
   }
 
 
-  baseUrl = 'http://192.168.0.107:8000';
+  baseUrl = 'http://192.168.0.243:8000';
 
 
   // createAd(payload:any) {
@@ -52,11 +56,10 @@ export class ConfigService {
       'adName': payload?.adName,
       // 'fromDate': payload?.fromDate ? formatDate(payload?.fromDate, 'yyyy-MM-dd', 'en-us') : formatDate(new Date(), 'yyyy-MM-dd', 'en-us'),
       // 'toDate': payload?.toDate ? formatDate(payload?.toDate, 'yyyy-MM-dd', 'en-us') : '2999-12-31',
-      'createdBy': '1545',
+      'createdBy': 1545,
       'description': payload?.description,
-
       'adType': payload.adType,
-      'category': payload?.description,
+      'category': payload?.category,
       'generic' :0
     }
     formData.append('adDetails', JSON.stringify(assetData));
@@ -97,14 +100,28 @@ export class ConfigService {
     return this.http.get(url)
   }
 
+  listDeviceInfo(payload?:any) {
+    let url = this.baseUrl + '/proximity_ads/listDeviceInfo_1_0';
+    let params = new HttpParams();
+    if(payload?.siteId) {
+      params = params.set('siteId', payload?.siteId)
+    }
+    if(payload?.deviceId) {
+      params = params.set('deviceId', payload?.deviceId)
+    }
+    return this.http.get(url,{params:params})
+  }
+
   createRule(payload:any) {
     console.log(payload)
     let url = this.baseUrl + '/proximity_ads/createRule_1_0';
+
     return this.http.post(url, payload)
   }
 
 deviceAdRuleConn(payload:any) {
-  let url = this.baseUrl + '/proximity_ads/DeviceAdRuleConn_1_0';
+  let url = this.baseUrl + '/proximity_ads/createRule_1_0';
+  payload.workingDays = payload.workingDays.join(',')
   return this.http.post(url, payload)
 }
 

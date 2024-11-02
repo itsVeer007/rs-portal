@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
@@ -11,11 +11,12 @@ import { ConfigService } from '../../../services/config.service';
 import { MetadataService } from '../../../services/metadata.service';
 import { StorageService } from '../../../services/storage.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCard } from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 
@@ -33,16 +34,14 @@ import {MatRadioModule} from '@angular/material/radio';
     MatCard,
     MatCheckboxModule,
     MatRadioModule,
-    
-   
-            
+    MatSlideToggleModule     
   ],
   templateUrl: './create-new-rule.component.html',
   styleUrl: './create-new-rule.component.css',
   animations:[
     trigger("inOutPaneAnimation", [
       transition(":enter", [
-        style({ opacity: 0, transform: "translateX(-100%)" }),
+        style({ opacity: 0, transform: "translateX(100%)" }),
         animate(
           "500ms ease-in-out",
           style({ opacity: 1, transform: "translateX(0)" })
@@ -73,6 +72,10 @@ export class CreateNewRuleComponent {
   ) { }
 
   @Input() inputData:any
+  @Input() second:any
+  @Input() site:any
+  @Input() deviceIdFromParent:any
+  
   @Output() newItemEvent = new EventEmitter<any>();
 
 
@@ -94,7 +97,7 @@ export class CreateNewRuleComponent {
 
   toggleShowOnOff(event: any): void {
     this.personshow = !this.personshow;
-      this.addAssetForm.get('modelObjectTypeId').setValue(1);
+      this.addAssetForm.get('objectType').setValue(1);
       this.addAssetForm.get('objectCount').reset();
       this.addAssetForm.get('deviceCam').reset(0);
       // this.addAssetForm.get('cameraId').reset().setValue(0);
@@ -124,6 +127,8 @@ export class CreateNewRuleComponent {
   finalName:any
   cameralist:any =[];
   ngOnInit(): void {
+    console.log(this.inputData)
+    console.log(this.deviceIdFromParent)
     // this.user = this.storageSer.get('user');
     // this.deviceIdFromStorage = this.storageSer.get('add_body');
     this.addAssetForm = new FormGroup({
@@ -133,17 +138,17 @@ export class CreateNewRuleComponent {
         temp: new FormControl(''),
         objectRule: new FormControl(''),
         cameraId: new FormControl(''),
-        modelObjectTypeId: new FormControl(''),
+        objectType: new FormControl(''),
         objectCount: new FormControl(1),
         createdBy: new FormControl(),
         deviceCam: new FormControl(''),
-
         deviceId: new FormControl(''),
-        fromDate: new FormControl(''),
-        toDate: new FormControl(''),
+        fromDate: new FormControl('', Validators.required),
+        toDate: new FormControl('', Validators.required),
+        siteId:new FormControl('')
     });
 
-
+    this.addAssetForm.get('deviceId').setValue(this.deviceIdFromParent.deviceId)
     this.listAdsInfo(this.siteId)
     this.configSrvc.dataFromSubheader.subscribe({
       next: (res:any) => {
@@ -364,11 +369,14 @@ export class CreateNewRuleComponent {
         let days = this.adDays.subtasks.filter((item: any)=> item.completed);
         let finalDays = days.map((task: any) => task.name);
         this.addAssetForm.value.workingDays = finalDays.join(',')
-
+        this.addAssetForm.value.fromDate = formatDate(this.addAssetForm.value.fromDate , 'yyyy-MM-dd', 'en-us')
+        this.addAssetForm.value.toDate = formatDate( this.addAssetForm.value.toDate, 'yyyy-MM-dd', 'en-us')
+       
         this.addAssetForm.value.createdBy = 1545
+        this.addAssetForm.value.siteId = this.site.siteId
         this.addAssetForm.value.adId = this.inputData?.adId
         this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
-        delete this.addAssetForm.value.modelObjectTypeId
+        delete this.addAssetForm.value.objectType
         delete this.addAssetForm.value.cameraId
         delete this.addAssetForm.value.objectCount
         delete this.addAssetForm.value.deviceCam
@@ -376,6 +384,13 @@ export class CreateNewRuleComponent {
 
         this.configSrvc.createRule(this.addAssetForm.value).subscribe((res:any)=> {
           console.log(res)
+          this.newItemEvent.emit();
+          
+              if(res?.statusCode == 200) {
+                this.alertSer.success(res?.message)
+              } else {
+                this.alertSer.error(res?.message)
+              }
         }
       )
     } else {
@@ -389,7 +404,10 @@ export class CreateNewRuleComponent {
         let finalDays = days.map((task: any) => task.name);
         this.addAssetForm.value.workingDays = finalDays.join(',')
 
+        this.addAssetForm.value.fromDate = formatDate(this.addAssetForm.value.fromDate , 'yyyy-MM-dd', 'en-us')
+        this.addAssetForm.value.toDate = formatDate( this.addAssetForm.value.toDate, 'yyyy-MM-dd', 'en-us')
         this.addAssetForm.value.createdBy = 1545
+          this.addAssetForm.value.siteId = this.site.siteId
         this.addAssetForm.value.adId = this.inputData?.adId
         this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
         delete this.addAssetForm.value.deviceCam
@@ -401,6 +419,13 @@ export class CreateNewRuleComponent {
 
         this.configSrvc.createRule(this.addAssetForm.value).subscribe((res:any)=> {
           console.log(res)
+
+          this.newItemEvent.emit();
+              if(res?.statusCode == 200) {
+                this.alertSer.success(res?.message)
+              } else {
+                this.alertSer.error(res?.message)
+              }
         })
 
     }

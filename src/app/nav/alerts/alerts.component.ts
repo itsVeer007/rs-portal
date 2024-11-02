@@ -112,16 +112,16 @@ export class AlertsComponent {
 
 
 
-  sorted = false;
-  sort(label: any) {
-    this.sorted = !this.sorted;
-    var x = this.newIncidentListData;
-    if (this.sorted == false) {
-      x.sort((a: string, b: string) => a[label] > b[label] ? 1 : a[label] < b[label] ? -1 : 0);
-    } else {
-      x.sort((a: string, b: string) => b[label] > a[label] ? 1 : b[label] < a[label] ? -1 : 0);
+    sorted = false;
+    sort(label: any) {
+      this.sorted = !this.sorted;
+      var x = this.newIncidentListData;
+      if (this.sorted == false) {
+        x.sort((a: string, b: string) => a[label] > b[label] ? 1 : a[label] < b[label] ? -1 : 0);
+      } else {
+        x.sort((a: string, b: string) => b[label] > a[label] ? 1 : b[label] < a[label] ? -1 : 0);
+      }
     }
-  }
 
 
 }

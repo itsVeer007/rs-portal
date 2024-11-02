@@ -43,7 +43,15 @@ export class AdvertisementsComponent {
   ) { }
 
   
+  genericAds:any = []
   ngOnInit(): void {  
+
+    // this.configSrvc.dataFromSubheader.subscribe({
+    //   next:(res:any) => {
+    //     console.log(res)
+    //     this.genericAds = res.genericAds
+    //   }
+    // })
   }
 
   currentSite:any
@@ -70,21 +78,50 @@ export class AdvertisementsComponent {
   devicesData:any = [];
   listAdsInfoNewData:any = [];
   listAdsInfoData:any = [];
-  listAdsInfo(siteId: any) {
+  // listAdsInfo(siteId: any) {
+  //   this.configSrvc.listAdsInfo(siteId).subscribe({
+  //     next: (res: any) => {
+  
+  //       // Extracting ads from devices
+  //       this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
+  //       const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads)
+  //       // .map((ad: any) => ({ ...ad, type: 'deviceAd' }));
+  //       // .map((ad: any) => ({ ...ad, type: 'siteAd' }));
+  //       // Extracting siteAds
+  //       const siteAds = res.sites.flatMap((item: any) => item.siteAds)
+        
+  //       // Merging both devicesAds and siteAds
+  //       this.listAdsInfoNewData = [...devicesAds, ...siteAds];
+  //     }
+  //   });
+  // }
+
+  newlistAdsInfoData:any = [];
+    listAdsInfo(siteId: any) {
     this.configSrvc.listAdsInfo(siteId).subscribe({
       next: (res: any) => {
-  
-        // Extracting ads from devices
-        this.listAdsInfoData = res.sites.flatMap((item: any) => item.devices);
-        const devicesAds = this.listAdsInfoData.flatMap((item: any) => item.ads).map((ad: any) => ({ ...ad, type: 'deviceAd' }));
-        
-        // Extracting siteAds
-        const siteAds = res.sites.flatMap((item: any) => item.siteAds).map((ad: any) => ({ ...ad, type: 'siteAd' }));
-        
-        // Merging both devicesAds and siteAds
-        this.listAdsInfoNewData = [...devicesAds, ...siteAds];
+        this.listAdsInfoData = res.sites.flatMap((item: any) => item.Ads);
+        this.newlistAdsInfoData = this.listAdsInfoData;
+
+        this.configSrvc.filter_sub.subscribe({
+          next: (res: any) => {
+            this.configSrvc.listAdsInfo(res).subscribe({
+              next:(res:any) => {
+                this.newlistAdsInfoData = res.sites.flatMap((item:any)=> item.Ads)
+              }
+            })
+          }
+        })
       }
     });
+  }
+
+  openContent: boolean = false;
+  addIndex!: number;
+  open(index: number) {
+    console.log(index)
+    this.addIndex = index;
+    this.openContent = true;
   }
 
   showForm:boolean = false;
@@ -104,7 +141,8 @@ export class AdvertisementsComponent {
     this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: item.adId}).subscribe({
       next:(res: any) => {
         console.log(res);
-        this.addRuleData = res
+        this.addRuleData = res.sites.flatMap((item:any)=> item.Devices)
+        this.configSrvc.devices.next(this.addRuleData)
       }
     })
     this.viewLinkForm = true;

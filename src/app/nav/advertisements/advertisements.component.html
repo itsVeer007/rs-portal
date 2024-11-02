@@ -1,28 +1,34 @@
 
 <!-- <app-sub-header></app-sub-header> -->
-
+<hr class="m-0"/>
 <div class="Main-container">
     <div  class="grid-container">
-        <div class="add-new-button">
-            <a (click)="openAddForm()">
+        <div class="add-new-button pointer" (click)="openAddForm()">
+            <a>
                 <img src="assets/icons/plus (1).svg" alt="" class="mb-4">
-                <p class="add-button">Add New</p>
+                <p>CREATE ADVERTISEMENT</p>
             </a>
         </div>
 
-        @for (item of listAdsInfoNewData; track $index) {  
-            <div class="grid-item" [ngClass]="{'device-ad': item.type === 'deviceAd', 'site-ad': item.type === 'siteAd'}"  (click)="openLinkForm(item)" >
-                <!-- <div class="d-flex justify-content-between align-items-center">
-                    <img src="assets/icons/bavarchi.svg" alt="">
-                    <img src="assets/icons/bx-dots-vertical-rounded.svg" alt="">
-                </div> -->
-                <div style="color: antiquewhite; text-align: center;">
-                    <img [src]="item.snapUrl" alt="" width="20px">
-                    <!-- <img src="assets/icons/bulb.svg" alt="" width="24px" class="mt-2 mb-2"> -->
-                    <p class="name-ads mt-2" style="font-size: 24px;">{{item.adName}}</p>
-                    <p class="name-ads mb-1">{{item.category}}</p>
-                    <p class="name-ads">{{item.duration + 'seconds'}}</p>
+        @for (item of newlistAdsInfoData; track $index) {
+            <div class="grid-item" (click)="openLinkForm(item)" (mouseover)="open($index)">
+                <div>
+                    <img [src]="item.snapShotUrl" alt="" width="100%">
                 </div>
+
+               @if(addIndex === $index) {
+                <div class="image-container">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- <img src="assets/icons/play_circle_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt=""> -->
+                    <p >{{item.adName}}</p>
+                    <p class="text-trunc">{{item.category}}</p>
+                    </div>
+                    <div class="duration-time">
+                         <p>{{item.duration + 's'}}</p>
+                    </div>
+                   
+                </div>
+               }
             </div>
         }
     </div>

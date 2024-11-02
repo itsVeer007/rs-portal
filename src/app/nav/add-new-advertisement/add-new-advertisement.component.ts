@@ -28,24 +28,24 @@ import { HttpErrorResponse } from '@angular/common/http';
     ],
   templateUrl: './add-new-advertisement.component.html',
   styleUrl: './add-new-advertisement.component.css',
-  //  animations:[
-  //   trigger("inOutPaneAnimation", [
-  //     transition(":enter", [
-  //       style({ opacity: 0, transform: "translateX(-100%)" }),
-  //       animate(
-  //         "500ms ease-in-out",
-  //         style({ opacity: 1, transform: "translateX(0)" })
-  //       )
-  //     ]),
-  //     transition(":leave", [
-  //       style({ opacity: 1, transform: "translateX(0)" }),
-  //       animate(
-  //         "500ms ease-in-out",
-  //         style({ opacity: 0, transform: "translateX(100%)" })
-  //       )
-  //     ])
-  //   ])
-  // ]
+   animations:[
+    trigger("inOutPaneAnimation", [
+      transition(":enter", [
+        style({ opacity: 0, transform: "translateX(100%)" }),
+        animate(
+          "500ms ease-in-out",
+          style({ opacity: 1, transform: "translateX(0)" })
+        )
+      ]),
+      transition(":leave", [
+        style({ opacity: 1, transform: "translateX(0)" }),
+        animate(
+          "500ms ease-in-out",
+          style({ opacity: 0, transform: "translateX(100%)" })
+        )
+      ])
+    ])
+  ]
 })
 export class AddNewAdvertisementComponent {
   constructor(
@@ -104,6 +104,9 @@ export class AddNewAdvertisementComponent {
         this.selectedFile = null;
         return; // Stop further execution
       }
+
+      const fileNameWithoutExtension = file.name.substring(0, file.name.lastIndexOf('.'));
+    this.addAssetForm.patchValue({ adName: fileNameWithoutExtension });
         // Clear any previous error messages
     this.fileUploadError = null;
   
@@ -120,6 +123,8 @@ export class AddNewAdvertisementComponent {
         // Set the form control to 2 for "Video"
         this.addAssetForm.patchValue({ adType: 2 });
         this.disableOtherOptions = true; // Disable other options
+
+        this.generateThumbnail(file);
       } else {
         // If it's neither audio nor video, reset selection
         this.addAssetForm.patchValue({ adType: null });
@@ -130,11 +135,42 @@ export class AddNewAdvertisementComponent {
       this.selectedFile = file;
     }
   }
+  thumbnailUrl:any
+
+  generateThumbnail(file: File): void {
+    const video = document.createElement('video');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    
+    if (!context) return;
+
+    video.src = URL.createObjectURL(file);
+    video.currentTime = 5; // Capture the frame at 5 seconds (or adjust as needed)
+
+    video.addEventListener('loadeddata', () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      video.addEventListener('seeked', () => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        this.thumbnailUrl = canvas.toDataURL('image/png');
+        URL.revokeObjectURL(video.src); // Release memory
+      });
+
+      video.currentTime = 0.5; // Set to the timestamp for the thumbnail
+    });
+  }
   
   deleteFile() {
     this.isAudio = false
     this.selectedFile = null;
+    this.thumbnailUrl = null;
+    this.addAssetForm.get('adFile')?.reset();
     // this.assetData.file = null;
+    this.addAssetForm.patchValue({ 
+      adFile: null, // Clear the file form control
+      adName: ''    // Clear the advertisement name field
+    });
   }
 
   @Output() newItemEvent = new EventEmitter<any>();
@@ -165,7 +201,6 @@ export class AddNewAdvertisementComponent {
   list_categories() {
     this.configSrvc.list_categories().subscribe({
       next:(res:any) =>{
-        console.log(res)
         this.listCategoriesData = res.rules
       }
 
@@ -179,14 +214,10 @@ export class AddNewAdvertisementComponent {
   ngOnInit(): void {
     let user = this.storageSer.getData('user')
     this.addAssetForm = this.fb.group({
-      // 'adFile': new FormControl('',Validators.required),
-      // 'adName': new FormControl('', Validators.required),
-      // 'category': new FormControl('', Validators.required),
-      // 'adType': new FormControl(1, Validators.required),
-      'generic': new FormControl(''),
-      'siteId': new FormControl('36337'),
-      'createdBy': new FormControl('1545'),
-      // 'description': new FormControl('')
+      generic: new FormControl(''),
+      siteId: new FormControl('36337'),
+      createdBy: new FormControl(1545),
+      // 'description': new FormControl(''),
       description: [{ value: '', disabled: true }],
       adType: [{ value: '', disabled: true }, Validators.required],
       category: [{ value: '', disabled: true }, Validators.required],
@@ -226,18 +257,22 @@ export class AddNewAdvertisementComponent {
 
   // deviceSelection:any = 1;
   submitted:boolean = false
-
+showLoader:boolean = false;
   submit() {
     this.submitted = true;
     if(!this.addAssetForm.valid) return
+    this.showLoader = true;
     this.addAssetForm.createdBy = this.user?.UserId
-   this.configSrvc.createAd(this.addAssetForm.value,this.selectedFile).subscribe({
+   this.configSrvc.createAd(this.addAssetForm.value, this.selectedFile).subscribe({
     next:(res:any) => {
       console.log(res)
+      this.showLoader = false;
+      this.newItemEvent.emit()
       if(res?.statusCode === 200) {
         this.alertSer.success(res?.message)
+      }  else {
+        this.alertSer.error(res?.message)
       }
-      this.newItemEvent.emit()
     },
     error:(err:HttpErrorResponse) => {
       this.alertSer.error(err?.error?.message)

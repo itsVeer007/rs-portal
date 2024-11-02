@@ -1,18 +1,23 @@
 
 .formModal {
-    height: 86vh;
+    /* height: 86vh;
     overflow-y: auto;
     background-color:#272525;
     position: fixed;
     top: 86px;
     right:37px;
     left: 37px;
+    z-index: 99; */
+    height: 95vh;
+    overflow-y: auto;
+
+    position: fixed;
+    top: 75px;
+    /* left: 102px; */
+    right: 0px;
+    width: 100%;
     z-index: 99;
-    /* width: 41%; */
-    /* padding-bottom: 22px; */
-    /* padding: 24px; */
   }
-  
 
 
   .add-form {

@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { StorageService } from '../../../services/storage.service';
+import { CountPipe } from "../../count.pipe";
 
 @Component({
   selector: 'app-sub-header',
@@ -28,8 +30,9 @@ import { Router } from '@angular/router';
     MatAutocompleteModule,
     AsyncPipe,
     MatIconModule,
-    CommonModule
-  ],
+    CommonModule,
+    CountPipe
+],
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.css'
 })
@@ -64,7 +67,8 @@ export class SubHeaderComponent {
   constructor(
     private configSrvc: ConfigService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private storageSer: StorageService,
   ) { }
 
   filterData: boolean = false;
@@ -72,13 +76,23 @@ export class SubHeaderComponent {
     this.filterData = !this.filterData
   }
   ngOnInit() {
+    this.genericAdsInfo()
     this.getSites();
+    this.list_categories()
+
+   
 
     this.changeGrid({
       label: this.gridTypes[2].label,
       noOfItems: this.gridTypes[2].noOfItems,
       path: this.gridTypes[2].path
     });
+
+    this.configSrvc.devices.subscribe({
+      next: (res:any) => {
+        console.log(res);
+      }
+    })
   }
 
   currentUrl: any
@@ -87,15 +101,16 @@ export class SubHeaderComponent {
   }
 
 
-  // genericAdsInfoData: any
-  // genericAdsInfo() {
-  //   this.configSrvc.genericAdsInfo().subscribe({
-  //     next: (res: any) => {
-  //       this.genericAdsInfoData = res;
-  //       this.configSrvc.dataFromSubheader.next(res.GenericAds);
-  //     }
-  //   })
-  // }
+  genericAdsInfoData: any
+  genericAdsInfo() {
+    this.configSrvc.genericAdsInfo().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.genericAdsInfoData = res;
+        this.configSrvc.dataFromSubheader.next(res.genericAds);
+      }
+    })
+  }
 
   ngAfterViewInit() {
     this.configSrvc.numberFromSub.subscribe({
@@ -131,8 +146,9 @@ export class SubHeaderComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
+        console.log(res);
         this.sitesList = res.sites;
-        this.getCamerasForSite(this.sitesList[22]);
+        this.getCamerasForSite(this.sitesList[48]);
       }
     })
   }
@@ -140,8 +156,10 @@ export class SubHeaderComponent {
   camerasList: any = [];
   currentSite: any;
   getCamerasForSite(data: any) {
+    console.log(data)
     this.camerasList = [];
     this.currentSite = data;
+    this.listdevices()
     this.configSrvc.current_site_sub.next(data);
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {
@@ -185,5 +203,66 @@ export class SubHeaderComponent {
     let index: number = this.camerasList.indexOf(this.currentCam);
     this.currentCam = this.camerasList[index + 1]
   }
+
+
+  listCategoriesData:any;
+
+  list_categories() {
+    this.configSrvc.list_categories().subscribe({
+      next:(res:any) =>{
+        console.log(res)
+        this.listCategoriesData = res.rules
+      }
+
+    })
+  }
+  getType(type: any) {
+    return this.storageSer.getType(type)[0].metadata
+  }
+
+
+  devicesData:any = [];
+  listdevices() {
+    this.configSrvc.listDeviceInfo(this.currentSite).subscribe({
+      next:(res:any) => {
+        console.log(res)
+        this.devicesData = res.sites.flatMap((item:any)=> item.Devices)
+      }
+    })
+  }
+
+  newlistAdsInfoData:any = [];
+  listAdsInfoData:any = [];
+  listAdsInfo(siteId: any) {
+    console.log(siteId)
+    this.configSrvc.listAdsInfo(siteId).subscribe({
+      next: (res: any) => {
+        // Extracting ads from devices
+        this.listAdsInfoData = res.sites.flatMap((item: any) => item.Ads);
+        this.newlistAdsInfoData = this.listAdsInfoData
+      }
+    });
+  }
+
+
+  adBody = {
+    siteId: null,
+    deviceId: null,
+    adType: null,
+    category: null,
+  }
+
+  filter() {
+    this.configSrvc.filter_sub.next(this.adBody);
+  }
+
+
+  reset() {
+    this.adBody.deviceId = null;
+    this.adBody.adType = null;
+    this.adBody.category = null
+    this.filter()
+  }
+
 
 }

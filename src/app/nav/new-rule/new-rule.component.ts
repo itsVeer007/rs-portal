@@ -21,7 +21,7 @@ import { CreateNewRuleComponent } from '../create-new-rule/create-new-rule.compo
   animations:[
     trigger("inOutPaneAnimation", [
       transition(":enter", [
-        style({ opacity: 0, transform: "translateX(-100%)" }),
+        style({ opacity: 0, transform: "translateX(100%)" }),
         animate(
           "500ms ease-in-out",
           style({ opacity: 1, transform: "translateX(0)" })
@@ -108,4 +108,7 @@ openCreateRuleForm() {
 closeCreateRuleForm() {
   this.showCreateRuleForm = false;
 }
+
+
+
 }
