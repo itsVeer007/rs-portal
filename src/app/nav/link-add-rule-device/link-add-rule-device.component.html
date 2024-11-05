@@ -99,7 +99,11 @@
           @for (item of newRulesData | search: ruleSearch; track $index) {
           <div class="rules-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <p class="rule-sub-heading">Rule - {{$index+1}}</p>
+              <p class="rule-sub-heading">Rule - {{$index+1}}
+                
+              </p>
+              <p>FromDate-({{item.fromDate}}) </p>
+              <p>ToDate-({{item.toDate}})</p>
               <!-- <p class="rule-sub-heading">Date : 01/09/2024 - 31/12/2024</p> -->
             </div>
             <div class="d-flex justify-content-between align-items-center">
