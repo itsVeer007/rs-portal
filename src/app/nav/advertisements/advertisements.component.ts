@@ -119,7 +119,6 @@ export class AdvertisementsComponent {
   openContent: boolean = false;
   addIndex!: number;
   open(index: number) {
-    console.log(index)
     this.addIndex = index;
     this.openContent = true;
   }

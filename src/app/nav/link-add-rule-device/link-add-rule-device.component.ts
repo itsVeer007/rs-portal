@@ -21,6 +21,7 @@ import { NewRuleComponent } from '../new-rule/new-rule.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { formatDate } from '@angular/common';
 import { AlertService } from '../../../services/alert.service';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -44,7 +45,8 @@ import { AlertService } from '../../../services/alert.service';
     SearchPipe,
     MatButtonToggleModule,
     NewRuleComponent,
-    MatTooltipModule
+    MatTooltipModule,
+    CommonModule
 ],
   templateUrl:'./link-add-rule-device.component.html',
   styleUrl:'./link-add-rule-device.component.css'
@@ -97,7 +99,6 @@ export class LinkAddRuleDeviceComponent {
   modifiedWorkingDays: any;
   ngOnInit() {
     this.listDeviceRules()
-    console.log(this.currentRuleData)
 
   //   this.addAssetForm = this.fb.group({
   //     adId : new FormControl(''),
@@ -128,14 +129,15 @@ export class LinkAddRuleDeviceComponent {
 
   weekdayays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   listDeviceRules() {
-
     this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId}).subscribe({
       next:(res: any) => {
-        console.log(res);
+        // console.log(res);
         this.devicesData = res.sites.flatMap((item:any) => item.Devices);
         this.rulesData = this.devicesData.flatMap((item:any) => item.rules);
-        console.log(this.rulesData)
-        this.newRulesData = this.rulesData
+
+        this.newRulesData = this.rulesData;
+        this.openRuleFormFor(this.currentDevice ? this.currentDevice : this.devicesData[0]);
+
         this.newRulesData.forEach((el: any) => {
           el.workingDays = el.workingDays.split(',').map((el: any) => +el);
         });
@@ -153,7 +155,7 @@ closereateRuleForm() {
 }
 
 
-currentRuleData:any
+  currentRuleData:any
   rulesData:any = [];
   devicesData:any = [];
   // getDevicesAndRulesData() {
@@ -174,7 +176,7 @@ currentRuleData:any
 
   currentItem: any;
   openViewAddForm(data: any) {
-    console.log(data)
+    // console.log(data)
     this.viewAddForm = true;
     this.currentItem = data
 
@@ -186,10 +188,9 @@ currentRuleData:any
   
 showRuleForm:boolean = false;
 
-currentDeviceId: any
+currentDevice: any
 openRuleForm(item:any) {
-  console.log(item)
-  this.currentDeviceId = item
+  this.currentDevice = item
   this.showRuleForm = true;
 }
 
@@ -215,29 +216,45 @@ body:any = {
 
   @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
   openRuleFormForAssociate(item:any)  {
-  this.currentItem = item
-    this.dialog.open(this.addNewRuleForm)
+    this.currentItem = item
+    this.dialog.open(this.addNewRuleForm, {disableClose: true})
   }
 
+
+deviceIndex!: number;
 openRuleFormFor(data:any) {
-  console.log(data)
-  this.newRulesData.filter((item:any)=> {
+  this.currentDevice = data;
+  this.deviceIndex = this.devicesData.indexOf(this.currentDevice);
+
+  this.newRulesData.map((item: any) => {
     if(item.deviceId == data.deviceId) {
-      item.ruleAssociationStatus = 1
+      item.ruleAssociationStatus = 1;
     } else {
-      item.ruleAssociationStatus = 0
+      item.ruleAssociationStatus = 0;
     }
   })
 }
+
+// selectedDeviceId: string | null = null; // Property to track the selected device
+
+// openRuleFormFor(data: any) {
+//   console.log('Selected data:', data);
+//   this.selectedDeviceId = data.deviceId; // Set the selected device ID when the function is called
+// }
+
+// // Function to determine highlight color
+// getHighlightColor(item: any): string {
+//   return item.deviceId === this.selectedDeviceId ? 'lightblue' : 'transparent'; // Change 'lightgreen' to your desired color
+// }
 
 
 
 submit() {
 
-  if (!this.body.ruleId) {
-    this.alertSer.error('Please select a rule before proceeding.');
-    return; // Prevent submission if ruleId is not selected
-  }
+  // if (!this.body.ruleId) {
+  //   this.alertSer.error('Please select a rule before proceeding.');
+  //   return; // Prevent submission if ruleId is not selected
+  // }
   this.body.fromDate = formatDate(this.body.fromDate , 'yyyy-MM-dd', 'en-us')
   this.body.toDate = formatDate( this.body.toDate, 'yyyy-MM-dd', 'en-us')
   this.body.adId = this.currentAdd.adId
@@ -253,7 +270,6 @@ submit() {
   delete obj.ruleAssociationStatus
   this.configSrvc.deviceAdRuleConn(obj).subscribe({
     next: (res:any) => {
-      console.log(res);
       if(res?.statusCode == 200) {
         this.alertSer.success(res?.message)
       } else {
@@ -270,6 +286,13 @@ submit() {
 //   this.dialog.open(this.openViewAdver)
 // }
 
+close() {
+  this.listDeviceRules();
+  this.newRulesData = 
+  this.body.ruleId = null;
+  this.body.fromDate = null;
+  this.body.toDate = null;
+}
 
 
 

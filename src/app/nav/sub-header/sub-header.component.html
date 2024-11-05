@@ -85,13 +85,13 @@
         <div>
             <a class="mx-2" style="text-decoration: none;color: black;">
                 <img src="assets/icons/youtube-video-green.svg" alt="" class="me-2">
-                <span style="font-size: 12px;">{{newlistAdsInfoData | count: 'active' : 1}}</span>
+                <span style="font-size: 12px;">{{newlistAdsInfoData | count: 'active' : 1 || 2 || 4}}</span>
             </a>
         </div>
         <div>
             <a>
                 <img src="assets/icons/youtube-video-grey.svg" alt="" class="me-2">
-                <span style="font-size: 12px;">{{newlistAdsInfoData | count: 'Inctive' : 0}}</span>
+                <span style="font-size: 12px;">{{newlistAdsInfoData | count: 'active' : 3 || 5}}</span>
             </a>
         </div>
         <!-- <div>

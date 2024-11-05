@@ -76,7 +76,7 @@ export class SubHeaderComponent {
     this.filterData = !this.filterData
   }
   ngOnInit() {
-    this.genericAdsInfo()
+    // this.genericAdsInfo()
     this.getSites();
     this.list_categories()
 
@@ -146,9 +146,10 @@ export class SubHeaderComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.sitesList = res.sites;
         this.getCamerasForSite(this.sitesList[48]);
+        this.listAdsInfo(this.sitesList[48]);
       }
     })
   }
@@ -156,7 +157,7 @@ export class SubHeaderComponent {
   camerasList: any = [];
   currentSite: any;
   getCamerasForSite(data: any) {
-    console.log(data)
+    // console.log(data)
     this.camerasList = [];
     this.currentSite = data;
     this.listdevices()
@@ -210,7 +211,7 @@ export class SubHeaderComponent {
   list_categories() {
     this.configSrvc.list_categories().subscribe({
       next:(res:any) =>{
-        console.log(res)
+        // console.log(res)
         this.listCategoriesData = res.rules
       }
 
@@ -225,21 +226,23 @@ export class SubHeaderComponent {
   listdevices() {
     this.configSrvc.listDeviceInfo(this.currentSite).subscribe({
       next:(res:any) => {
-        console.log(res)
+        // console.log(res)
         this.devicesData = res.sites.flatMap((item:any)=> item.Devices)
       }
     })
   }
 
-  newlistAdsInfoData:any = [];
   listAdsInfoData:any = [];
+  newlistAdsInfoData:any = [];
   listAdsInfo(siteId: any) {
-    console.log(siteId)
+    // console.log(siteId)
     this.configSrvc.listAdsInfo(siteId).subscribe({
       next: (res: any) => {
         // Extracting ads from devices
         this.listAdsInfoData = res.sites.flatMap((item: any) => item.Ads);
-        this.newlistAdsInfoData = this.listAdsInfoData
+        this.newlistAdsInfoData = this.listAdsInfoData;
+
+        console.log(this.newlistAdsInfoData)
       }
     });
   }

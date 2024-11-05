@@ -1,5 +1,5 @@
 .formModal {
-    height: 85vh;
+    height: 90vh;
     overflow-y: auto;
     /* background-color:#ddd0d0; */
     background-color: #fffdfd;
@@ -12,6 +12,15 @@
     /* width: 41%; */
     /* padding-bottom: 22px; */
     /* padding: 24px; */
+  }
+
+  .highlight-green {
+    background-color: rgb(148, 206, 148);
+  }
+
+  .highlight-class {
+    background-color: rgb(144, 230, 238); /* or any color you prefer */
+    border: 1px solid rgb(148, 206, 148); /* optional */
   }
 
   
@@ -51,7 +60,7 @@
     padding: 6px;
 }
 .device-main-container {
-    height: 60vh;
+    height: 70vh;
     overflow-y: auto;
 }
 
@@ -69,12 +78,21 @@ opacity: 1;
     /* background: #989FB41A 0% 0% no-repeat padding-box; */
     border: 1px solid #989FB480;
     border-radius: 3px;
-    opacity: 0.5;
     padding: 12px;
     margin: 12px;
     /* width: 550px; */
 
 }
+
+.highlight-red {
+  background-color: rgb(225, 146, 146);
+}
+
+.device-container:hover {
+  background-color: rgb(225, 146, 146);
+    border: 1px solid #989FB480;
+    border-radius: 3px;
+  }
 
 /* .device-heading {
     color: var(--unnamed-color-ffffff);
@@ -99,11 +117,30 @@ font-size: 12px;
     background: #989FB41A 0% 0% no-repeat padding-box;
     border: 1px solid #989FB480;
     border-radius: 3px;
-    opacity: 0.5;
     padding: 8px;
     margin: 12px;
+    width: 50vw;
+    overflow-x: auto;
     /* width: 50vw; */
 }
+
+/* .rules-container:hover {
+background-color: brown;
+  border: 1px solid #989FB480;
+  border-radius: 3px;
+} */
+
+
+.rules-container {
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+/* Hover effect */
+.rules-container:hover {
+  background-color: lightgray; /* Change this to your desired hover color */
+  cursor: pointer; /* Change the cursor to pointer to indicate clickable items */
+}
+
   /* .rules-heading {
     color: var(--unnamed-color-fd6327);
     text-align: left;
@@ -143,8 +180,9 @@ font-size: 12px;
     color: black;
     }
     .rules-side-container {
-        height: 60vh;
+        height: 70vh;
         overflow-y: auto;
+     
     }
 
     .rules-selection {
