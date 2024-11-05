@@ -40,23 +40,24 @@
             }
         </span>
 
-        <span >{{currentSite?.siteName}}</span>
+        <span>{{currentSite?.siteName}}</span>
     </div>
 
     @if (currentUrl === 'live-view') {
-        <div>
-            <div class="side-menu d-flex align-items-center">
-                <div>
-                    <div class="pointer me-2">
-                        @for (item of gridTypes; track $index) {
-                        <a (click)="changeGrid(item)" class="grid-highlight" [style.background]="selectedGrid == item.noOfItems ? 'orange': ''">
-                            <img [src]="item.path" width="18" alt="">
-                        </a>
-                        }
-                    </div>
+    <div>
+        <div class="side-menu d-flex align-items-center">
+            <div>
+                <div class="pointer me-2">
+                    @for (item of gridTypes; track $index) {
+                    <a (click)="changeGrid(item)" class="grid-highlight"
+                        [style.opacity]="selectedGrid == item.noOfItems ? 1: 0.5">
+                        <img [src]="item.path" width="16" alt="">
+                    </a>
+                    }
                 </div>
             </div>
         </div>
+    </div>
     }
     <!-- } -->
 
@@ -128,7 +129,7 @@
                         <mat-label>Ad Type</mat-label>
                         <mat-select [(ngModel)]="adBody.adType">
                             @for(item of getType(104); track $index) {
-                                <mat-option [value]="item.keyId">{{item.value}}</mat-option>
+                            <mat-option [value]="item.keyId">{{item.value}}</mat-option>
                             }
                         </mat-select>
                         <mat-error>Ad Type is required</mat-error>
@@ -139,8 +140,8 @@
                         <mat-label>Category</mat-label>
                         <mat-select [(ngModel)]="adBody.category">
                             @for (item of listCategoriesData; track $index) {
-                                <mat-option [value]="item.Id">{{item.category}}</mat-option>
-                                }
+                            <mat-option [value]="item.Id">{{item.category}}</mat-option>
+                            }
                         </mat-select>
                         <mat-error>Category is required</mat-error>
                     </mat-form-field>
@@ -150,7 +151,7 @@
                         <mat-label>Device</mat-label>
                         <mat-select [(ngModel)]="adBody.deviceId">
                             @for (item of devicesData; track $index) {
-                                <mat-option [value]="item.deviceId">{{item.deviceId}} - {{item.deviceName}}</mat-option>
+                            <mat-option [value]="item.deviceId">{{item.deviceId}} - {{item.deviceName}}</mat-option>
                             }
                             <mat-option></mat-option>
                         </mat-select>
@@ -167,7 +168,7 @@
 
         }
 
-        
+
     </div>
     }
 </div>
@@ -186,7 +187,7 @@
                 </div>
             </mat-menu>
         </div> -->
-        <!-- <div>
+<!-- <div>
             <div class="pointer me-2">
                 @for (item of gridTypes; track $index) {
                     <a (click)="changeGrid(item)" class=" m-3"><img [src]="item.path" width="18" alt=""></a>

@@ -34,21 +34,10 @@
 }
 
 .grid-highlight {
-    /* height: 160px;
-    padding: 3px;
-    width:140px;
-    background-color: #FD6327;
-    border-radius: 8px; */
+    padding: 5px;
     margin: 10px;
 
 }
-
-/* .grid-highlight:hover {
-    height: 140px;
-    width:130px;
-    background-color: #FD6327;
-    border-radius: 8px;
-} */
 
 .grid-container {
     height: calc(100vh - 75px);

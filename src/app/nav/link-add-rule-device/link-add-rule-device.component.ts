@@ -208,25 +208,6 @@ export class LinkAddRuleDeviceComponent {
   }
 
 
-
-  @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
-  openRuleFormForAssociate(item: any) {
-    this.currentItem = item;
-    
-    if (item.ruleAssociationStatus) {
-      this.dialog.open(this.addNewRuleForm, { disableClose: true })
-    } else {
-      this.alertSer.confirmDelete().then((result: any) => {
-        if (result.isConfirmed) {
-          this.deleteRule();
-        } else {
-          this.listDeviceRules()
-        }
-      });;
-    }
-  }
-
-
   deviceIndex!: number;
   openRuleFormFor(data: any) {
     this.currentDevice = data;
@@ -239,6 +220,23 @@ export class LinkAddRuleDeviceComponent {
         item.myRule = false;
       }
     })
+  }
+
+  @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
+  openRuleFormForAssociate(item: any) {
+    this.currentItem = item;
+    
+    if (item.myRule) {
+      this.dialog.open(this.addNewRuleForm, { disableClose: true })
+    } else {
+      this.alertSer.confirmDelete().then((result: any) => {
+        if (result.isConfirmed) {
+          this.deleteRule();
+        } else {
+          this.listDeviceRules();
+        }
+      });;
+    }
   }
 
   // selectedDeviceId: string | null = null; // Property to track the selected device
