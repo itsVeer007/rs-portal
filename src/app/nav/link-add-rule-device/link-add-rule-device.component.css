@@ -85,11 +85,11 @@ opacity: 1;
 }
 
 .highlight-red {
-  background-color: rgb(225, 146, 146);
+  background-color: #e28e6d
 }
 
 .device-container:hover {
-  background-color: rgb(225, 146, 146);
+  background-color: #ec7748;
     border: 1px solid #989FB480;
     border-radius: 3px;
   }

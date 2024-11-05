@@ -295,5 +295,24 @@ close() {
 }
 
 
+deleteBody:any = {
+  adId:null,
+  ruleId:null,
+  deviceId:null,
+  createdBy:1545,
+}
+
+deleteRule() {
+  this.deleteBody.adId = this.currentAdd.adId
+  this.deleteBody.ruleId = this.currentSite.ruleId
+  this.deleteBody.deviceId = this.currentItem.deviceId
+  this.configSrvc.deleteRule(this.deleteBody).subscribe({
+    next: (res:any) => {
+      console.log(res)
+    }
+  })
+}
+
+
 
 }

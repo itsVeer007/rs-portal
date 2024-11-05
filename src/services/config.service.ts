@@ -125,6 +125,12 @@ deviceAdRuleConn(payload:any) {
   return this.http.post(url, payload)
 }
 
+deleteRule(payload:any) {
+  let url = this.baseUrl + '/proximity_ads/deleteRule_1_0';
+  return this.http.delete(url, payload)
+
+}
+
   
 
 
