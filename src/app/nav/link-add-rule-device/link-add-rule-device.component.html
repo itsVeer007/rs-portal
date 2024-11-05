@@ -159,9 +159,9 @@
               <div>
                 <section class="example-section">
                   <mat-slide-toggle class="example-margin"
+                    [(ngModel)]="item.myRule"
                     (change)="openRuleFormForAssociate(item); currentRuleData = item"
-                    [checked]="item.ruleAssociationStatus === 1"
-                    [disabled]="disabled">
+                  >
                   </mat-slide-toggle>
                 </section>
               </div>

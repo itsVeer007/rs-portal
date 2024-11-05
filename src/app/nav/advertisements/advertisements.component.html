@@ -13,7 +13,7 @@
         @for (item of newlistAdsInfoData; track $index) {
             <div class="grid-item" (click)="openLinkForm(item)" (mouseover)="open($index)">
                 <div>
-                    <img [src]="item.snapShotUrl" alt="" width="100%">
+                    <img [src]="item.snapShotUrl" alt="Audio" width="100%">
                 </div>
 
                @if(addIndex === $index) {
