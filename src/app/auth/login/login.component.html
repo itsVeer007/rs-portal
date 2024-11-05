@@ -32,7 +32,12 @@
            </form>
 
             <div class="mt-4">
-                <button class="login-button text-center" (click)="login()">Login</button>
+                <button class="login-button text-center" (click)="login()">
+                    @if (showLoader()) {
+                        <i class="fa fa-spinner fa-spin"></i>
+                    }
+                    Login
+                </button>
             </div>
         </div>
     </div>

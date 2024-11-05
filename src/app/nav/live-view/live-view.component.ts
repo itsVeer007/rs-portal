@@ -11,6 +11,7 @@ import { VideoPlrComponent } from "../../video-plr/video-plr.component";
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SubHeaderComponent } from "../sub-header/sub-header.component";
+import { DummyPlrComponent } from "../../dummy-plr/dummy-plr.component";
 
 @Component({
   selector: 'app-live-view',
@@ -26,7 +27,8 @@ import { SubHeaderComponent } from "../sub-header/sub-header.component";
     SearchPipe,
     VideoPlrComponent,
     CommonModule,
-    SubHeaderComponent
+    SubHeaderComponent,
+    DummyPlrComponent
 ],
   templateUrl: './live-view.component.html',
   styleUrl: './live-view.component.css'

@@ -227,7 +227,7 @@ export class SubHeaderComponent {
     this.configSrvc.listDeviceInfo(this.currentSite).subscribe({
       next:(res:any) => {
         // console.log(res)
-        this.devicesData = res.sites.flatMap((item:any)=> item.Devices)
+        this.devicesData = res.sites?.flatMap((item:any)=> item.Devices)
       }
     })
   }

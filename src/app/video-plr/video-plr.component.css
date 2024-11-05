@@ -4,7 +4,8 @@ video {
 
 .video-player {
     border: 1px solid #666666;
-    height: 50vh
+    height: 50vh;
+    position: relative;
 }
 
 .eye-logo {
