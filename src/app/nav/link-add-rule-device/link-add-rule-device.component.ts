@@ -22,6 +22,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { formatDate } from '@angular/common';
 import { AlertService } from '../../../services/alert.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 
 
@@ -134,8 +135,8 @@ export class LinkAddRuleDeviceComponent {
         // console.log(res);
         this.devicesData = res.sites.flatMap((item:any) => item.Devices);
         this.rulesData = this.devicesData.flatMap((item:any) => item.rules);
-
         this.newRulesData = this.rulesData;
+        
         this.openRuleFormFor(this.currentDevice ? this.currentDevice : this.devicesData[0]);
 
         this.newRulesData.forEach((el: any) => {
@@ -216,8 +217,25 @@ body:any = {
 
   @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
   openRuleFormForAssociate(item:any)  {
-    this.currentItem = item
-    this.dialog.open(this.addNewRuleForm, {disableClose: true})
+    this.currentItem = item;
+    if(item.ruleAssociationStatus === 0) {
+      this.dialog.open(this.addNewRuleForm, {disableClose: true})
+    } else {
+      this.alertSer.confirmDelete().then((result: any) => {
+        console.log(result)
+        if(result.isConfirmed) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Deleted Successfully",
+            icon: "success",
+            showCloseButton: true,
+            timer: 1000
+          });
+        } else {
+          this.listDeviceRules()
+        }
+      });;
+    }
   }
 
 

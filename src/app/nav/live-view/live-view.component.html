@@ -12,7 +12,8 @@
                     <ng-container>
                         <app-video-plr [videoData]="cam?.videoUrl"></app-video-plr>
                     </ng-container>
-                } @else {
+                } 
+                @if(!cam.videoUrl) {
                     <ng-container>
                        <app-dummy-plr></app-dummy-plr>
                     </ng-container>
