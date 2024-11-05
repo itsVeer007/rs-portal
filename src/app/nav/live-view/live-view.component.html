@@ -10,7 +10,11 @@
                 <iframe class="d-none" (load)="getUrl(cam?.httpUrl, cam)"></iframe>
                 @if (cam.videoUrl && selectedGrid !== 1) {
                     <ng-container>
-                        <app-video-plr [videoData]="cam?.videoUrl" [camerasForPage]="4"></app-video-plr>
+                        <app-video-plr [videoData]="cam?.videoUrl"></app-video-plr>
+                    </ng-container>
+                } @else {
+                    <ng-container>
+                       <app-dummy-plr></app-dummy-plr>
                     </ng-container>
                 }
         

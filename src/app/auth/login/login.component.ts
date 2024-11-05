@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageService } from '../../../services/storage.service';
 import { MetadataService } from '../../../services/metadata.service';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private storageSrvc: StorageService,
-    private metaSrvc: MetadataService
+    private metaSrvc: MetadataService,
+    private alertSrvc: AlertService
   ) {}
 
   loginForm:any =  FormGroup
@@ -46,17 +48,24 @@ export class LoginComponent {
     })
   }
 
+
+  showLoader = signal(false);
   login() {
+    this.showLoader.set(true);
     this.auth.login(this.loginForm.value).subscribe({
      next:(res:any) => {
-      console.log(res)
       if(res.Status === 'Success') {
+        this.showLoader.set(false);
         this.saveMetaData();
-        this.storageSrvc.saveData('user', res)
+        this.storageSrvc.saveData('user', res);
         this.router.navigate(['/dashboard']);
       }
      },
-     error: (err: HttpErrorResponse) => {}
+     error: (err: HttpErrorResponse) => {
+      console.log(err)
+      this.showLoader.set(false);
+      this.alertSrvc.error(err.statusText);
+     }
     })
   }
 

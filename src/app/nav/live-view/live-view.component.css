@@ -52,12 +52,12 @@
     overflow-y: auto;
     display: grid;
     /* background-color: #121111; */
-    background-color: black;
+    background-color: #313131;
 }
 
-.grid-item {
+/* .grid-item {
     border: 1px solid rgb(227, 217, 217);
-}
+} */
 
 .grid-high:hover {
     background-color: #FD6327;

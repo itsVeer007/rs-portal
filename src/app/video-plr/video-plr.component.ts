@@ -59,7 +59,7 @@ export class VideoPlrComponent {
         this.peerConnection.ontrack = (evt: RTCTrackEvent) => this.onTrack(evt);
         this.createOffer();
       }).catch((err) => {
-          // this.hitStream = false;
+          this.hitStream = false;
           this.showLoader = false;
           this.onError(err.toString());
         });
@@ -232,6 +232,7 @@ export class VideoPlrComponent {
       this.sessionUrl = new URL(res.headers.get('location'), this.videoData).toString();
       return res.text();
     }).then((sdp) => this.onRemoteAnswer(sdp)).catch((err) => {
+      this.hitStream = false;
       this.showLoader = false;
       this.onError(err.toString());
     });
