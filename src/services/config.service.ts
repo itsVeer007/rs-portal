@@ -35,7 +35,7 @@ export class ConfigService {
   }
 
 
-  baseUrl = 'http://192.168.0.243:8000';
+  baseUrl = 'http://192.168.0.119:8000';
 
 
   // createAd(payload:any) {
@@ -101,6 +101,7 @@ export class ConfigService {
   }
 
   listDeviceInfo(payload?:any) {
+    console.log(payload)
     let url = this.baseUrl + '/proximity_ads/listDeviceInfo_1_0';
     let params = new HttpParams();
     if(payload?.siteId) {
@@ -108,6 +109,24 @@ export class ConfigService {
     }
     if(payload?.deviceId) {
       params = params.set('deviceId', payload?.deviceId)
+    }
+    if(payload?.adId) {
+      params = params.set('adId', payload?.adId)
+    }
+    return this.http.get(url,{params:params})
+  }
+
+  listRulesbyAdId(payload?:any) {
+    let url = this.baseUrl + '/proximity_ads/listRulesByAdId_1_0';
+    let params = new HttpParams();
+    if(payload?.siteId) {
+      params = params.set('siteId', payload?.siteId)
+    }
+    if(payload?.deviceId) {
+      params = params.set('deviceId', payload?.deviceId)
+    }
+    if(payload?.adId) {
+      params = params.set('adId', payload?.adId)
     }
     return this.http.get(url,{params:params})
   }
@@ -123,6 +142,18 @@ deviceAdRuleConn(payload:any) {
   let url = this.baseUrl + '/proximity_ads/createRule_1_0';
   payload.workingDays = payload.workingDays.join(',')
   return this.http.post(url, payload)
+}
+
+deviceRulesActiveInfo(payload?:any) {
+  let url = this.baseUrl + '/proximity_ads/deviceRulesActiveInfo_1_0';
+  let params = new HttpParams();
+  if(payload?.deviceId) {
+    params = params.set('deviceId', payload?.deviceId)
+  }
+  if(payload?.adId) {
+    params = params.set('adId', payload?.adId)
+  }
+  return this.http.get(url, {params:params})
 }
 
 deleteRule(payload: any) {

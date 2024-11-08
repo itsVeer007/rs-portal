@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 import { StorageService } from '../../../services/storage.service';
 import { CountPipe } from "../../count.pipe";
 
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 @Component({
   selector: 'app-sub-header',
   standalone: true,
@@ -31,7 +33,8 @@ import { CountPipe } from "../../count.pipe";
     AsyncPipe,
     MatIconModule,
     CommonModule,
-    CountPipe
+    CountPipe,
+    MatPaginatorModule
 ],
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.css'
@@ -88,11 +91,11 @@ export class SubHeaderComponent {
       path: this.gridTypes[2].path
     });
 
-    this.configSrvc.devices.subscribe({
-      next: (res:any) => {
-        console.log(res);
-      }
-    })
+    // this.configSrvc.devices.subscribe({
+    //   next: (res:any) => {
+    //     console.log(res);
+    //   }
+    // })
   }
 
   currentUrl: any

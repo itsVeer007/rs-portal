@@ -75,8 +75,9 @@
     position: absolute;
     z-index: 999;
     top: 76px;
+    right: 0px;
     padding: 10px;
-    /* width: 20vw; */
+    width: 20vw;
     height: 45vh;
 }
 

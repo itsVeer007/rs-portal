@@ -133,7 +133,9 @@ export class CreateNewRuleComponent {
     // this.deviceIdFromStorage = this.storageSer.get('add_body');
     this.addAssetForm = new FormGroup({
         adId : new FormControl(''),
-        adHours: new FormControl('true'),
+        fromTime: new FormControl('00'),  // default value
+        toTime: new FormControl('23'),  
+        adHours: new FormControl('00-23'),
         workingDays: new FormControl('true'),
         temp: new FormControl(''),
         objectRule: new FormControl(''),
@@ -360,11 +362,11 @@ export class CreateNewRuleComponent {
   
   addNewAsset() {
     if(this.objectRule !== true) {
-      let times = this.adTimes.subtasks.filter((item: any)=> item.completed);
-      console.log(times)
-        let finalTimes = times.map((task: any) => task.name);
-        console.log(finalTimes)
-        this.addAssetForm.value.adHours = finalTimes.join(',')
+      // let times = this.adTimes.subtasks.filter((item: any)=> item.completed);
+      // console.log(times)
+      //   let finalTimes = times.map((task: any) => task.name);
+      //   console.log(finalTimes)
+      //   this.addAssetForm.value.adHours = finalTimes.join(',')
     
         let days = this.adDays.subtasks.filter((item: any)=> item.completed);
         let finalDays = days.map((task: any) => task.name);
@@ -380,6 +382,8 @@ export class CreateNewRuleComponent {
         delete this.addAssetForm.value.cameraId
         delete this.addAssetForm.value.objectCount
         delete this.addAssetForm.value.deviceCam
+        delete this.addAssetForm.value.fromTime
+        delete this.addAssetForm.value.toTime
 
 
         this.configSrvc.createRule(this.addAssetForm.value).subscribe((res:any)=> {
@@ -394,12 +398,13 @@ export class CreateNewRuleComponent {
         }
       )
     } else {
-      let times = this.adTimes.subtasks.filter((item: any)=> item.completed);
-      console.log(times)
-        let finalTimes = times.map((task: any) => task.name);
-        console.log(finalTimes)
-        this.addAssetForm.value.adHours = finalTimes.join(',')
+      // let times = this.adTimes.subtasks.filter((item: any)=> item.completed);
+      // console.log(times)
+      //   let finalTimes = times.map((task: any) => task.name);
+      //   console.log(finalTimes)
+      //   this.addAssetForm.value.adHours = finalTimes.join(',')
     
+      
         let days = this.adDays.subtasks.filter((item: any)=> item.completed);
         let finalDays = days.map((task: any) => task.name);
         this.addAssetForm.value.workingDays = finalDays.join(',')
@@ -411,6 +416,8 @@ export class CreateNewRuleComponent {
         this.addAssetForm.value.adId = this.inputData?.adId
         this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
         delete this.addAssetForm.value.deviceCam
+        delete this.addAssetForm.value.fromTime
+        delete this.addAssetForm.value.toTime
          if(this.deviceCam == 0 ) {
             this.addAssetForm.value.cameraId = this.deviceCam.toString()
           } else {
@@ -470,5 +477,30 @@ export class CreateNewRuleComponent {
 //       }
 //     })
 // }
+
+
+
+timeIntervals: { fromTime: string; toTime: string }[] = [];
+
+
+addTimeInterval() {
+  const fromTime = this.addAssetForm.get('fromTime')?.value;
+  const toTime = this.addAssetForm.get('toTime')?.value;
+
+  if (fromTime && toTime) {
+    // Add new interval to the array
+    this.timeIntervals.push({ fromTime, toTime });
+
+    // Update adHours with comma-separated intervals (without quotes)
+    const adHoursValue = this.timeIntervals
+      .map(interval => `${interval.fromTime}-${interval.toTime}`)
+      .join(', ');
+
+    this.addAssetForm.get('adHours')?.setValue(adHoursValue);
+
+    // Reset the fromTime and toTime inputs
+    this.addAssetForm.patchValue({ fromTime: '', toTime: '' });
+  }
+}
 
 }

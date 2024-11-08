@@ -41,13 +41,13 @@ export class AlertsComponent {
     this.incidentList()
     // console.log(this.storageSrvc.getType(2))
     this.getSites()
-    this.getCamerasForSite()
   }
 
 
   camerasList: any = [];
   currentSite: any;
-  getCamerasForSite(data?: any) {
+  getCamerasForSite(data: any) {
+    console.log(data)
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {
         console.log(res)
@@ -62,6 +62,7 @@ export class AlertsComponent {
       next: (res: any) => {
         console.log(res);
         this.sitesList = res.sites;
+        this.getCamerasForSite(this.sitesList[0])
         // this.sitesList.forEach((item: any) => {
         //   item.isOpen = false;
         // })

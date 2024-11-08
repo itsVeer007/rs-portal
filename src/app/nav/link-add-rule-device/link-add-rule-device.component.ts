@@ -22,7 +22,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { formatDate } from '@angular/common';
 import { AlertService } from '../../../services/alert.service';
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2';
 
 
 
@@ -99,7 +98,8 @@ export class LinkAddRuleDeviceComponent {
 
   modifiedWorkingDays: any;
   ngOnInit() {
-    this.listDeviceRules()
+    this.listDeviceInfo()
+    this.listRulesbyAdId()
 
     //   this.addAssetForm = this.fb.group({
     //     adId : new FormControl(''),
@@ -127,18 +127,41 @@ export class LinkAddRuleDeviceComponent {
   }
 
   newRulesData: any = [];
-  weekdayays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  listDeviceRules() {
-    this.configSrvc.listDeviceRules({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId }).subscribe({
+  weekdayays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  // listDeviceRules() {
+  //   this.configSrvc.listDeviceRules({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId }).subscribe({
+  //     next: (res: any) => {
+  //       this.devicesData = res.sites.flatMap((item: any) => item.Devices);
+  //       this.rulesData = this.devicesData.flatMap((item: any) => item.rules);
+  //       this.newRulesData = this.rulesData;
+
+  //       this.openRuleFormFor(this.devicesData[0]);
+  //       this.newRulesData.forEach((el: any) => {
+  //         el.workingDays = el.workingDays.split(',').map((el: any) => +el);
+  //       });
+  //     }
+  //   })
+  // }
+
+  listDeviceInfo() {
+    this.configSrvc.listDeviceInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId }).subscribe({
       next: (res: any) => {
         this.devicesData = res.sites.flatMap((item: any) => item.Devices);
-        this.rulesData = this.devicesData.flatMap((item: any) => item.rules);
-        this.newRulesData = this.rulesData;
+        // this.openRuleFormFor(this.devicesData[0]);
 
-        this.openRuleFormFor(this.devicesData[0]);
         this.newRulesData.forEach((el: any) => {
           el.workingDays = el.workingDays.split(',').map((el: any) => +el);
         });
+      }
+    })
+  }
+
+  listRulesbyAdId() {
+    this.configSrvc.listRulesbyAdId({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId }).subscribe({
+      next: (res: any) => {
+        console.log(res)
+        this.rulesData = res.rules
+        this.newRulesData = this.rulesData;
       }
     })
   }
@@ -172,7 +195,7 @@ export class LinkAddRuleDeviceComponent {
   viewAddForm: boolean = false;
   currentItem: any;
   openViewAddForm(data: any) {
-    // console.log(data)
+    console.log(data)
     this.viewAddForm = true;
     this.currentItem = data
   }
@@ -206,26 +229,60 @@ export class LinkAddRuleDeviceComponent {
     deviceId: null,
     objectRule: null
   }
-
-
+  
+  
   deviceIndex!: number;
+  newArr: any = [];
   openRuleFormFor(data: any) {
     this.currentDevice = data;
     this.deviceIndex = this.devicesData.indexOf(data);
 
-    this.newRulesData.map((item: any) => {
-      if (item.deviceId == data.deviceId) {
-        item.myRule = true;
-      } else {
-        item.myRule = false;
+    this.configSrvc.deviceRulesActiveInfo({ deviceId: data.deviceId, adId: this.currentAdd.adId }).subscribe({
+      next: (res: any) => {
+        // let arr: any = [];
+        // res.DatesInfo?.forEach((el: any) => {
+        //   if (data.deviceId == el.deviceId) {
+        //     arr.push({ ...data, ...el });
+        //   }
+        // });
+
+        // this.newArr = []
+        // this.newRulesData.forEach((item: any) => {
+        //   arr.forEach((el: any) => {
+        //     if(item.relationShipId.split(',').includes(el.relationShipId)) {
+        //       this.newArr.push({...item, ...el})
+        //     }
+        //   });
+        // })
+
+        this.newArr = []
+        if(res.statusCode === 200) {
+          this.newArr = res.DatesInfo;
+        }
       }
     })
+    // this.newRulesData.map((item: any) => {
+    //   if (item.deviceId == data.deviceId) {
+    //     item.myRule = true;
+    //   } else {
+    //     item.myRule = false;
+    //   }
+    // })
+  }
+
+  getData(data: any) {
+    return this.newArr.forEach((item: any) => {
+      if(data.deviceId.split(',').includes(item.deviceId)) {
+        return item;
+      }
+    });
   }
 
   @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
   openRuleFormForAssociate(item: any) {
-    this.currentItem = item;
-    
+    console.log(item)
+    // this.currentItem = item;
+
     if (item.myRule) {
       this.dialog.open(this.addNewRuleForm, { disableClose: true })
     } else {
@@ -233,7 +290,7 @@ export class LinkAddRuleDeviceComponent {
         if (result.isConfirmed) {
           this.deleteRule();
         } else {
-          this.listDeviceRules();
+          // this.listDeviceRules();
         }
       });;
     }
@@ -276,7 +333,7 @@ export class LinkAddRuleDeviceComponent {
           this.alertSer.error(res?.message)
         }
         this.newItemEvent.emit()
-        this.listDeviceRules()
+        // this.listDeviceRules()
       }
     })
   }
@@ -287,8 +344,8 @@ export class LinkAddRuleDeviceComponent {
   // }
 
   close() {
-    this.listDeviceRules();
-    this.newRulesData =
+    // this.listDeviceRules();
+    // this.newRulesData = [];
       this.body.ruleId = null;
     this.body.fromDate = null;
     this.body.toDate = null;
@@ -302,7 +359,7 @@ export class LinkAddRuleDeviceComponent {
       modifiedBy: 1
     }).subscribe({
       next: (res: any) => {
-        this.listDeviceRules();
+        // this.listDeviceRules();
       }
     })
   }
