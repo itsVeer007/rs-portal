@@ -241,11 +241,8 @@ export class SubHeaderComponent {
     // console.log(siteId)
     this.configSrvc.listAdsInfo(siteId).subscribe({
       next: (res: any) => {
-        // Extracting ads from devices
         this.listAdsInfoData = res.sites.flatMap((item: any) => item.Ads);
         this.newlistAdsInfoData = this.listAdsInfoData;
-
-        console.log(this.newlistAdsInfoData)
       }
     });
   }

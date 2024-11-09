@@ -101,7 +101,6 @@ export class ConfigService {
   }
 
   listDeviceInfo(payload?:any) {
-    console.log(payload)
     let url = this.baseUrl + '/proximity_ads/listDeviceInfo_1_0';
     let params = new HttpParams();
     if(payload?.siteId) {
@@ -116,8 +115,23 @@ export class ConfigService {
     return this.http.get(url,{params:params})
   }
 
-  listRulesbyAdId(payload?:any) {
-    let url = this.baseUrl + '/proximity_ads/listRulesByAdId_1_0';
+  // listRulesbyAdId(payload?:any) {
+  //   let url = this.baseUrl + '/proximity_ads/listRulesByAdId_1_0';
+  //   let params = new HttpParams();
+  //   if(payload?.siteId) {
+  //     params = params.set('siteId', payload?.siteId)
+  //   }
+  //   if(payload?.deviceId) {
+  //     params = params.set('deviceId', payload?.deviceId)
+  //   }
+  //   if(payload?.adId) {
+  //     params = params.set('adId', payload?.adId)
+  //   }
+  //   return this.http.get(url,{params:params})
+  // }
+
+  listRulesInfo(payload:any) {
+    let url = this.baseUrl + '/proximity_ads/listRulesInfo_1_0';
     let params = new HttpParams();
     if(payload?.siteId) {
       params = params.set('siteId', payload?.siteId)

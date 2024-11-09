@@ -46,7 +46,6 @@
           </mat-form-field>
         </div> -->
 
-        <p>Select Time</p>
       <!-- <div class="col-lg-7 mb-2">
         <mat-card class="p-1" style="background-color: #f4f1f1;">
           <div>
@@ -67,7 +66,7 @@
       </div> -->
      
       
-        <div class="col-lg-6 mb-2">
+        <div class="col-lg-12 mb-3">
           <mat-card class="p-2" style="background-color: #f4f1f1;">
             <p>Select Day</p>
             <div>
@@ -88,34 +87,37 @@
             </div>
           </mat-card>
         </div>
-        <div class="col-lg-2">
+
+        <div class="col-lg-5">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>From Time</mat-label>
-            <input matInput type="text" formControlName="fromTime" />
+            <input matInput type="number" formControlName="fromTime" />
           </mat-form-field>
         </div>
         
-        <div class="col-lg-2">
+        <div class="col-lg-5">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>To Time</mat-label>
-            <input matInput type="text" formControlName="toTime" />
+            <input matInput type="number" formControlName="toTime" />
           </mat-form-field>
         </div>
         
         <div class="col-lg-2">
           <button mat-button class="btn btn-secondary" (click)="addTimeInterval()">Add Time</button>
-          <div>
-            @for( interval of timeIntervals; track $index) {
-  
-              <div>
-                <p>{{ interval.fromTime }} - {{ interval.toTime }}</p>
-              </div>
-              <!-- Time - {{ $index + 1 }} :  -->
-            }
-          </div>
         </div>
-        
-        <!-- Display each added time interval immediately as it's added -->
+
+        <div class="col-lg-12 mb-3">
+          <mat-chip-grid #templateChipGrid aria-label="Enter template form keywords">
+            @for (interval of timeIntervals; track $index) {
+              <mat-chip-row >
+                {{ interval.fromTime }} - {{ interval.toTime }}
+              <button matChipRemove aria-label="'remove template form' + keyword">
+                <mat-icon>cancel</mat-icon>
+              </button>
+              </mat-chip-row>
+            }
+            </mat-chip-grid>
+        </div>
 
         <div class="col-lg-6">
           <mat-form-field appearance="outline" class="w-100">

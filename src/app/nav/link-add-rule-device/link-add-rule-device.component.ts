@@ -100,26 +100,6 @@ export class LinkAddRuleDeviceComponent {
   ngOnInit() {
     this.listDeviceInfo()
     this.listRulesbyAdId()
-
-    //   this.addAssetForm = this.fb.group({
-    //     adId : new FormControl(''),
-    //     adHours: new FormControl('true'),
-    //     workingDays: new FormControl('true'),
-    //     temp: new FormControl(''),
-    //     objectRule: new FormControl(''),
-    //     cameraId: new FormControl(''),
-    //     modelObjectTypeId: new FormControl(''),
-    //     objectCount: new FormControl(''),
-    //     createdBy: new FormControl(''),
-
-    //     tempFrom: new FormControl(''),
-    //     tempTo: new FormControl(''),
-
-    //     deviceCam: new FormControl('')
-    // });
-  }
-
-  ngAfterViewInit(): void {
   }
 
   getType(type: any) {
@@ -157,9 +137,8 @@ export class LinkAddRuleDeviceComponent {
   }
 
   listRulesbyAdId() {
-    this.configSrvc.listRulesbyAdId({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId }).subscribe({
+    this.configSrvc.listRulesInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId, deviceId: this.currentDevice?.deviceId }).subscribe({
       next: (res: any) => {
-        console.log(res)
         this.rulesData = res.rules
         this.newRulesData = this.rulesData;
       }
@@ -182,7 +161,6 @@ export class LinkAddRuleDeviceComponent {
   // getDevicesAndRulesData() {
   //   this.devicesData = this.dataFromAds.sites[0].flatMap((item:any) => item.Devices)
   //   console.log(this.devicesData)
-
   //   this.rulesData = this.devicesData.flatMap((item:any) => item.rules)
   // }
 
@@ -190,12 +168,10 @@ export class LinkAddRuleDeviceComponent {
     this.newItemEvent.emit();
   }
 
-  // checked = false;
   disabled = false;
   viewAddForm: boolean = false;
   currentItem: any;
-  openViewAddForm(data: any) {
-    console.log(data)
+  openPlayDialog(data: any) {
     this.viewAddForm = true;
     this.currentItem = data
   }
@@ -205,7 +181,6 @@ export class LinkAddRuleDeviceComponent {
   }
 
   showRuleForm: boolean = false;
-
   currentDevice: any
   openRuleForm(item: any) {
     this.currentDevice = item
@@ -236,30 +211,16 @@ export class LinkAddRuleDeviceComponent {
   openRuleFormFor(data: any) {
     this.currentDevice = data;
     this.deviceIndex = this.devicesData.indexOf(data);
-    this.configSrvc.deviceRulesActiveInfo({ deviceId: data.deviceId, adId: this.currentAdd.adId }).subscribe({
-      next: (res: any) => {
-        // let arr: any = [];
-        // res.DatesInfo?.forEach((el: any) => {
-        //   if (data.deviceId == el.deviceId) {
-        //     arr.push({ ...data, ...el });
-        //   }
-        // });
+    // this.configSrvc.deviceRulesActiveInfo({ deviceId: data.deviceId, adId: this.currentAdd.adId }).subscribe({
+    //   next: (res: any) => {
+    //     this.newArr = []
+    //     if(res.statusCode === 200) {
+    //       this.newArr = res.DatesInfo;
+    //     }
+    //   }
+    // })
 
-        // this.newArr = []
-        // this.newRulesData.forEach((item: any) => {
-        //   arr.forEach((el: any) => {
-        //     if(item.relationShipId.split(',').includes(el.relationShipId)) {
-        //       this.newArr.push({...item, ...el})
-        //     }
-        //   });
-        // })
 
-        this.newArr = []
-        if(res.statusCode === 200) {
-          this.newArr = res.DatesInfo;
-        }
-      }
-    })
     // this.newRulesData.map((item: any) => {
     //   if (item.deviceId == data.deviceId) {
     //     item.myRule = true;
@@ -269,27 +230,29 @@ export class LinkAddRuleDeviceComponent {
     // })
   }
 
-  getData(data: any) {
-    return this.newArr.forEach((item: any) => {
-      if(data.deviceId.split(',').includes(item.deviceId)) {
-        return item;
-      }
-    });
-  }
+  // getData(data: any) {
+  //   return this.newArr.forEach((item: any) => {
+  //     if(data.deviceId.split(',').includes(item.deviceId)) {
+  //       return item;
+  //     }
+  //   });
+  // }
 
   @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
   openRuleFormForAssociate(item: any) {
-    console.log(item)
-    // this.currentItem = item;
-
-    if (item.myRule) {
+    if (item.fromDate) {
       this.dialog.open(this.addNewRuleForm, { disableClose: true })
     } else {
       this.alertSer.confirmDelete().then((result: any) => {
         if (result.isConfirmed) {
           this.deleteRule();
         } else {
-          // this.listDeviceRules();
+          this.configSrvc.listRulesInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId, deviceId: this.currentDevice?.deviceId }).subscribe({
+            next: (res: any) => {
+              this.rulesData = res.rules;
+              this.newRulesData = this.rulesData;
+            }
+          })
         }
       });;
     }
@@ -345,7 +308,14 @@ export class LinkAddRuleDeviceComponent {
   close() {
     // this.listDeviceRules();
     // this.newRulesData = [];
-      this.body.ruleId = null;
+
+    this.configSrvc.listRulesInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId, deviceId: this.currentDevice?.deviceId }).subscribe({
+      next: (res: any) => {
+        this.rulesData = res.rules;
+        this.newRulesData = this.rulesData;
+      }
+    })
+    this.body.ruleId = null;
     this.body.fromDate = null;
     this.body.toDate = null;
   }

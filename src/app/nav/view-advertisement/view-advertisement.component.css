@@ -1,15 +1,9 @@
 .formModal {
-  height: 86vh;
-  overflow-y: auto;
+  width: 100%;
   background-color:#FFFFFF;
   position: fixed;
-  top: 86px;
-  right:37px;
-  left: 37px;
-  z-index: 99;
-  /* width: 41%; */
-  /* padding-bottom: 22px; */
-  /* padding: 24px; */
+  top: 75px;
+  z-index: 999;
 }
 
   .form-heading {

@@ -17,6 +17,9 @@ import { MatCard } from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+
 
 
 
@@ -34,7 +37,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatCard,
     MatCheckboxModule,
     MatRadioModule,
-    MatSlideToggleModule     
+    MatSlideToggleModule,
+    MatChipsModule,
+    MatIconModule
   ],
   templateUrl: './create-new-rule.component.html',
   styleUrl: './create-new-rule.component.css',
@@ -287,13 +292,13 @@ export class CreateNewRuleComponent {
     name: 'All',
     completed: true,
     subtasks: [
-      {first:'Sunday',name: '0', completed: true},
-      {first:'Monday', name: '1', completed: true},
-      {first:'Tuesday', name: '2', completed: true},
-      {first:'Wednesday', name: '3', completed: true},
-      {first:'Thursday', name: '4', completed: true},
-      {first:'Friday', name: '5', completed: true},
-      {first:'Saturday', name: '6', completed: true},
+      {first:'SUN',name: '0', completed: true},
+      {first:'MON', name: '1', completed: true},
+      {first:'TUE', name: '2', completed: true},
+      {first:'WED', name: '3', completed: true},
+      {first:'THU', name: '4', completed: true},
+      {first:'FRI', name: '5', completed: true},
+      {first:'SAT', name: '6', completed: true},
     ],
   };
 

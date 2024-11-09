@@ -1,6 +1,4 @@
 
-<!-- <app-sub-header></app-sub-header> -->
-<hr class="m-0"/>
 <div class="Main-container">
     <div  class="grid-container">
         <div class="add-new-button pointer" (click)="openAddForm()">
@@ -12,11 +10,9 @@
 
         @for (item of newlistAdsInfoData; track $index) {
             <div class="grid-item" (click)="openLinkForm(item)" (mouseover)="open($index)">
-                <div>
-                    <img [src]="item.snapShotUrl" alt="Audio" width="100%">
-                </div>
+                <img [src]="item.snapShotUrl" alt="Audio">
 
-               @if(addIndex === $index) {
+               <!-- @if(addIndex === $index) { -->
                 <div class="image-container">
                     <div class="d-flex justify-content-between align-items-center">
                         <!-- <img src="assets/icons/play_circle_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt=""> -->
@@ -27,7 +23,7 @@
                          <p>{{item.duration + 's'}}</p>
                     </div>
                 </div>
-               }
+               <!-- } -->
             </div>
         }
     </div>

@@ -4,15 +4,13 @@
       <a class="close-main pointer" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt="" width="28px"></a>
       <span class="form-heading" style="color: #989fb4;">View ADVERTISEMENT</span>
     </div>
+
     <div>
-      <div class="d-flex justify-content-end align-items-center mb-2 mt-1">
-        <!-- <img src="assets/icons/bulb.svg" alt="" width="20px"> -->
-        <!-- <button type="button" class="btn btn-success" style="height: 35px;">Active</button> -->
-      </div>
-      <!-- <form [formGroup]="viewAssetForm" autocomplete="off" (ngSubmit)="submit()"> -->
-        <div class="text-center mb-3">
+
+        <div class="text-center">
           <video [src]="adsData.adUrl" height="600px"  controls autoplay ></video>
         </div>
+
         <!-- <div class="grid-container">
           <div class="first-device text-center">
             <a class="pointer" style="text-decoration: none;" (click)="openDeviceForm()">
@@ -98,11 +96,4 @@
   </div>
 
 </div>
-
-
- <!-- @if (showDeviceForm) {
-  <div>
-      <app-add-device (newItemEvent)="closeDeviceForm()"></app-add-device>
-  </div>
-} -->
 

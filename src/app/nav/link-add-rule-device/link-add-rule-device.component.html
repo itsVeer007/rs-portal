@@ -1,20 +1,18 @@
 <div class="row formModal">
   <div class="col-lg-12 add-form">
     <div class=" heading-container d-flex justify-content-between align-items-center ms-4">
-     <div class="d-flex">
-       <div class="mt-2">
-         <button type="button" class="btn btn-outline-secondary"
-           (click)="openViewAddForm(currentAdd)">PLAY</button>
-       </div>
-      <div class="ms-4">
-        <p class="add-name text-danger fw-bold">{{currentAdd.adName}}</p>
-        <p class="bevarege">{{currentAdd.category}}</p>
+      <div class="d-flex">
+        <div class="mt-2">
+          <button type="button" class="btn btn-outline-secondary" (click)="openPlayDialog(currentAdd)">PLAY</button>
+        </div>
+        <div class="ms-4">
+          <p class="add-name text-danger fw-bold">{{currentAdd.adName}}</p>
+          <p class="bevarege">{{currentAdd.category}}</p>
+        </div>
       </div>
-     </div>
       <a class="pointer ms-2" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt=""width="28px"></a>
-        
       <!-- <button class=" btn btn-secondary pointer" (click)="openRuleFormNew()">ADD RULE</button> -->
-  
+
     </div>
     <!-- <p (click)="createRuleForm()" style="color: #989fb4;" >add</p> -->
     <div class="row main-container">
@@ -34,46 +32,44 @@
           </div>
         </div> -->
 
-     
+
         <div class="d-flex justify-content-between align-items-center">
           <p class="total-devices ms-1">TOTAL DEVICES - {{devicesData.length}}</p>
-             <div class="input-group input-group-sm mb-3 w-50">
+          <div class="input-group input-group-sm mb-3 w-50">
             <input type="text" class="form-control" [(ngModel)]="deviceSearch" placeholder="Device Search">
-        </div>
+          </div>
         </div>
 
         <div class="device-main-container">
           @for (item of devicesData | search: deviceSearch; track $index) {
           @if(item.deviceId && item.deviceName) {
           <div class="device-container d-flex justify-content-between align-items-center pointer"
-            [ngClass]="{'highlight-red': deviceIndex === $index}"
-             (click)="openRuleFormFor(item)">
+            [ngClass]="{'highlight-red': deviceIndex === $index}" (click)="openRuleFormFor(item); listRulesbyAdId()">
             <div class="d-flex flex-row">
               <!-- <img [src]="item.img" alt="" width="20px" class="me-2"> -->
               <div>
                 @if(item.associationStatus === 1) {
-                  <small class="text-danger fw-bold">Associated</small>
+                <small class="text-danger fw-bold">Associated</small>
                 }
                 <p class="device-heading">{{item.deviceName}}</p>
                 <p class="device-details">{{item.deviceId}}</p>
               </div>
             </div>
-            <!-- <p class="device-details">{{item.main}}</p> -->
 
+            <!-- <p class="device-details">{{item.main}}</p> -->
             <!-- <div>
                 @if (item.associationStatus === 1) {
                 <button class="btn btn-success pointer" matTooltip="Associated" (click)="openRuleFormFor(item)" >Associated</button>
                 }
-    
                 @if (item.associationStatus === 0) {
                 <button class=" btn btn-secondary pointer" (click)="openRuleForm(item)" matTooltip="Create New Rule">ADD RULE</button>
                 }
                 <button class="btn btn-dark ms-3" (click)="openRuleFormForAssociate(item)" matTooltip="Select Existing Rule">+</button>
             </div> -->
-
             <div>
-           
-              <button class=" btn btn-secondary pointer" (click)="openRuleForm(item)" matTooltip="Add Rule & Associate to Device">Add Rulezss</button>
+
+              <button class=" btn btn-secondary pointer" (click)="openRuleForm(item)"
+                matTooltip="Add Rule & Associate to Device">Add Rule</button>
               <!-- <button class="btn btn-dark ms-3" (click)="openRuleFormForAssociate(item)" matTooltip="Select Existing Rule">+</button> -->
             </div>
           </div>
@@ -84,30 +80,20 @@
 
       <div class="col-lg-7">
         <div class="d-flex justify-content-between align-items-center">
-          <p>Total Associated Rules - </p>
+          <p>Total Associated Rules</p>
           <!-- <button class="btn btn-secondary pointer" (click)="listDeviceRules()">Total Rules</button> -->
-          <!-- <div class="col-6 mt-1">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Search</mat-label>
-                  <input matInput type="text" [(ngModel)]="ruleSearch">
-                </mat-form-field>
-              </div> -->
         </div>
 
         <div class="rules-side-container mt-3">
           @for (item of newRulesData | search: ruleSearch; track $index) {
           <div class="rules-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <p class="rule-sub-heading" style="font-weight: bold;">Rule - {{$index+1}}
-                
-              </p>
-             <div class="d-flex">
-               <p>{{ this.getData(item) | json }} </p>
-               
-              <!-- <p>Duration : </p> -->
-              <!-- <p>{{item.fromDate}} - {{item.toDate}}</p> -->
-              <!-- <p class="rule-sub-heading">Date : 01/09/2024 - 31/12/2024</p> -->
-             </div>
+              <p class="rule-sub-heading" style="font-weight: bold;">Rule - {{$index+1}}</p>
+              <div class="d-flex">
+                <!-- <p>Duration : </p> -->
+                <p>{{item.fromDate}} - {{item.toDate}}</p>
+                <!-- <p class="rule-sub-heading">Date : 01/09/2024 - 31/12/2024</p> -->
+              </div>
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
@@ -138,22 +124,20 @@
                 </div>
 
                 @if(item.objectRule == 2) {
-                  <p>Min</p>
-             
+                <p>Min</p>
                 <div class="me-3">
-                  <!-- <p class="sunday-heading">Object Type</p> -->
                   <div class="day-container">
-                    <p class="sunday-heading">{{item.objectType == 1 ? 'Person' : item.objectType == 2 ? 'Vehicle' : '' }}</p>
+                    <p class="sunday-heading">{{item.objectType == 1 ? 'Person' : item.objectType == 2 ? 'Vehicle' : ''
+                      }}</p>
                   </div>
                 </div>
 
                 <div class="me-3 mt-4">
-                  <!-- <p class="sunday-heading">Object Count</p> -->
                   <div class="day-container">
                     <p class="sunday-heading">{{item.objectCount}}</p>
                   </div>
                 </div>
-              }
+                }
 
                 <!-- <div class="me-3">
                   <p class="sunday-heading ms-1">Camera</p>
@@ -168,10 +152,8 @@
               </div>
               <div>
                 <section class="example-section">
-                  <mat-slide-toggle class="example-margin"
-                    [(ngModel)]="item.myRule"
-                    (change)="openRuleFormForAssociate(item); currentRuleData = item"
-                  >
+                  <mat-slide-toggle class="example-margin" [(ngModel)]="item.fromDate"
+                    (change)="openRuleFormForAssociate(item); currentRuleData = item">
                   </mat-slide-toggle>
                 </section>
               </div>
@@ -183,7 +165,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 
@@ -192,7 +173,6 @@
         <app-add-device (newItemEvent)="closeDeviceForm()"></app-add-device>
     </div>
   }
-  
   
   @if (showRuleForm) {
     <div>
@@ -206,21 +186,12 @@
 </div>
 }
 
-
-
 @if (showRuleForm) {
 <div>
-  <app-create-new-rule [inputData]="currentAdd" [second]="devicesData" [site]="currentSite" [deviceIdFromParent]="currentDevice"
-    (newItemEvent)="closeRuleForm(); listRulesbyAdId();"></app-create-new-rule>
+  <app-create-new-rule [inputData]="currentAdd" [second]="devicesData" [site]="currentSite"
+    [deviceIdFromParent]="currentDevice" (newItemEvent)="closeRuleForm(); listRulesbyAdId();"></app-create-new-rule>
 </div>
 }
-
-<!-- @if(RuleForm) {
-
-<div>
-  <app-new-rule></app-new-rule>
-</div>
-} -->
 
 
 
