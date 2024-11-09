@@ -236,7 +236,6 @@ export class LinkAddRuleDeviceComponent {
   openRuleFormFor(data: any) {
     this.currentDevice = data;
     this.deviceIndex = this.devicesData.indexOf(data);
-
     this.configSrvc.deviceRulesActiveInfo({ deviceId: data.deviceId, adId: this.currentAdd.adId }).subscribe({
       next: (res: any) => {
         // let arr: any = [];
