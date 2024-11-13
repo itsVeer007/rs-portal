@@ -130,7 +130,7 @@ export class ConfigService {
   //   return this.http.get(url,{params:params})
   // }
 
-  listRulesInfo(payload:any) {
+  listRulesInfo(payload: any) {
     let url = this.baseUrl + '/proximity_ads/listRulesInfo_1_0';
     let params = new HttpParams();
     if(payload?.siteId) {
@@ -142,7 +142,7 @@ export class ConfigService {
     if(payload?.adId) {
       params = params.set('adId', payload?.adId)
     }
-    return this.http.get(url,{params:params})
+    return this.http.get(url, {params:params})
   }
 
   createRule(payload:any) {
@@ -153,8 +153,9 @@ export class ConfigService {
   }
 
 deviceAdRuleConn(payload:any) {
+  console.log(payload)
   let url = this.baseUrl + '/proximity_ads/createRule_1_0';
-  payload.workingDays = payload.workingDays.join(',')
+  // payload.workingDays = payload?.workingDays?.join(',')
   return this.http.post(url, payload)
 }
 

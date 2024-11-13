@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { formatDate } from '@angular/common';
 import { AlertService } from '../../../services/alert.service';
 import { CommonModule } from '@angular/common';
+import { RemoveDuplicatesPipe } from "../../../pipes/remove-duplicates.pipe";
 
 
 
@@ -46,8 +47,9 @@ import { CommonModule } from '@angular/common';
     MatButtonToggleModule,
     NewRuleComponent,
     MatTooltipModule,
-    CommonModule
-  ],
+    CommonModule,
+    RemoveDuplicatesPipe
+],
   templateUrl: './link-add-rule-device.component.html',
   styleUrl: './link-add-rule-device.component.css'
 })
@@ -131,7 +133,7 @@ export class LinkAddRuleDeviceComponent {
 
         this.newRulesData.forEach((el: any) => {
           el.workingDays = el.workingDays.split(',').map((el: any) => +el);
-        });
+          });
       }
     })
   }
@@ -276,17 +278,29 @@ export class LinkAddRuleDeviceComponent {
     //   this.alertSer.error('Please select a rule before proceeding.');
     //   return; // Prevent submission if ruleId is not selected
     // }
-    this.body.fromDate = formatDate(this.body.fromDate, 'yyyy-MM-dd', 'en-us')
-    this.body.toDate = formatDate(this.body.toDate, 'yyyy-MM-dd', 'en-us')
-    this.body.adId = this.currentAdd.adId
-    this.body.siteId = this.currentSite.siteId
-    this.body.deviceId = this.currentItem.deviceId
-    this.body.ruleId = this.currentItem.objectRule
-    let obj = { ...this.body, ...this.currentRuleData }
+    let frmDate = formatDate(this.body.fromDate, 'yyyy-MM-dd', 'en-us');
+    this.body.fromDate = frmDate;
+
+    let toDate = formatDate(this.body.toDate, 'yyyy-MM-dd', 'en-us');
+    this.body.toDate = toDate;
+    
+    this.body.adId = this.currentAdd?.adId
+    this.body.siteId = this.currentSite?.siteId
+    this.body.deviceId = this.currentItem?.deviceId
+    this.body.ruleId = this.currentItem?.objectRule;
+
+    let newObj = {
+      deviceId: this.currentDevice.deviceId,
+      adHours: this.currentRuleData.adHours,
+      workingDays: this.currentRuleData.workingDays,
+      objectRule: this.currentRuleData.objectRule,
+    }
+    let obj = { ...this.body, ...newObj}
     delete obj.ruleId
     delete obj.cameraName
     delete obj.cameraUrl
     delete obj.ruleAssociationStatus
+
     this.configSrvc.deviceAdRuleConn(obj).subscribe({
       next: (res: any) => {
         if (res?.statusCode == 200) {

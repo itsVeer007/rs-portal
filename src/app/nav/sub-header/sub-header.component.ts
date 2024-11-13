@@ -241,7 +241,7 @@ export class SubHeaderComponent {
     // console.log(siteId)
     this.configSrvc.listAdsInfo(siteId).subscribe({
       next: (res: any) => {
-        this.listAdsInfoData = res.sites.flatMap((item: any) => item.Ads);
+        this.listAdsInfoData = res.sites.flatMap((item: any) => item.ads);
         this.newlistAdsInfoData = this.listAdsInfoData;
       }
     });

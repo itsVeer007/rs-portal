@@ -100,14 +100,14 @@ export class AdvertisementsComponent {
     listAdsInfo(siteId: any) {
     this.configSrvc.listAdsInfo(siteId).subscribe({
       next: (res: any) => {
-        this.listAdsInfoData = res.sites.flatMap((item: any) => item.Ads);
+        this.listAdsInfoData = res.sites.flatMap((item: any) => item.ads);
         this.newlistAdsInfoData = this.listAdsInfoData;
 
         this.configSrvc.filter_sub.subscribe({
           next: (res: any) => {
             this.configSrvc.listAdsInfo(res).subscribe({
               next:(res:any) => {
-                this.newlistAdsInfoData = res.sites.flatMap((item:any)=> item.Ads)
+                this.newlistAdsInfoData = res.sites.flatMap((item:any)=> item.ads)
               }
             })
           }
@@ -137,7 +137,7 @@ export class AdvertisementsComponent {
   addRuleData:any;
   openLinkForm(item: any) {
     this.currentItem = item;
-    this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: item.adId}).subscribe({
+    this.configSrvc.listDeviceRules({siteId: this.currentSite?.siteId, adId: item?.adId}).subscribe({
       next:(res: any) => {
         console.log(res);
         this.addRuleData = res.sites.flatMap((item:any)=> item.Devices)

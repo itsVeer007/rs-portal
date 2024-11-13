@@ -23,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 
 
+
 @Component({
   selector: 'app-create-new-rule',
   standalone: true,
@@ -39,7 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatRadioModule,
     MatSlideToggleModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './create-new-rule.component.html',
   styleUrl: './create-new-rule.component.css',
@@ -498,7 +499,7 @@ addTimeInterval() {
 
     // Update adHours with comma-separated intervals (without quotes)
     const adHoursValue = this.timeIntervals
-      .map(interval => `${interval.fromTime}-${interval.toTime}`)
+      .map(interval => `${interval.fromTime.toString()}-${interval.toTime.toString()}`)
       .join(', ');
 
     this.addAssetForm.get('adHours')?.setValue(adHoursValue);
@@ -507,5 +508,28 @@ addTimeInterval() {
     this.addAssetForm.patchValue({ fromTime: '', toTime: '' });
   }
 }
+
+// removeReactiveKeyword(keyword: any) {
+//   this.timeIntervals.update((keywords:any) => {
+//     const index = keywords.indexOf(keyword);
+//     if (index < 0) {
+//       return keywords;
+//     }
+
+//     keywords.splice(index, 1);
+//     this.announcer.announce(`removed ${keyword} from reactive form`);
+//     return [...keywords];
+//   });
+// }
+
+chips: string[] = ['Chip 1', 'Chip 2', 'Chip 3']; // Example chip data
+
+removeChip(index: number): void {
+  if (index >= 0) {
+    this.timeIntervals.splice(index, 1); // Removes the chip at the given index
+  }
+}
+
+
 
 }

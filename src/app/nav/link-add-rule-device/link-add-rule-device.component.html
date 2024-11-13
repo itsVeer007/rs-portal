@@ -6,8 +6,8 @@
           <button type="button" class="btn btn-outline-secondary" (click)="openPlayDialog(currentAdd)">PLAY</button>
         </div>
         <div class="ms-4">
-          <p class="add-name text-danger fw-bold">{{currentAdd.adName}}</p>
-          <p class="bevarege">{{currentAdd.category}}</p>
+          <p class="add-name text-danger fw-bold">{{currentAdd?.adName}}</p>
+          <p class="bevarege">{{currentAdd?.category}}</p>
         </div>
       </div>
       <a class="pointer ms-2" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt=""width="28px"></a>
@@ -85,23 +85,24 @@
         </div>
 
         <div class="rules-side-container mt-3">
-          @for (item of newRulesData | search: ruleSearch; track $index) {
+          @for (item of (newRulesData | search: ruleSearch); track $index) {
           <div class="rules-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <p class="rule-sub-heading" style="font-weight: bold;">Rule - {{$index+1}}</p>
-              <div class="d-flex">
-                <!-- <p>Duration : </p> -->
+              <p class="rule-sub-heading" style="font-weight: bold;">Rule - {{$index+1}} {{item.ruleId}}</p>
+            @if (item.fromDate) {
+              <div class="d-flex" style="color: darkgreen; font-weight: bold;">
+                <p>Duration : </p>
                 <p>{{item.fromDate}} - {{item.toDate}}</p>
-                <!-- <p class="rule-sub-heading">Date : 01/09/2024 - 31/12/2024</p> -->
               </div>
+            }
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex">
                 <div class="me-3">
-                  <p class="sunday-heading">Working Days</p>
+                  <p class="sunday-heading">Days</p>
                   <div class="d-flex flex-row justify-content-start">
-                    @for (day of item.workingDays.slice(0,3); track $index) {
+                    @for (day of item.workingDays; track $index) {
                     <div class="day-container m-1">
                       <p class="sunday-heading">{{weekdayays[$index]}}</p>
                     </div>
@@ -124,8 +125,8 @@
                 </div>
 
                 @if(item.objectRule == 2) {
-                <p>Min</p>
-                <div class="me-3">
+                  <p>Min</p>
+                  <div class="me-3">
                   <div class="day-container">
                     <p class="sunday-heading">{{item.objectType == 1 ? 'Person' : item.objectType == 2 ? 'Vehicle' : ''
                       }}</p>
@@ -200,8 +201,8 @@
     <div class=" d-flex flex-row mb-2 mt-1">
       <!-- <img [src]="currentAdd.snapUrl" alt="" width="20px"> -->
       <div class="ms-3">
-        <p class="add-name" style="color: rgb(112, 84, 84);">{{currentAdd.adName}}</p>
-        <p class="bevarege" style="color: rgb(141, 108, 108);">{{currentAdd.category}}</p>
+        <p class="add-name" style="color: rgb(112, 84, 84);">{{currentAdd?.adName}}</p>
+        <p class="bevarege" style="color: rgb(141, 108, 108);">{{currentAdd?.category}}</p>
       </div>
     </div>
     <!-- 

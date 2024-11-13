@@ -102,21 +102,21 @@
           </mat-form-field>
         </div>
         
-        <div class="col-lg-2">
-          <button mat-button class="btn btn-secondary" (click)="addTimeInterval()">Add Time</button>
+        <div class="col-lg-2 mt-2">
+          <button mat-button class="btn btn-secondary" (click)="addTimeInterval()">Add</button>
         </div>
 
         <div class="col-lg-12 mb-3">
-          <mat-chip-grid #templateChipGrid aria-label="Enter template form keywords">
+          <!-- <mat-chip-grid #templateChipGrid aria-label="Enter template form keywords"> -->
             @for (interval of timeIntervals; track $index) {
-              <mat-chip-row >
+              <mat-chip-row (removed)="removeChip($index)">
                 {{ interval.fromTime }} - {{ interval.toTime }}
               <button matChipRemove aria-label="'remove template form' + keyword">
                 <mat-icon>cancel</mat-icon>
               </button>
               </mat-chip-row>
             }
-            </mat-chip-grid>
+            <!-- </mat-chip-grid> -->
         </div>
 
         <div class="col-lg-6">
