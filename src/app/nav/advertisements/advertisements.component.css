@@ -7,7 +7,7 @@
 
 .grid-container {   
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 5px;
     /* padding: 16px 35px 16px 35px; */
 }
@@ -15,7 +15,7 @@
 .grid-item {
     position: relative;
     cursor: pointer;
-    height: 150px;
+    height: 180px;
     text-wrap: wrap;
     border-radius: 5px;
 }

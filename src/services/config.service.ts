@@ -19,6 +19,8 @@ export class ConfigService {
   public numberFromSub: BehaviorSubject<any> = new BehaviorSubject(null);
   public current_site_sub: BehaviorSubject<any> = new BehaviorSubject(null);
 
+  public site_add_sub: BehaviorSubject<any> = new BehaviorSubject({});
+
   public devices: BehaviorSubject<any> = new BehaviorSubject(null);
   public filter_sub: BehaviorSubject<any> = new BehaviorSubject({});
 
@@ -45,7 +47,6 @@ export class ConfigService {
   // }
 
   createAd(payload: any, file: any) {
-    console.log(payload);
     let url = this.baseUrl + "/proximity_ads/createAd_1_0";
     let user = this.storageSrvc.getData('user');
 
@@ -96,6 +97,7 @@ export class ConfigService {
   }
 
   listDeviceRules(payload:any) {
+    console.log(payload)
     let url = this.baseUrl + `/proximity_ads/listDeviceRules/${payload.adId}/${payload.siteId}`;
     return this.http.get(url)
   }
@@ -153,7 +155,6 @@ export class ConfigService {
   }
 
 deviceAdRuleConn(payload:any) {
-  console.log(payload)
   let url = this.baseUrl + '/proximity_ads/createRule_1_0';
   // payload.workingDays = payload?.workingDays?.join(',')
   return this.http.post(url, payload)
@@ -189,6 +190,12 @@ deleteRule(payload: any) {
     // }
 
     return this.http.get(url, {params:params})
+  }
+
+  addCam(payload:any) {
+    let url = this.baseUrl + '/proximity_ads/addCamera_1_0';
+    // let params = new HttpParams().set('deviceId', payload?.deviceId).set('cameraId', payload?.cameraId).set('createdBy', 1);
+    return this.http.post(url, payload);
   }
 
 

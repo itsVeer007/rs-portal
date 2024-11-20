@@ -6,33 +6,25 @@
       <span class="form-heading p-3" style="color: #737680; font-size: 18px;">ADD RULE</span>
     </div>
 
-    <!-- <p>{{deviceIdFromParent.deviceId}}</p> -->
+    <div class="d-flex ms-2">
+      <p>{{deviceIdFromParent.deviceId}} &nbsp; - &nbsp;</p>
+      <p>{{deviceIdFromParent.deviceName}}</p>
+    </div>
     <div>
       <form autocomplete="off" [formGroup]="addAssetForm" (ngSubmit)="addNewAsset()">
         <!-- <div class="row" -->
       <div class="row">
 
       
-         <!-- <p><strong>adHours:</strong> <span>{{ addAssetForm.get('adHours')?.value }}</span></p> -->
+        <!-- <p><strong>adHours:</strong> <span>{{ addAssetForm.get('adHours')?.value }}</span></p> -->
         
-       <div class="col-lg-6">
-        <mat-form-field appearance="outline" class="w-100">
+      <!-- <div class="col-lg-8">
+        <mat-form-field appearance="outline" class="w-50">
           <mat-label>deviceId</mat-label>
           <input matInput type="text" formControlName="deviceId" >
         </mat-form-field>
-       </div>
-       <div class="col-lg-6">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Temperature</mat-label>
-          <mat-select formControlName="temp">
-            @for(item of getType(10); track $index) {
-            <mat-option [value]="item.remarks">{{item.remarks}}</mat-option>
-            }
-            <mat-option></mat-option>
-          </mat-select>
-          <mat-error>Temperature from required</mat-error>
-        </mat-form-field>
       </div>
+        -->
         <!-- <div class="col-lg-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>DeviceId</mat-label>
@@ -66,7 +58,7 @@
       </div> -->
      
       
-        <div class="col-lg-12 mb-3">
+        <div class="col-lg-12 mb-3 mt-2">
           <mat-card class="p-2" style="background-color: #f4f1f1;">
             <p>Select Day</p>
             <div>
@@ -87,25 +79,39 @@
             </div>
           </mat-card>
         </div>
+    
 
-        <div class="col-lg-5">
+        <div class="col-lg-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>From Time</mat-label>
-            <input matInput type="number" formControlName="fromTime" />
+            <input matInput type="number" formControlName="fromTime" placeholder="Select from time 00" />
           </mat-form-field>
         </div>
         
-        <div class="col-lg-5">
+        <div class="col-lg-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>To Time</mat-label>
-            <input matInput type="number" formControlName="toTime" />
+            <input matInput type="number" formControlName="toTime" placeholder="Select to time 23" />
           </mat-form-field>
         </div>
         
-        <div class="col-lg-2 mt-2">
-          <button mat-button class="btn btn-secondary" (click)="addTimeInterval()">Add</button>
+        <div class="col-lg-1 mt-2">
+          <p style="background-color: #989fb4; border-radius: 8px; padding: 5px;" (click)="addTimeInterval()">Add</p>
         </div>
-
+      
+        <div class="col-lg-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Temperature</mat-label>
+            <mat-select formControlName="temp">
+              @for(item of getType(10); track $index) {
+              <mat-option [value]="item.remarks">{{item.remarks}}</mat-option>
+              }
+              <mat-option></mat-option>
+            </mat-select>
+            <mat-error>Temperature from required</mat-error>
+          </mat-form-field>
+        </div>
+      
         <div class="col-lg-12 mb-3">
           <!-- <mat-chip-grid #templateChipGrid aria-label="Enter template form keywords"> -->
             @for (interval of timeIntervals; track $index) {
@@ -118,6 +124,7 @@
             }
             <!-- </mat-chip-grid> -->
         </div>
+      
 
         <div class="col-lg-6">
           <mat-form-field appearance="outline" class="w-100">
@@ -135,10 +142,7 @@
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>
-
-     
-      
-      <div class="col-lg-6">
+        <div class="col-lg-6">
         <div class="col-lg-6 col-md-6 d-flex justify-content-start align-items-center">
           <p class="m-0">Object(Person/Vehicle)</p>
           <div class="on-off-toggle ms-4">
@@ -151,31 +155,33 @@
             @if(personshow) {
             <div class="col-lg-10 mb-1">
               <mat-radio-group name="radioOpt3" class="w-100" formControlName="objectType" [(ngModel)]="person">
-                <div class="row">
+                <div class="row mt-4">
                   <div class="col-lg-6">
                     <mat-radio-button class="ms-3" name="time1" [value]="1">Person</mat-radio-button>
                     <mat-radio-button class="ms-3" name="time2" [value]="2">Vehicle</mat-radio-button>
                   </div>
+                  @if(personshow) {
+                    <div class="col-lg-6">
+                      <div>
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Object Count</mat-label>
+                          <input matInput  formControlName="objectCount">
+                          <mat-error>*required</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                   }
                 </div>
               </mat-radio-group>
             </div>
             }
-           @if(personshow) {
-            <div class="col-lg-4">
-              <div>
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Object Count</mat-label>
-                  <input matInput type="number" formControlName="objectCount">
-                </mat-form-field>
-              </div>
-            </div>
-           }
+          
             <!-- <div class="col-lg-12 mt-2">
               <p style="font-size: 14px;"> <span style="font-weight: 500;">Note:</span>&nbsp;For Special Cases, Please Contact
                 <a href="https://www.ivisecurity.com/contact" target="_blank" style="text-decoration: none">support@ivisecurity.com</a>
               </p>
             </div> -->
-            @if(personshow) {
+            <!-- @if(personshow) {
             <div class="row">
               <div class="col-lg-10 mt-2" style="font-size: 10px; font-weight: 700;">
                 <mat-radio-group class="w-50" [(ngModel)]="deviceCam" formControlName="deviceCam">
@@ -191,14 +197,14 @@
                   <mat-select formControlName="cameraId">
                     @for(item of cameralist; track $index) {
                     <mat-option [value]="item.cameraId"><span
-                        style="font-size: 11px;">{{item.cameraId}}-{{item.name}}-{{item.rtspUrl}}</span></mat-option>
+                        style="font-size: 11px;">{{item.cameraId}}-{{item.name}}</span></mat-option>
                     }
                   </mat-select>
                 </mat-form-field>
               </div>
               }
             </div>
-            }
+            } -->
           <div class="text-center my-5">
             <button class="btn btn-secondary">ADD</button>
           </div>
@@ -209,6 +215,47 @@
     </div>
   </div>
 </div>
+
+<ng-template #viewCameraSelection>
+  <div style="background-color: #989fb4;" class="p-2">
+    <p>Select Camera</p>
+  </div>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-lg-12 mt-2" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group class="w-100" [(ngModel)]="deviceCam">
+          <mat-label>Camera Type</mat-label>
+         <div class="row">
+          <div class="col-lg-5">
+            <mat-radio-button class="ms-3" name="camera" [value]="0">Device camera</mat-radio-button>
+           </div>
+           <div  class="col-lg-5" >
+            <mat-radio-button class="ms-3" name="camera" [value]="1">Existing camera list</mat-radio-button>
+           </div>
+         </div>
+        </mat-radio-group>
+      </div>
+      @if(deviceCam == 1) {
+      <div class="col-lg-8 mt-2 ms-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Camera Details</mat-label>
+          <mat-select [(ngModel)]="cameraId">
+            @for(item of cameralist; track $index) {
+            <mat-option [value]="item.cameraId"><span
+                style="font-size: 11px;">{{item.cameraId}}-{{item.name}}</span></mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      }
+
+      <div class="text-end mt-3">
+        <button class="btn btn-secondary mx-2"  mat-dialog-close>Cancel</button>
+        <button class="btn btn-secondary" (click)="submitFor()" mat-dialog-close>Submit</button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-template>
 
 
 

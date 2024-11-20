@@ -105,6 +105,7 @@ export class AdvertisementsComponent {
 
         this.configSrvc.filter_sub.subscribe({
           next: (res: any) => {
+            console.log(res)
             this.configSrvc.listAdsInfo(res).subscribe({
               next:(res:any) => {
                 this.newlistAdsInfoData = res.sites.flatMap((item:any)=> item.ads)

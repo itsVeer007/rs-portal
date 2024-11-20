@@ -144,7 +144,7 @@ p {
   text-transform: lowercase;
   font-size: 12px;
   font-weight: bold;
-  content: 'yes' ;
+  content: 'No' ;
   color: #D34124;
   padding-left: 26px;
   transition: all 0.4s;
@@ -174,7 +174,7 @@ p {
 }
 
 .on-off-toggle__input:checked + :after {
-  content: 'No';
+  content: 'Yes';
   color: #00573c;
   padding-left: 8px;
 }

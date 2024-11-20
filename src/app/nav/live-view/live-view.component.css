@@ -52,7 +52,8 @@
     overflow-y: auto;
     display: grid;
     /* background-color: #121111; */
-    background-color: #313131;
+    /* background-color: #313131; */
+    background-color: #000;
 }
 
 /* .grid-item {

@@ -23,6 +23,7 @@ import { formatDate } from '@angular/common';
 import { AlertService } from '../../../services/alert.service';
 import { CommonModule } from '@angular/common';
 import { RemoveDuplicatesPipe } from "../../../pipes/remove-duplicates.pipe";
+import { RulesPipe } from "../../../pipes/rules.pipe";
 
 
 
@@ -48,7 +49,8 @@ import { RemoveDuplicatesPipe } from "../../../pipes/remove-duplicates.pipe";
     NewRuleComponent,
     MatTooltipModule,
     CommonModule,
-    RemoveDuplicatesPipe
+    RemoveDuplicatesPipe,
+    RulesPipe
 ],
   templateUrl: './link-add-rule-device.component.html',
   styleUrl: './link-add-rule-device.component.css'
@@ -88,20 +90,24 @@ export class LinkAddRuleDeviceComponent {
 
 
   personshow: boolean = false;
-  deviceCam: any = 0;
 
+// ngOnChanges() {
+//   console.log(this.currentAdd)
+// }
 
-
-  objectRule: any
-  person: any = 1;
-
-
-
-
+  cameralist:any =[]
   modifiedWorkingDays: any;
   ngOnInit() {
-    this.listDeviceInfo()
-    this.listRulesbyAdId()
+    console.log(this.currentAdd)
+    this.listDeviceInfo();
+    this.listRulesbyAdId();
+
+    this.configSrvc.site_add_sub.next({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId })
+    this.configSrvc.dataFromSubheader.subscribe({
+      next: (res:any) => {
+        this.cameralist = res
+      }
+    })
   }
 
   getType(type: any) {
@@ -130,19 +136,24 @@ export class LinkAddRuleDeviceComponent {
       next: (res: any) => {
         this.devicesData = res.sites.flatMap((item: any) => item.Devices);
         // this.openRuleFormFor(this.devicesData[0]);
-
-        this.newRulesData.forEach((el: any) => {
-          el.workingDays = el.workingDays.split(',').map((el: any) => +el);
-          });
       }
     })
   }
 
   listRulesbyAdId() {
-    this.configSrvc.listRulesInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId, deviceId: this.currentDevice?.deviceId }).subscribe({
+    this.configSrvc.listRulesInfo({
+      siteId: this.currentSite?.siteId,
+      adId: this.currentAdd?.adId,
+      deviceId: this.currentDevice?.deviceId,
+    }).subscribe({
       next: (res: any) => {
-        this.rulesData = res.rules
+        this.rulesData = res.rules.sort((a: any, b: any) => a.fromDate ? -1 : 1)
         this.newRulesData = this.rulesData;
+
+        this.newRulesData.forEach((el: any) => {
+          let x = el.workingDays.split(',').map((val: any) => +val);
+          el.workingDays = x
+          });
       }
     })
   }
@@ -185,6 +196,7 @@ export class LinkAddRuleDeviceComponent {
   showRuleForm: boolean = false;
   currentDevice: any
   openRuleForm(item: any) {
+    console.log(item)
     this.currentDevice = item
     this.showRuleForm = true;
   }
@@ -194,6 +206,10 @@ export class LinkAddRuleDeviceComponent {
   }
   closeRuleForm() {
     this.showRuleForm = false;
+    setTimeout(() => {
+      this.listDeviceInfo();
+      this.listRulesbyAdId();
+    }, 10000)
   }
 
   body: any = {
@@ -213,6 +229,8 @@ export class LinkAddRuleDeviceComponent {
   openRuleFormFor(data: any) {
     this.currentDevice = data;
     this.deviceIndex = this.devicesData.indexOf(data);
+
+
     // this.configSrvc.deviceRulesActiveInfo({ deviceId: data.deviceId, adId: this.currentAdd.adId }).subscribe({
     //   next: (res: any) => {
     //     this.newArr = []
@@ -232,16 +250,9 @@ export class LinkAddRuleDeviceComponent {
     // })
   }
 
-  // getData(data: any) {
-  //   return this.newArr.forEach((item: any) => {
-  //     if(data.deviceId.split(',').includes(item.deviceId)) {
-  //       return item;
-  //     }
-  //   });
-  // }
-
   @ViewChild('addNewRuleForm') addNewRuleForm = {} as TemplateRef<any>
   openRuleFormForAssociate(item: any) {
+    console.log(item)
     if (item.fromDate) {
       this.dialog.open(this.addNewRuleForm, { disableClose: true })
     } else {
@@ -258,6 +269,21 @@ export class LinkAddRuleDeviceComponent {
         }
       });;
     }
+  }
+
+  openCameraDetails(item:any) {
+    this.alertSer.ruleMethod(item)
+
+    // if(res?.statusCode == 200) {
+    //   // this.alertSer.success(res?.message)
+    //   this.alertSer.confirmDelete().then((result:any) => {
+    //     if(result.isConfirmed) {
+    //       this.alertSer.ruleMethod({deviceId: this.deviceIdFromParent.deviceId})
+    //     }
+    //   })
+    // } else {
+    //   this.alertSer.error(res?.message)
+    // }
   }
 
   // selectedDeviceId: string | null = null; // Property to track the selected device
@@ -289,11 +315,17 @@ export class LinkAddRuleDeviceComponent {
     this.body.deviceId = this.currentItem?.deviceId
     this.body.ruleId = this.currentItem?.objectRule;
 
+
     let newObj = {
       deviceId: this.currentDevice.deviceId,
       adHours: this.currentRuleData.adHours,
-      workingDays: this.currentRuleData.workingDays,
+      workingDays: this.currentRuleData.workingDays.join(','),
       objectRule: this.currentRuleData.objectRule,
+
+      objectType:this.currentRuleData.objectType,
+      objectCount:this.currentRuleData.objectCount,
+
+      temp: this.currentRuleData.temp
     }
     let obj = { ...this.body, ...newObj}
     delete obj.ruleId
@@ -305,19 +337,47 @@ export class LinkAddRuleDeviceComponent {
       next: (res: any) => {
         if (res?.statusCode == 200) {
           this.alertSer.success(res?.message)
+          this.listRulesbyAdId()
         } else {
           this.alertSer.error(res?.message)
         }
-        this.newItemEvent.emit()
+        // this.newItemEvent.emit()
         // this.listDeviceRules()
       }
     })
   }
 
-  // @ViewChild('openViewAdver') openViewAdver = {} as TemplateRef<any>
-  // openAdverForm()  {
-  //   this.dialog.open(this.openViewAdver)
-  // }
+  
+  // person:any = 1;
+  // deviceCam: any = 0;
+
+  deviceCam: any = 0;
+  cameraId:any
+  person: any = 1;
+
+  toggleShowOnOff(event: any): void {
+ 
+      this.deviceCam.get('deviceCam').reset(0);
+      // this.addAssetForm.get('cameraId').reset().setValue(0);
+  }
+
+  @ViewChild('viewCameraSelection') viewCameraSelection = {} as TemplateRef<any>
+  openAdverForm()  {
+    this.deviceCam = 0;
+    this.cameraId = null;
+    this.dialog.open(this.viewCameraSelection)
+  }
+
+  submitFor() {
+    this.configSrvc.addCam({deviceId: this.currentDevice.deviceId, cameraId :this.cameraId ? this.cameraId : "0", createdBy: 1545}).subscribe((res: any) => {
+      // console.log(res);
+      if(res.statusCode == 200) {
+        this.alertSer.success(res.message)
+        this.listDeviceInfo()
+        this.listRulesbyAdId()
+      }
+    })
+  }
 
   close() {
     // this.listDeviceRules();
@@ -335,14 +395,15 @@ export class LinkAddRuleDeviceComponent {
   }
 
   deleteRule() {
-    this.configSrvc.deleteRule({
-      ruleId: this.currentItem.ruleId,
-      deviceId: this.currentItem.deviceId,
-      adId: this.currentAdd.adId,
-      modifiedBy: 1
-    }).subscribe({
-      next: (res: any) => {
-        // this.listDeviceRules();
+    this.configSrvc.deleteRule({ruleId: this.currentRuleData?.ruleId, deviceId: this.currentRuleData?.deviceId, adId: this.currentAdd?.adId, modifiedBy: 1}).subscribe({
+      next:(res:any) => {
+        console.log(res);
+        this.configSrvc.listRulesInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId, deviceId: this.currentDevice?.deviceId }).subscribe({
+          next: (res: any) => {
+            this.rulesData = res.rules;
+            this.newRulesData = this.rulesData;
+          }
+        })
       }
     })
   }

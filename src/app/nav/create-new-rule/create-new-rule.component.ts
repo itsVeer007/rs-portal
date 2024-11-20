@@ -1,6 +1,6 @@
 import { trigger, transition, style, animate } from '@angular/animations';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption, MatSelect, MatSelectModule } from '@angular/material/select';
@@ -19,6 +19,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { NewRuleComponent } from '../new-rule/new-rule.component';
+import { ValidatePipe } from "../../validate.pipe";
 
 
 
@@ -41,7 +44,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatSlideToggleModule,
     MatChipsModule,
     MatIconModule,
-  ],
+    MatDialogModule,
+    NewRuleComponent,
+    ValidatePipe
+],
   templateUrl: './create-new-rule.component.html',
   styleUrl: './create-new-rule.component.css',
   animations:[
@@ -74,19 +80,21 @@ export class CreateNewRuleComponent {
     private metaSer:MetadataService,
     private configSrvc: ConfigService,
     private storageSer: StorageService,
+    private dialog:MatDialog
    
   ) { }
 
-  @Input() inputData:any
-  @Input() second:any
-  @Input() site:any
-  @Input() deviceIdFromParent:any
+  @Input() inputData: any;
+  @Input() second: any;
+  @Input() site: any;
+  @Input() deviceIdFromParent: any;
   
   @Output() newItemEvent = new EventEmitter<any>();
+  @Output() listApiEvent = new EventEmitter<any>();
 
 
   closeForm() {
-    this.newItemEvent.emit()
+    this.newItemEvent.emit();
   }
 
   
@@ -94,11 +102,30 @@ export class CreateNewRuleComponent {
     return this.storageSer.getType(type)[0].metadata;
   }
 
+  ngOnChanges() {
+  console.log(this.deviceIdFromParent)
+}
 
-  addAssetForm:any = FormGroup;
+ // Custom Validator
+ customValidator(control: any) {
+  const value = control.value;
+  return value >= 5 && value < 10 ? null : { invalid: true };
+}
+
+validateInput() {
+  const control = this.numberForm.get('numberInput');
+  const value = control?.value;
+
+  // If value doesn't meet criteria, reset
+  if (value && (value < 5 || value >= 10 || value.toString().length > 1)) {
+    control?.setValue('');
+  }
+}
+
+
+  addAssetForm: any = FormGroup;
   searchText: any;
   currentDate = new Date();
-
   personshow : boolean = false;
 
   toggleShowOnOff(event: any): void {
@@ -119,10 +146,8 @@ export class CreateNewRuleComponent {
 
 
   objectRule:any 
-
   person:any = 1;
   deviceCam: any = 0;
-
   siteId:any
   adFor: any = null;
   enableDemo: boolean = false;
@@ -131,10 +156,10 @@ export class CreateNewRuleComponent {
   user: any;
   finalId:any
   finalName:any
+  objectCount:any
   cameralist:any =[];
   ngOnInit(): void {
-    console.log(this.inputData)
-    console.log(this.deviceIdFromParent)
+    // console.log(this.inputData)
     // this.user = this.storageSer.get('user');
     // this.deviceIdFromStorage = this.storageSer.get('add_body');
     this.addAssetForm = new FormGroup({
@@ -143,11 +168,12 @@ export class CreateNewRuleComponent {
         toTime: new FormControl('23'),  
         adHours: new FormControl('00-23'),
         workingDays: new FormControl('true'),
-        temp: new FormControl(''),
+        temp: new FormControl('All'),
         objectRule: new FormControl(''),
-        cameraId: new FormControl(''),
+        // cameraId: new FormControl(''),
         objectType: new FormControl(''),
-        objectCount: new FormControl(1),
+        // objectCount: ['', [Validators.required, this.customValidator]],
+        objectCount: new FormControl(),
         createdBy: new FormControl(),
         deviceCam: new FormControl(''),
         deviceId: new FormControl(''),
@@ -160,8 +186,12 @@ export class CreateNewRuleComponent {
     this.listAdsInfo(this.siteId)
     this.configSrvc.dataFromSubheader.subscribe({
       next: (res:any) => {
-        console.log(res)
-
+        this.cameralist = res
+      }
+    })
+    this.configSrvc.site_add_sub.next({ siteId: this.site?.siteId, adId: this.inputData?.adId })
+    this.configSrvc.dataFromSubheader.subscribe({
+      next: (res:any) => {
         this.cameralist = res
       }
     })
@@ -169,6 +199,9 @@ export class CreateNewRuleComponent {
     // this.onMetadataChange()
     // this.getCamerasForSiteIdForDevice();
   }
+
+  
+  cameraId:any
 
   devicesData:any = [];
   listAdsInfoNewData:any = [];
@@ -188,6 +221,16 @@ export class CreateNewRuleComponent {
         this.listAdsInfoNewData = [...devicesAds, ...siteAds];
       }
     });
+  }
+
+  submitFor() {
+    this.configSrvc.addCam({deviceId: this.deviceIdFromParent.deviceId, cameraId :this.cameraId ? this.cameraId : "0", createdBy: 1545}).subscribe((res: any) => {
+      console.log(res);
+      if(res.statusCode == 200) {
+        // this.listApiEvent.emit();
+        this.alertSer.success(res.message)
+      }
+    })
   }
 
   
@@ -224,12 +267,12 @@ export class CreateNewRuleComponent {
 
   
 
+  
+
 
   closenow() {
     this.newItemEvent.emit();
   }
-
- 
 
   /* Search for Get Site and Device Id's */
   sit: string = '';
@@ -325,47 +368,6 @@ export class CreateNewRuleComponent {
   }
 
   camera:any = this.addAssetForm?.value
-
-
-
-  // addNewAsset() {
-  //   let times = this.adTimes.subtasks.filter((item: any)=> item.completed);
-  //   let finalTimes = times.map((task: any) => task.name);
-  //   this.addAssetForm.value.adHours = finalTimes.join(',')
-  //   console.log(finalTimes.join(','));
-
-  //   let days = this.adDays.subtasks.filter((item: any)=> item.completed);
-  //   let finalDays = days.map((task: any) => task.name);
-  //   this.addAssetForm.value.workingDays = finalDays.join(',')
-  //   console.log(finalDays.join(','))
-  //   this.addAssetForm.value.createdBy = this.user?.UserId
-    
-  //   if(this.deviceCam == 0 ) {
-  //     this.addAssetForm.value.cameraId = this.deviceCam.toString()
-  //   } else {
-  //     this.addAssetForm.value.cameraId = this.addAssetForm.value.cameraId
-  //   }
-  //   this.addAssetForm.value.adId = this.inputData?.adId,
-  //   this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
-  //   delete this.addAssetForm.value.deviceCam
-
-
-  //   this.adver.createRule(this.addAssetForm.value).subscribe((res:any)=> {
-  //     console.log(res)
-  //     this.newItemEvent.emit();
-  //     if(res?.statusCode == 200) {
-  //       this.alertSer.success(res?.message)
-  //     } else {
-  //       this.alertSer.error(res?.message)
-  //     }
-  //   },(error:any)=> {
-  //     this.alertSer.error(error?.err?.message)
-  //   }
-  // )
-  // }
- 
-
-  
   addNewAsset() {
     if(this.objectRule !== true) {
       // let times = this.adTimes.subtasks.filter((item: any)=> item.completed);
@@ -378,8 +380,7 @@ export class CreateNewRuleComponent {
         let finalDays = days.map((task: any) => task.name);
         this.addAssetForm.value.workingDays = finalDays.join(',')
         this.addAssetForm.value.fromDate = formatDate(this.addAssetForm.value.fromDate , 'yyyy-MM-dd', 'en-us')
-        this.addAssetForm.value.toDate = formatDate( this.addAssetForm.value.toDate, 'yyyy-MM-dd', 'en-us')
-       
+        this.addAssetForm.value.toDate = formatDate(this.addAssetForm.value.toDate, 'yyyy-MM-dd', 'en-us')
         this.addAssetForm.value.createdBy = 1545
         this.addAssetForm.value.siteId = this.site.siteId
         this.addAssetForm.value.adId = this.inputData?.adId
@@ -390,14 +391,15 @@ export class CreateNewRuleComponent {
         delete this.addAssetForm.value.deviceCam
         delete this.addAssetForm.value.fromTime
         delete this.addAssetForm.value.toTime
-
-
-        this.configSrvc.createRule(this.addAssetForm.value).subscribe((res:any)=> {
-          console.log(res)
+        this.configSrvc.createRule(this.addAssetForm.value).subscribe((res:any) => {
           this.newItemEvent.emit();
-          
               if(res?.statusCode == 200) {
                 this.alertSer.success(res?.message)
+                // this.alertSer.confirmDelete().then((result:any) => {
+                //   if(result.isConfirmed) {
+                //     this.alertSer.ruleMethod({deviceId: this.deviceIdFromParent.deviceId})
+                //   }
+                // })
               } else {
                 this.alertSer.error(res?.message)
               }
@@ -409,8 +411,6 @@ export class CreateNewRuleComponent {
       //   let finalTimes = times.map((task: any) => task.name);
       //   console.log(finalTimes)
       //   this.addAssetForm.value.adHours = finalTimes.join(',')
-    
-      
         let days = this.adDays.subtasks.filter((item: any)=> item.completed);
         let finalDays = days.map((task: any) => task.name);
         this.addAssetForm.value.workingDays = finalDays.join(',')
@@ -421,28 +421,45 @@ export class CreateNewRuleComponent {
           this.addAssetForm.value.siteId = this.site.siteId
         this.addAssetForm.value.adId = this.inputData?.adId
         this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
+        this.addAssetForm.value.objectCount = this.addAssetForm.value.objectCount ? this.addAssetForm.value.objectCount : 1;
         delete this.addAssetForm.value.deviceCam
         delete this.addAssetForm.value.fromTime
         delete this.addAssetForm.value.toTime
-         if(this.deviceCam == 0 ) {
-            this.addAssetForm.value.cameraId = this.deviceCam.toString()
+        //  if(this.deviceCam == 0 ) {
+        //     this.addAssetForm.value.cameraId = this.deviceCam.toString()
+        //   } else {
+        //     this.addAssetForm.value.cameraId = this.addAssetForm.value.cameraId
+        //   }
+        this.configSrvc.createRule(this.addAssetForm.value).subscribe((res: any) => {
+          this.newItemEvent.emit();
+          if(this.deviceIdFromParent.cameraId == null) {
+            this.alertSer.confirmDelete().then((res) => {
+              if(res.isConfirmed) {              
+                this.dialog.open(this.viewCameraSelection)
+              }
+            })
           } else {
-            this.addAssetForm.value.cameraId = this.addAssetForm.value.cameraId
+            this.alertSer.success(res.message)
           }
 
-        this.configSrvc.createRule(this.addAssetForm.value).subscribe((res:any)=> {
-          console.log(res)
-
-          this.newItemEvent.emit();
-              if(res?.statusCode == 200) {
-                this.alertSer.success(res?.message)
-              } else {
-                this.alertSer.error(res?.message)
-              }
+          // if(res?.statusCode == 200) {
+          //   // this.alertSer.success(res?.message)
+          //   this.alertSer.confirmDelete().then((result:any) => {
+          //     if(result.isConfirmed) {
+          //       this.alertSer.ruleMethod({deviceId: this.deviceIdFromParent.deviceId})
+          //     }
+          //   })
+          // } else {
+          //   this.alertSer.error(res?.message)
+          // }
         })
 
     }
   }
+
+
+  @ViewChild('viewCameraSelection') viewCameraSelection!: TemplateRef<any>;
+
 
  
 
@@ -494,6 +511,13 @@ addTimeInterval() {
   const toTime = this.addAssetForm.get('toTime')?.value;
 
   if (fromTime && toTime) {
+
+
+    // Check if toTime is greater than fromTime
+    if (fromTime >= toTime) {
+      this.alertSer.error('To Time must be greater than From Time.');
+      return; // Stop execution
+    }
     // Add new interval to the array
     this.timeIntervals.push({ fromTime, toTime });
 
@@ -529,6 +553,30 @@ removeChip(index: number): void {
     this.timeIntervals.splice(index, 1); // Removes the chip at the given index
   }
 }
+
+
+
+numberForm:any
+allowedNumbers = [1, 2, 3, 4, 5];
+  // Custom Validator
+  validateAllowedNumbers(control: AbstractControl) {
+    const value = Number(control.value);
+    if (this.allowedNumbers.includes(value) || control.value === null) {
+      return null; // Valid
+    }
+    return { invalidNumber: true }; // Invalid
+  }
+
+  // Input Restriction Logic
+  restrictToAllowedNumbers(event: Event): void {
+    const input = (event.target as HTMLInputElement);
+    const value = parseInt(input.value, 10);
+
+    if (!this.allowedNumbers.includes(value)) {
+      input.value = ''; // Clear the invalid input
+      this.numberForm.get('personCount')?.setValue(null); // Reset the form control
+    }
+  }
 
 
 

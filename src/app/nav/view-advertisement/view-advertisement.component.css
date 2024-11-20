@@ -1,8 +1,8 @@
 .formModal {
-  width: 100%;
+  width: 98%;
   background-color:#FFFFFF;
   position: fixed;
-  top: 75px;
+  top: 93px;
   z-index: 999;
 }
 
@@ -17,6 +17,7 @@
 
   .add-form {
     background-color: #272525;
+    height: 85vh;
     /* background-color: aliceblue; */
   
     border: 1px solid #635d5d;

@@ -80,6 +80,7 @@ export class AddNewAdvertisementComponent {
     if (file) {
       const fileType = file.type;
       const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      const fileSizeInMB = file.size / (1024 * 1024); // Convert size to MB
   
       const allowedAudioFormats = [
         'audio/mpeg', // MP3
@@ -95,6 +96,15 @@ export class AddNewAdvertisementComponent {
         'video/webm', // WebM
         'video/ogg'  // Ogg Video
       ];
+
+          // Check file size (must be <= 10 MB)
+    if (fileSizeInMB > 10) {
+      this.alertSer.error('Please select a file smaller than or equal to 10 MB.');
+      this.addAssetForm.patchValue({ adFile: null });
+      this.addAssetForm.patchValue({ adType: null });
+      this.selectedFile = null;
+      return; // Stop further execution
+    }
   
       // Prevent .xlsx files from being uploaded
       if (fileExtension === 'xlsx') {

@@ -24,6 +24,13 @@ mat-slider {
   width: 400px;
 }
 
+.button-btt {
+  border-radius: 8px;
+  border: #ec7748;
+  background-color: darkgrey;
+  padding: 6px;
+}
+
 .dialog-content {
   padding: 10px 20px;
   max-width: 100vw;

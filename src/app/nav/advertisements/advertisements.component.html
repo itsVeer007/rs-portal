@@ -11,19 +11,17 @@
         @for (item of newlistAdsInfoData; track $index) {
             <div class="grid-item" (click)="openLinkForm(item)" (mouseover)="open($index)">
                 <img [src]="item?.snapShotUrl" alt="Audio">
-
-               <!-- @if(addIndex === $index) { -->
+            <!-- @if(addIndex === $index) { -->
                 <div class="image-container">
                     <div class="d-flex justify-content-between align-items-center">
-                        <!-- <img src="assets/icons/play_circle_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt=""> -->
                         <p>{{item?.adName}}</p>
                         <p class="text-trunc">{{item?.category}}</p>
                     </div>
                     <div class="duration-time">
-                         <p>{{item?.duration + 's'}}</p>
+                        <p>{{item?.duration + 's'}}</p>
                     </div>
                 </div>
-               <!-- } -->
+            <!-- } -->
             </div>
         }
     </div>
