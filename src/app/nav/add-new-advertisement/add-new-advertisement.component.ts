@@ -96,6 +96,8 @@ export class AddNewAdvertisementComponent {
         'video/webm', // WebM
         'video/ogg'  // Ogg Video
       ];
+      
+      
 
           // Check file size (must be <= 10 MB)
     if (fileSizeInMB > 10) {
@@ -129,6 +131,8 @@ export class AddNewAdvertisementComponent {
         // Set the form control to 1 for "Audio"
         this.addAssetForm.patchValue({ adType: 1 });
         this.disableOtherOptions = false; // Enable all options
+        this.thumbnailUrl = 'http://usstaging.ivisecurity.com:8080/common/downloadFile_1_0?assetName=audioAdsImage.png&requestName=av_assets'; // Set dummy image for audio
+        
       } else if (this.isVideo) {
         // Set the form control to 2 for "Video"
         this.addAssetForm.patchValue({ adType: 2 });

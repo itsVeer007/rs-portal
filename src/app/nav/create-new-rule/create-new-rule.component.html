@@ -66,7 +66,6 @@
                 <mat-checkbox [checked]="selectAllAddDays" (change)="setAll1($event.checked)">
                   {{adTimes.name}}
                 </mat-checkbox>
-        
                 @for(subtask of adDays.subtasks; track $index) {
                 <div>
                   <mat-checkbox [(ngModel)]="subtask.completed" formControlName="workingDays"
@@ -79,8 +78,6 @@
             </div>
           </mat-card>
         </div>
-    
-
         <div class="col-lg-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>From Time</mat-label>
@@ -96,7 +93,7 @@
         </div>
         
         <div class="col-lg-1 mt-2">
-          <p style="background-color: #989fb4; border-radius: 8px; padding: 5px;" (click)="addTimeInterval()">Add</p>
+          <p (click)="addTimeInterval()" class="AddTime">ADD</p>
         </div>
       
         <div class="col-lg-4">
@@ -165,7 +162,7 @@
                       <div>
                         <mat-form-field appearance="outline" class="w-100">
                           <mat-label>Object Count</mat-label>
-                          <input matInput  formControlName="objectCount">
+                          <input matInput  formControlName="objectCount" placeholder="Range Between 1-5">
                           <mat-error>*required</mat-error>
                         </mat-form-field>
                       </div>
@@ -175,7 +172,6 @@
               </mat-radio-group>
             </div>
             }
-          
             <!-- <div class="col-lg-12 mt-2">
               <p style="font-size: 14px;"> <span style="font-weight: 500;">Note:</span>&nbsp;For Special Cases, Please Contact
                 <a href="https://www.ivisecurity.com/contact" target="_blank" style="text-decoration: none">support@ivisecurity.com</a>
@@ -208,7 +204,6 @@
           <div class="text-center my-5">
             <button class="btn btn-secondary">ADD</button>
           </div>
-
         </div>
         <!-- </div> -->
       </form>

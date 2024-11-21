@@ -193,7 +193,7 @@ deleteRule(payload: any) {
   }
 
   addCam(payload:any) {
-    let url = this.baseUrl + '/proximity_ads/addCamera_1_0';
+    let url = this.baseUrl + '/proximity_ads/addCameraForDevice_1_0';
     // let params = new HttpParams().set('deviceId', payload?.deviceId).set('cameraId', payload?.cameraId).set('createdBy', 1);
     return this.http.post(url, payload);
   }

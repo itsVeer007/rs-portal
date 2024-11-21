@@ -149,10 +149,10 @@ export class SubHeaderComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        // console.log(res);
+        console.log(res);
         this.sitesList = res.sites;
-        this.getCamerasForSite(this.sitesList[48]);
-        this.listAdsInfo(this.sitesList[48]);
+        this.getCamerasForSite(this.sitesList[44]);
+        this.listAdsInfo(this.sitesList[44]);
       }
     })
   }
@@ -160,7 +160,7 @@ export class SubHeaderComponent {
   camerasList: any = [];
   currentSite: any;
   getCamerasForSite(data: any) {
-    // console.log(data)
+    console.log(data)
     this.camerasList = [];
     this.currentSite = data;
     this.listdevices()

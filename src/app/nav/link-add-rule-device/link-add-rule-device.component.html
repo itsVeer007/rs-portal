@@ -84,9 +84,9 @@
             </div> -->
             <div>
 
-              <span class="button-btt pointer me-3" (click)="openRuleForm(item)"  >Add Rule</span>
+              <span class="button-btt pointer me-3" (click)="openRuleForm(item)">Add Rule</span>
                 @if(item.cameraId) {
-                  <img src="assets/icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}">
+                  <img src="assets/icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}" (click)="openUpdate()">
                 }
                 @if(!item.cameraId) {
                   <img src="assets\icons\plus (1).svg" alt="" width="25px" class="me-3" matTooltip="Add Camera" (click)="openAdverForm()">
@@ -288,13 +288,53 @@
 
 <ng-template #viewCameraSelection>
   <div style="background-color: #989fb4;" class="p-2">
-    <p>Select Camera</p>
+    <p>Select CameraType</p>
   </div>
   <mat-dialog-content>
     <div class="row">
       <div class="col-lg-12 mt-2" style="font-size: 10px; font-weight: 700;">
         <mat-radio-group class="w-100" [(ngModel)]="deviceCam">
-          <mat-label>Camera Type</mat-label>
+          <!-- <mat-label>Camera Type</mat-label> -->
+         <div class="row">
+          <div class="col-lg-5">
+            <mat-radio-button class="ms-3" name="camera" [value]="0">Device camera</mat-radio-button>
+           </div>
+           <div  class="col-lg-5" >
+            <mat-radio-button class="ms-3" name="camera" [value]="1">Existing camera list</mat-radio-button>
+           </div>
+         </div>
+        </mat-radio-group>
+      </div>
+      @if(deviceCam == 1) {
+      <div class="col-lg-8 mt-2 ms-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Camera Details</mat-label>
+          <mat-select [(ngModel)]="cameraId">
+            @for(item of cameralist; track $index) {
+            <mat-option [value]="item.cameraId"><span
+                style="font-size: 11px;">{{item.cameraId}}-{{item.name}}</span></mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      }
+
+      <div class="text-end mt-3">
+        <button class="btn btn-secondary mx-2" (click)="close()" mat-dialog-close>Cancel</button>
+        <button class="btn btn-secondary" (click)="submitFor()" mat-dialog-close>Submit</button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</ng-template>
+<ng-template #viewCameraSelectionForUpdate>
+  <div style="background-color: #989fb4;" class="p-2">
+    <p>Select CameraType</p>
+  </div>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-lg-12 mt-2" style="font-size: 10px; font-weight: 700;">
+        <mat-radio-group class="w-100" [(ngModel)]="deviceCam">
+          <!-- <mat-label>Camera Type</mat-label> -->
          <div class="row">
           <div class="col-lg-5">
             <mat-radio-button class="ms-3" name="camera" [value]="0">Device camera</mat-radio-button>

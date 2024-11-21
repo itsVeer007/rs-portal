@@ -55,10 +55,48 @@ export class AlertService {
     })
   }
 
+
+  updateCam() {
+    return Swal.fire({
+      // title: "Are you sure?",
+      text: "Do you want to Update Camera?",
+      // icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes"
+    })
+  }
+
   confirmDelete() {
     return Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to Add Camera?",
+      // title: "Are you sure?",
+      text: "To activate this object-based rule, you need to add a camera for the device. Would you like to add a camera?",
+      // icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes"
+    })
+  }
+
+  confirmDel() {
+    return Swal.fire({
+      // title: "Are you sure?",
+      text: "Do you Want to Deactivate This Rule?",
+      // icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes"
+    })
+  }
+
+
+  confirmDe() {
+    return Swal.fire({
+      // title: "Are you sure?",
+      text: "Do you like to add a camera?",
       // icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",

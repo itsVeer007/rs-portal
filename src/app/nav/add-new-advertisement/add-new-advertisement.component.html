@@ -34,6 +34,10 @@
                 @if(thumbnailUrl) {
                   <img  [src]="thumbnailUrl" alt="Video Thumbnail" class="mt-2" width="100%" height="300px">
                 }
+                @if(isAudio && !thumbnailUrl) {
+                  <img [src]="thumbnailUrl" alt="Audio Icon" class="mt-2" width="100%" height="300px">
+                }
+            
               </mat-card>
               
               }
@@ -98,8 +102,7 @@
           <div class="col-12 text-center">
             <button class="buttonload ad-button">
               @if(showLoader) {
-
-                <i class="fa fa-spinner fa-spin " ></i>
+                <i class="fa fa-spinner fa-spin"></i>
               }
               CREATE
             </button>

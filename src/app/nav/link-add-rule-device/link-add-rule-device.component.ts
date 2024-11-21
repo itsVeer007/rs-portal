@@ -87,7 +87,9 @@ export class LinkAddRuleDeviceComponent {
   fontStyle?: string;
 
 
+  updateCamera() {
 
+  }
 
   personshow: boolean = false;
 
@@ -256,7 +258,7 @@ export class LinkAddRuleDeviceComponent {
     if (item.fromDate) {
       this.dialog.open(this.addNewRuleForm, { disableClose: true })
     } else {
-      this.alertSer.confirmDelete().then((result: any) => {
+      this.alertSer.confirmDel().then((result: any) => {
         if (result.isConfirmed) {
           this.deleteRule();
         } else {
@@ -365,7 +367,26 @@ export class LinkAddRuleDeviceComponent {
   openAdverForm()  {
     this.deviceCam = 0;
     this.cameraId = null;
-    this.dialog.open(this.viewCameraSelection)
+    // if(this.cameraId == '') {
+      // this.dialog.open(this.viewCameraSelection)
+    // }
+    this.alertSer.confirmDe().then((res) => {
+      if(res.isConfirmed) {              
+        this.dialog.open(this.viewCameraSelection)
+      }
+    })
+  }
+  
+  @ViewChild('viewCameraSelectionForUpdate') viewCameraSelectionForUpdate = {} as TemplateRef<any>
+  openUpdate()  {
+    this.deviceCam = 0;
+    this.cameraId = null;
+    this.alertSer.updateCam().then((res) => {
+      if(res.isConfirmed) {              
+        this.dialog.open(this.viewCameraSelection)
+      }
+    })
+  //  this.dialog.open(this.viewCameraSelection)
   }
 
   submitFor() {

@@ -18,6 +18,14 @@
     width: 100%;
     z-index: 99;
   }
+  .AddTime {
+    /* border-radius: 6px; */
+    background-color: #989FB4;
+    /* border-style: groove; */
+    height: 30px;
+    width: 60px;
+    padding: 3px;
+  }
 
 
   .add-form {
