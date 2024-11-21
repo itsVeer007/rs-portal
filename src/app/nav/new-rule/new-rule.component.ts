@@ -11,7 +11,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/d
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SearchPipe } from '../../search.pipe';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
@@ -20,6 +19,7 @@ import { RulesPipe } from '../../../pipes/rules.pipe';
 import { ConfigService } from '../../../services/config.service';
 import { StorageService } from '../../../services/storage.service';
 import { AlertService } from '../../../services/alert.service';
+import { SearchPipe } from '../../../pipes/search.pipe';
 
 @Component({
   selector: 'app-new-rule',

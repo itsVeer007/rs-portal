@@ -13,9 +13,9 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../services/storage.service';
-import { CountPipe } from "../../count.pipe";
 
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { CountPipe } from '../../../pipes/count.pipe';
 
 @Component({
   selector: 'app-sub-header',
@@ -152,7 +152,7 @@ export class SubHeaderComponent {
         console.log(res);
         this.sitesList = res.sites;
         this.getCamerasForSite(this.sitesList[44]);
-        this.listAdsInfo(this.sitesList[44]);
+        // this.listAdsInfo(this.sitesList[44]);
       }
     })
   }
@@ -160,10 +160,9 @@ export class SubHeaderComponent {
   camerasList: any = [];
   currentSite: any;
   getCamerasForSite(data: any) {
-    console.log(data)
     this.camerasList = [];
     this.currentSite = data;
-    this.listdevices()
+    // this.listdevices();
     this.configSrvc.current_site_sub.next(data);
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {

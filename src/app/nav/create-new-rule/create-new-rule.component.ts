@@ -21,7 +21,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NewRuleComponent } from '../new-rule/new-rule.component';
-import { ValidatePipe } from "../../validate.pipe";
+import { ValidatePipe } from '../../../pipes/validate.pipe';
 
 
 

@@ -24,6 +24,7 @@ import { AlertService } from '../../../services/alert.service';
 import { CommonModule } from '@angular/common';
 import { RemoveDuplicatesPipe } from "../../../pipes/remove-duplicates.pipe";
 import { RulesPipe } from "../../../pipes/rules.pipe";
+import { LoaderComponent } from "../../utilities/loader/loader.component";
 
 
 
@@ -50,7 +51,8 @@ import { RulesPipe } from "../../../pipes/rules.pipe";
     MatTooltipModule,
     CommonModule,
     RemoveDuplicatesPipe,
-    RulesPipe
+    RulesPipe,
+    LoaderComponent
 ],
   templateUrl: './link-add-rule-device.component.html',
   styleUrl: './link-add-rule-device.component.css'
@@ -84,23 +86,12 @@ export class LinkAddRuleDeviceComponent {
   }
 
   fontStyleControl = new FormControl('');
-  fontStyle?: string;
-
-
-  updateCamera() {
-
-  }
-
+  fontStyle!: string;
   personshow: boolean = false;
-
-// ngOnChanges() {
-//   console.log(this.currentAdd)
-// }
-
   cameralist:any =[]
   modifiedWorkingDays: any;
+  showLoader: boolean = false;
   ngOnInit() {
-    console.log(this.currentAdd)
     this.listDeviceInfo();
     this.listRulesbyAdId();
 
@@ -134,21 +125,29 @@ export class LinkAddRuleDeviceComponent {
   // }
 
   listDeviceInfo() {
+    this.showLoader = true;
     this.configSrvc.listDeviceInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId }).subscribe({
       next: (res: any) => {
+        this.showLoader = false;
         this.devicesData = res.sites.flatMap((item: any) => item.Devices);
         // this.openRuleFormFor(this.devicesData[0]);
+      },
+      error: (err: any) => {
+        this.showLoader = false;
       }
     })
   }
 
   listRulesbyAdId() {
+    // this.showLoader = true;
+
     this.configSrvc.listRulesInfo({
       siteId: this.currentSite?.siteId,
       adId: this.currentAdd?.adId,
       deviceId: this.currentDevice?.deviceId,
     }).subscribe({
       next: (res: any) => {
+        this.showLoader = false;
         this.rulesData = res.rules.sort((a: any, b: any) => a.fromDate ? -1 : 1)
         this.newRulesData = this.rulesData;
 
@@ -156,6 +155,9 @@ export class LinkAddRuleDeviceComponent {
           let x = el.workingDays.split(',').map((val: any) => +val);
           el.workingDays = x
           });
+      },
+      error: (err: any) => {
+        this.showLoader = false;
       }
     })
   }

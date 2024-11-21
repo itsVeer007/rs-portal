@@ -97,7 +97,6 @@ export class ConfigService {
   }
 
   listDeviceRules(payload:any) {
-    console.log(payload)
     let url = this.baseUrl + `/proximity_ads/listDeviceRules/${payload.adId}/${payload.siteId}`;
     return this.http.get(url)
   }
