@@ -151,7 +151,7 @@ export class SubHeaderComponent {
       next: (res: any) => {
         // console.log(res);
         this.sitesList = res.sites;
-        this.getCamerasForSite(this.sitesList[44]);
+        this.getCamerasForSite(this.sitesList[0]);
         // this.listAdsInfo(this.sitesList[44]);
       }
     })
