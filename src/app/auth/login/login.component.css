@@ -1,5 +1,5 @@
 .login-background{
-    background: url("/assets/icons/Group 273.png");
+    /* background: url("/assets/icons/login-background.png"); */
     background-size: cover;
     background-repeat: no-repeat;
     /* width: 100%; */
@@ -8,26 +8,21 @@
 }
 .login-image {
     position: absolute;
-    top: 40px;
+    top: 20px;
     left: 50px;
    
 }
 
-/* .login-image img {
-    filter: grayscale(100%);
-} */
 .login-heading {
     position: absolute;
     left: 50px;
-    top: 630px;
+    bottom: 20px;
     color:#FFFFFF;
     text-shadow: 0px 10px 20px #000000;
     text-transform: uppercase;
-    width: 474px;
-    font: normal normal 600 48px/40px Montserrat;
-
-    
+    font: normal normal 600 48px/40px Montserrat;    
 }
+
 .login-section {
     background-color: #FFFFFF;
     position: relative;
