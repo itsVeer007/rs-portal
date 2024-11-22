@@ -330,7 +330,7 @@ getMetaData() {
   //   }
   // })
   this.metaSer.getMetadata().subscribe((res:any)=> {
-    console.log(res)
+    // console.log(res)
   })
 }
 
