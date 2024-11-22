@@ -14,7 +14,6 @@
       </div>
       <a class="pointer ms-2" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt=""width="28px"></a>
       <!-- <button class=" btn btn-secondary pointer" (click)="openRuleFormNew()">ADD RULE</button> -->
-
     </div>
     <!-- <p (click)="createRuleForm()" style="color: #989fb4;" >add</p> -->
     <div class="row main-container">
@@ -33,16 +32,12 @@
               (click)="openViewAddForm(currentAdd)">PLAY</button>
           </div>
         </div> -->
-
-
         <div class="d-flex justify-content-between align-items-center">
           <p class="total-devices ms-1">TOTAL DEVICES - {{devicesData.length}}</p>
           <div class="input-group input-group-sm mb-3 w-50">
             <input type="text" class="form-control" [(ngModel)]="deviceSearch" placeholder="Device Search">
           </div>
         </div>
-        
-
         <div class="device-main-container">
           @for (item of devicesData | search: deviceSearch; track $index) {
           @if(item.deviceId && item.deviceName) {
@@ -50,30 +45,22 @@
           [ngClass]="{'highlight-red': deviceIndex === $index}" (click)="openRuleFormFor(item); listRulesbyAdId()" >
         
             <div class="d-flex flex-row">
-            
-              <div  >
+              <div>
                 <!-- @if(item.associationStatus === 1) {
                 <small class="text-danger fw-bold">Associated</small>
                 } -->
                   <!-- <p class="device-details">{{item.cameraName}}</p> -->
-           
                 <p class="device-heading" style="width: 150px;" >{{item.deviceName}}</p>
                 <p class="device-details">{{item.deviceId}}</p>
               </div>
             </div>
             <div>
               <!-- <p class="device-details">{{item.cameraName}}</p> -->
-               
               <img [src]="item.camSnapShotUrl" alt="" width="60px">
-
               @if(item.camSnapShotUrl =="No snapshotUrl") {
-
                 <img src="assets/icons/images.jpg" alt="" width="60px">
               }
             </div>
-
-            
-
             <!-- <p class="device-details">{{item.main}}</p> -->
             <!-- <div>
                 @if (item.associationStatus === 1) {
@@ -85,7 +72,6 @@
                 <button class="btn btn-dark ms-3" (click)="openRuleFormForAssociate(item)" matTooltip="Select Existing Rule">+</button>
             </div> -->
             <div>
-
               <span class="button-btt pointer me-3" (click)="openRuleForm(item)">Add Rule</span>
                 @if(item.cameraId) {
                   <img src="assets/icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}" (click)="openUpdate()">
@@ -100,19 +86,16 @@
           }
         </div>
       </div>
-
       <div class="col-lg-7">
         <div class="d-flex justify-content-between align-items-center">
           <p>Total Associated Rules</p>
           <!-- <button class="btn btn-secondary pointer" (click)="listDeviceRules()">Total Rules</button> -->
         </div>
-
         <div class="rules-side-container mt-4">
           @for (item of newRulesData | removeDuplicates: 'ruleId'  | search: ruleSearch; track $index) {
           <div class="rules-container">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <p class="rule-sub-heading" style="font-weight: bold;">Rule</p>
-
             @if (item.fromDate) {
               <div class="d-flex" >
                 <p style="font-weight: bold;">Duration  </p>
@@ -120,7 +103,6 @@
               </div>
             }
             </div>
-
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex">
                 <div class="me-1">
@@ -133,21 +115,18 @@
                     }
                   </div>
                 </div>
-
                 <div class="me-1">
                   <p class="sunday-heading">Time</p>
                   <div class="day-container m-1">
                     <p class="sunday-heading">{{item.adHours}}</p>
                   </div>
                 </div>
-
                 <div class="me-1">
                   <p class="sunday-heading">Temp</p>
                   <div class="day-container m-1">
                     <p class="sunday-heading">{{item.temp}}</p>
                   </div>
                 </div>
-
                 @if(item.objectRule == 2) {
                   <div class="me-1 mt-4">
                     <div class="day-container">
@@ -159,7 +138,6 @@
                       <p class="sunday-heading">{{item.objectCount}}</p>
                     </div>
                   </div>
-
                   <div class="me-1 mt-4">
                     <!-- <p>Min</p> -->
                   <div class="day-container">
@@ -167,7 +145,6 @@
                   </div>
                   </div>
                 }
-
                 <!-- <div class="me-3">
                   <p class="sunday-heading ms-1">Camera</p>
                   <div class="day-container m-1">
@@ -187,7 +164,6 @@
                 </section>
               </div>
             </div>
-
           </div>
           }
         </div>

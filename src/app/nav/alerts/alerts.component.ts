@@ -47,10 +47,10 @@ export class AlertsComponent {
   camerasList: any = [];
   currentSite: any;
   getCamerasForSite(data: any) {
-    console.log(data)
+    // console.log(data)
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {
-        console.log(res)
+        // console.log(res)
         this.camerasList = res;
       }
     })
@@ -60,7 +60,7 @@ export class AlertsComponent {
   getSites() {
     this.config.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.sitesList = res.sites;
         this.getCamerasForSite(this.sitesList[0])
         // this.sitesList.forEach((item: any) => {
@@ -80,7 +80,7 @@ export class AlertsComponent {
   incidentList(item?:any) {
     this.config.incidentList(item).subscribe({
       next:(res:any)=> {
-        console.log(res);
+        // console.log(res);
         if(res.statusCode == 200) {
           this.incidentListData = res.IncidentList;
           this.newIncidentListData = this.incidentListData
@@ -94,7 +94,7 @@ export class AlertsComponent {
  commonsUrl: string = 'http://usstaging.ivisecurity.com:8080/common/downloadFile_1_0?requestName=incidents&assetName='
   currentItem:any
   openVideoData(item:any) {
-    console.log(item)
+    // console.log(item)
     this.currentItem = item
     this.currentItem.fullFileUrls = this.currentItem.files.map((file: string) => `${this.commonsUrl}${file}`);
 

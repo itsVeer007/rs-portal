@@ -420,7 +420,7 @@ export class LinkAddRuleDeviceComponent {
   deleteRule() {
     this.configSrvc.deleteRule({ruleId: this.currentRuleData?.ruleId, deviceId: this.currentRuleData?.deviceId, adId: this.currentAdd?.adId, modifiedBy: 1}).subscribe({
       next:(res:any) => {
-        console.log(res);
+        // console.log(res);
         this.configSrvc.listRulesInfo({ siteId: this.currentSite?.siteId, adId: this.currentAdd?.adId, deviceId: this.currentDevice?.deviceId }).subscribe({
           next: (res: any) => {
             this.rulesData = res.rules;

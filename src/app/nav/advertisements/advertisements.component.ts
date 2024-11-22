@@ -120,7 +120,7 @@ export class AdvertisementsComponent {
     this.currentItem = item;
     this.configSrvc.listDeviceRules({ siteId: this.currentSite?.siteId, adId: item?.adId }).subscribe({
         next: (res: any) => {
-          console.log(res);
+          // console.log(res);
           this.addRuleData = res.sites.flatMap((item: any) => item.Devices);
           this.configSrvc.devices.next(this.addRuleData);
         },

@@ -133,7 +133,7 @@ export class AlertService {
       this.cameraSelect(payload)
     } else {
       this.configSrvc.addCam({deviceId: payload.deviceId, cameraId : 0, createdBy: 1}).subscribe((res: any) => {
-        console.log(res)
+        // console.log(res)
         if(res.statusCode == 200) {
           this.configSrvc.listRulesInfo(this.siteAddData).subscribe()
         }
@@ -177,7 +177,7 @@ export class AlertService {
     if (fruit) {
       // Swal.fire(`You selected: ${fruit}`);
       this.configSrvc.addCam({deviceId: payload.deviceId, cameraId : fruit, createdBy: 1}).subscribe((res: any) => {
-        console.log(res);
+        // console.log(res);
         if(res.statusCode == 200) {
 
           this.configSrvc.listRulesInfo(this.siteAddData).subscribe()

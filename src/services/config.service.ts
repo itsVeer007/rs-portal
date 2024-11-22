@@ -37,7 +37,7 @@ export class ConfigService {
   }
 
 
-  baseUrl = 'http://192.168.0.119:8000';
+  // baseUrl = 'http://192.168.0.119:8000';
 
 
   // createAd(payload:any) {
@@ -47,7 +47,7 @@ export class ConfigService {
   // }
 
   createAd(payload: any, file: any) {
-    let url = this.baseUrl + "/proximity_ads/createAd_1_0";
+    let url =`${environment.baseUrl}/proximity_ads/createAd_1_0`;
     let user = this.storageSrvc.getData('user');
 
     let formData: any = new FormData();
@@ -69,12 +69,12 @@ export class ConfigService {
 
 
   list_categories() {
-    let url = this.baseUrl + '/proximity_ads/list_categories_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/list_categories_1_0`;
     return this.http.get(url)
   }
 
   listAdsInfo(payload?:any) {
-    let url = this.baseUrl + '/proximity_ads/listAdsForSiteId_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/listAdsForSiteId_1_0`;
     let params = new HttpParams();
     if(payload?.siteId) {
       params = params.set('siteId', payload?.siteId)
@@ -92,17 +92,17 @@ export class ConfigService {
   }
 
   genericAdsInfo() {
-    let url = this.baseUrl + '/proximity_ads/genericAdsInfo_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/genericAdsInfo_1_0`;
     return this.http.get(url)
   }
 
   listDeviceRules(payload:any) {
-    let url = this.baseUrl + `/proximity_ads/listDeviceRules/${payload.adId}/${payload.siteId}`;
+    let url =`${environment.baseUrl}/proximity_ads/listDeviceRules/${payload.adId}/${payload.siteId}`;
     return this.http.get(url)
   }
 
   listDeviceInfo(payload?:any) {
-    let url = this.baseUrl + '/proximity_ads/listDeviceInfo_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/listDeviceInfo_1_0`;
     let params = new HttpParams();
     if(payload?.siteId) {
       params = params.set('siteId', payload?.siteId)
@@ -132,7 +132,7 @@ export class ConfigService {
   // }
 
   listRulesInfo(payload: any) {
-    let url = this.baseUrl + '/proximity_ads/listRulesInfo_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/listRulesInfo_1_0`;
     let params = new HttpParams();
     if(payload?.siteId) {
       params = params.set('siteId', payload?.siteId)
@@ -148,19 +148,19 @@ export class ConfigService {
 
   createRule(payload:any) {
     console.log(payload)
-    let url = this.baseUrl + '/proximity_ads/createRule_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/createRule_1_0`;
 
     return this.http.post(url, payload)
   }
 
 deviceAdRuleConn(payload:any) {
-  let url = this.baseUrl + '/proximity_ads/createRule_1_0';
+  let url = `${environment.baseUrl}/proximity_ads/createRule_1_0`;
   // payload.workingDays = payload?.workingDays?.join(',')
   return this.http.post(url, payload)
 }
 
 deviceRulesActiveInfo(payload?:any) {
-  let url = this.baseUrl + '/proximity_ads/deviceRulesActiveInfo_1_0';
+  let url = `${environment.baseUrl}/proximity_ads/deviceRulesActiveInfo_1_0`;
   let params = new HttpParams();
   if(payload?.deviceId) {
     params = params.set('deviceId', payload?.deviceId)
@@ -172,7 +172,7 @@ deviceRulesActiveInfo(payload?:any) {
 }
 
 deleteRule(payload: any) {
-  let url = this.baseUrl + '/proximity_ads/deleteRule_1_0';
+  let url = `${environment.baseUrl}/proximity_ads/deleteRule_1_0`;
   return this.http.delete(url, {params: payload})
 
 }
@@ -192,7 +192,7 @@ deleteRule(payload: any) {
   }
 
   addCam(payload:any) {
-    let url = this.baseUrl + '/proximity_ads/addCameraForDevice_1_0';
+    let url = `${environment.baseUrl}/proximity_ads/addCameraForDevice_1_0`;
     // let params = new HttpParams().set('deviceId', payload?.deviceId).set('cameraId', payload?.cameraId).set('createdBy', 1);
     return this.http.post(url, payload);
   }

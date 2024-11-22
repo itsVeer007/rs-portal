@@ -225,7 +225,7 @@ validateInput() {
 
   submitFor() {
     this.configSrvc.addCam({deviceId: this.deviceIdFromParent.deviceId, cameraId :this.cameraId ? this.cameraId : "0", createdBy: 1545}).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
       if(res.statusCode == 200) {
         // this.listApiEvent.emit();
         this.alertSer.success(res.message)

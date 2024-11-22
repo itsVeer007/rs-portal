@@ -108,7 +108,7 @@ export class SubHeaderComponent {
   genericAdsInfo() {
     this.configSrvc.genericAdsInfo().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.genericAdsInfoData = res;
         this.configSrvc.dataFromSubheader.next(res.genericAds);
       }
@@ -149,7 +149,7 @@ export class SubHeaderComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.sitesList = res.sites;
         this.getCamerasForSite(this.sitesList[44]);
         // this.listAdsInfo(this.sitesList[44]);

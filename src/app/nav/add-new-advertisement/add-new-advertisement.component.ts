@@ -201,7 +201,7 @@ export class AddNewAdvertisementComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.sitesList = res.sites;
         // this.sitesList.forEach((item: any) => {
         //   item.isOpen = false;
