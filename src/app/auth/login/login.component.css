@@ -6,6 +6,7 @@
     height: 100vh;
     position: relative;
 }
+
 .login-image {
     position: absolute;
     top: 20px;
@@ -26,14 +27,17 @@
 .login-section {
     background-color: #FFFFFF;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.login-details {
+/* .login-details {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
-}
+} */
 .welcome-text {
     color: #000000;
     text-transform: uppercase;
@@ -88,17 +92,17 @@ text-transform: uppercase;
 } */
 .visible-image {
     position: absolute;
-    top: 205px;
+    top: 40px;
     left: 260px;
 }
 
 .user-image {
     position: absolute;
-    top: 135px;
+    top: 40px;
     left: 15px;
 }
 .key-image {
     position: absolute;
-    top: 208px;
+    top: 40px;
     left: 15px;
 }
