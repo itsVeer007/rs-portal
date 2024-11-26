@@ -91,7 +91,10 @@ export class LinkAddRuleDeviceComponent {
   cameralist:any =[]
   modifiedWorkingDays: any;
   showLoader: boolean = false;
+  user:any
   ngOnInit() {
+     this.user = this.storageSer.getData('user');
+    
     this.listDeviceInfo();
     this.listRulesbyAdId();
 
@@ -222,7 +225,7 @@ export class LinkAddRuleDeviceComponent {
     adId: null,
     ruleId: null,
     siteId: null,
-    createdBy: 1545,
+    createdBy: null,
     deviceId: null,
     objectRule: null
   }
@@ -339,12 +342,18 @@ export class LinkAddRuleDeviceComponent {
 
     this.configSrvc.deviceAdRuleConn(obj).subscribe({
       next: (res: any) => {
-        if (res?.statusCode == 200) {
-          this.alertSer.success(res?.message)
-          this.listRulesbyAdId()
-        } else {
-          this.alertSer.error(res?.message)
-        }
+        this.alertSer.confirmDelete().then((res) => {
+          if(res.isConfirmed) {              
+            this.dialog.open(this.viewCameraSelection)
+          }
+        })
+        
+        // if (res?.statusCode == 200) {
+        //   this.alertSer.success(res?.message)
+        //   this.listRulesbyAdId()
+        // } else {
+        //   this.alertSer.error(res?.message)
+        // }
         // this.newItemEvent.emit()
         // this.listDeviceRules()
       }
@@ -356,7 +365,7 @@ export class LinkAddRuleDeviceComponent {
   // deviceCam: any = 0;
 
   deviceCam: any = 0;
-  cameraId:any
+  cameraId:any 
   person: any = 1;
 
   toggleShowOnOff(event: any): void {
@@ -366,12 +375,9 @@ export class LinkAddRuleDeviceComponent {
   }
 
   @ViewChild('viewCameraSelection') viewCameraSelection = {} as TemplateRef<any>
-  openAdverForm()  {
+  openAdverForm(item:any)  {
+    console.log(item)
     this.deviceCam = 0;
-    this.cameraId = null;
-    // if(this.cameraId == '') {
-      // this.dialog.open(this.viewCameraSelection)
-    // }
     this.alertSer.confirmDe().then((res) => {
       if(res.isConfirmed) {              
         this.dialog.open(this.viewCameraSelection)
@@ -380,9 +386,17 @@ export class LinkAddRuleDeviceComponent {
   }
   
   @ViewChild('viewCameraSelectionForUpdate') viewCameraSelectionForUpdate = {} as TemplateRef<any>
-  openUpdate()  {
-    this.deviceCam = 0;
-    this.cameraId = null;
+  openUpdate(item:any)  {
+    console.log(item)
+   
+    if(item.cameraId == '0') {
+      // this.deviceCam = 1;
+      this.deviceCam = 0;
+      this.cameraId = null;
+    } else {
+      this.deviceCam = 1;
+      this.cameraId = item.cameraId;
+    }
     this.alertSer.updateCam().then((res) => {
       if(res.isConfirmed) {              
         this.dialog.open(this.viewCameraSelection)
@@ -392,7 +406,7 @@ export class LinkAddRuleDeviceComponent {
   }
 
   submitFor() {
-    this.configSrvc.addCam({deviceId: this.currentDevice.deviceId, cameraId :this.cameraId ? this.cameraId : "0", createdBy: 1545}).subscribe((res: any) => {
+    this.configSrvc.addCam({deviceId: this.currentDevice.deviceId, cameraId :this.cameraId ? this.cameraId : "0"}).subscribe((res: any) => {
       // console.log(res);
       if(res.statusCode == 200) {
         this.alertSer.success(res.message)

@@ -225,12 +225,19 @@ export class AddNewAdvertisementComponent {
   }
 
   user: any;
+  currentSite:any
   ngOnInit(): void {
+    this.configSrvc.current_site_sub.subscribe({
+      next:(res:any) => {
+        console.log(res)
+        this.currentSite = res.siteId
+      }
+    })
     let user = this.storageSer.getData('user')
     this.addAssetForm = this.fb.group({
       generic: new FormControl(''),
-      siteId: new FormControl('36337'),
-      createdBy: new FormControl(1545),
+      siteId: new FormControl(''),
+      createdBy: new FormControl(''),
       // 'description': new FormControl(''),
       description: [{ value: '', disabled: true }],
       adType: [{ value: '', disabled: true }, Validators.required],
@@ -277,6 +284,7 @@ showLoader:boolean = false;
     if(!this.addAssetForm.valid) return
     this.showLoader = true;
     this.addAssetForm.createdBy = this.user?.UserId
+    this.addAssetForm.value.siteId = this.currentSite
    this.configSrvc.createAd(this.addAssetForm.value, this.selectedFile).subscribe({
     next:(res:any) => {
       console.log(res)

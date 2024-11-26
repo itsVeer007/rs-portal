@@ -224,7 +224,8 @@ validateInput() {
   }
 
   submitFor() {
-    this.configSrvc.addCam({deviceId: this.deviceIdFromParent.deviceId, cameraId :this.cameraId ? this.cameraId : "0", createdBy: 1545}).subscribe((res: any) => {
+    this.addAssetForm.value.createdBy = this.user?.UserId
+    this.configSrvc.addCam({deviceId: this.deviceIdFromParent.deviceId, cameraId :this.cameraId ? this.cameraId : "0"}).subscribe((res: any) => {
       // console.log(res);
       if(res.statusCode == 200) {
         // this.listApiEvent.emit();
@@ -381,7 +382,7 @@ validateInput() {
         this.addAssetForm.value.workingDays = finalDays.join(',')
         this.addAssetForm.value.fromDate = formatDate(this.addAssetForm.value.fromDate , 'yyyy-MM-dd', 'en-us')
         this.addAssetForm.value.toDate = formatDate(this.addAssetForm.value.toDate, 'yyyy-MM-dd', 'en-us')
-        this.addAssetForm.value.createdBy = 1545
+        this.addAssetForm.value.createdBy = this.user?.UserId
         this.addAssetForm.value.siteId = this.site.siteId
         this.addAssetForm.value.adId = this.inputData?.adId
         this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
@@ -417,7 +418,7 @@ validateInput() {
 
         this.addAssetForm.value.fromDate = formatDate(this.addAssetForm.value.fromDate , 'yyyy-MM-dd', 'en-us')
         this.addAssetForm.value.toDate = formatDate( this.addAssetForm.value.toDate, 'yyyy-MM-dd', 'en-us')
-        this.addAssetForm.value.createdBy = 1545
+        this.addAssetForm.value.createdBy = this.user?.UserId
           this.addAssetForm.value.siteId = this.site.siteId
         this.addAssetForm.value.adId = this.inputData?.adId
         this.objectRule == true ? this.addAssetForm.value.objectRule = 2 : this.addAssetForm.value.objectRule = 1
