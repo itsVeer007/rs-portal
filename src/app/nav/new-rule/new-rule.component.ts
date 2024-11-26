@@ -82,7 +82,9 @@ export class NewRuleComponent {
   ) { }
 
   cameralist: any = [];
+  user:any
   ngOnInit() {
+    this.user = this.storageSer.getData('user');
     this.configSrvc.dataFromSubheader.subscribe({
       next: (res:any) => {
         this.cameralist = res;
@@ -93,7 +95,7 @@ export class NewRuleComponent {
   deviceCam: any = 0;
   cameraId:any;
   submitFor() {
-    this.configSrvc.addCam({deviceId: this.data.deviceId, cameraId :this.cameraId ? this.cameraId : "0", createdBy: 1545}).subscribe((res: any) => {
+    this.configSrvc.addCam({deviceId: this.data.deviceId, cameraId :this.cameraId ? this.cameraId : "0"}).subscribe((res: any) => {
       // console.log(res);
       if(res.statusCode == 200) {
         this.alertSer.success(res.message)

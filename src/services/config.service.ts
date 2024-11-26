@@ -26,9 +26,11 @@ export class ConfigService {
 
 
   public getSitesListForUserName(): Observable<any> {
-    let user = this.storageSrvc.getData('userData');
-    let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisusnew'}`;
-    return this.http.get(url);
+    let user = this.storageSrvc.getData('user');
+    // let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisusnew'}`;
+    let url  = `${environment.configUrl}/getSitesListForUserName_1_0`;
+    let params = new HttpParams().set('userName', user?.UserName);
+    return this.http.get(url, {params:params});
   }
 
   public getCamerasForSiteId(payload: any): Observable<any> {
@@ -41,7 +43,6 @@ export class ConfigService {
   createAd(payload: any, file: any) {
     let url =`${environment.adsUrl}/proximity_ads/createAd_1_0`;
     let user = this.storageSrvc.getData('user');
-
     let formData: any = new FormData();
     formData.append('adFile', file);
     let assetData = {
@@ -49,7 +50,7 @@ export class ConfigService {
       'adName': payload?.adName,
       // 'fromDate': payload?.fromDate ? formatDate(payload?.fromDate, 'yyyy-MM-dd', 'en-us') : formatDate(new Date(), 'yyyy-MM-dd', 'en-us'),
       // 'toDate': payload?.toDate ? formatDate(payload?.toDate, 'yyyy-MM-dd', 'en-us') : '2999-12-31',
-      'createdBy': 1545,
+      'createdBy': user?.UserId,
       'description': payload?.description,
       'adType': payload.adType,
       'category': payload?.category,
@@ -66,6 +67,7 @@ export class ConfigService {
   }
 
   listAdsInfo(payload?:any) {
+    // console.log(payload)
     let url = `${environment.adsUrl}/proximity_ads/listAdsForSiteId_1_0`;
     let params = new HttpParams();
     if(payload?.siteId) {
@@ -124,7 +126,9 @@ export class ConfigService {
   // }
 
   listRulesInfo(payload: any) {
+    let user = this.storageSrvc.getData('user')
     let url = `${environment.adsUrl}/proximity_ads/listRulesInfo_1_0`;
+    payload.createdBy = user?.UserId
     let params = new HttpParams();
     if(payload?.siteId) {
       params = params.set('siteId', payload?.siteId)
@@ -140,12 +144,16 @@ export class ConfigService {
 
   createRule(payload:any) {
     console.log(payload)
+    let user = this.storageSrvc.getData('user')
+    payload.createdBy = user?.UserId
     let url = `${environment.adsUrl}/proximity_ads/createRule_1_0`;
 
     return this.http.post(url, payload)
   }
 
 deviceAdRuleConn(payload:any) {
+  let user = this.storageSrvc.getData('user')
+  payload.createdBy = user?.UserId
   let url = `${environment.adsUrl}/proximity_ads/createRule_1_0`;
   // payload.workingDays = payload?.workingDays?.join(',')
   return this.http.post(url, payload)
@@ -184,7 +192,9 @@ deleteRule(payload: any) {
   }
 
   addCam(payload:any) {
+    let user = this.storageSrvc.getData('user')
     let url = `${environment.adsUrl}/proximity_ads/addCameraForDevice_1_0`;
+    payload.createdBy = user.UserId
     // let params = new HttpParams().set('deviceId', payload?.deviceId).set('cameraId', payload?.cameraId).set('createdBy', 1);
     return this.http.post(url, payload);
   }

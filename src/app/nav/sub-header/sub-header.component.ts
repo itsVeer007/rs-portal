@@ -160,6 +160,7 @@ export class SubHeaderComponent {
   camerasList: any = [];
   currentSite: any;
   getCamerasForSite(data: any) {
+    // console.log(data)
     this.camerasList = [];
     this.currentSite = data;
     // this.listdevices();

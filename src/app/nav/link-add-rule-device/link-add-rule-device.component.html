@@ -73,11 +73,11 @@
             </div> -->
             <div>
               <span class="button-btt pointer me-3" (click)="openRuleForm(item)">Add Rule</span>
-                @if(item.cameraId) {
-                  <img src="assets/icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}" (click)="openUpdate()">
+                @if(item.cameraId != null) {
+                  <img src="assets/icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}" (click)="openUpdate(item)">
                 }
-                @if(!item.cameraId) {
-                  <img src="assets\icons\plus (1).svg" alt="" width="25px" class="me-3" matTooltip="Add Camera" (click)="openAdverForm()">
+                @if(item.cameraId == null) {
+                  <img src="assets\icons\plus (1).svg" alt="" width="25px" class="me-3" matTooltip="Add Camera" (click)="openAdverForm(item)">
                 }
               <!-- <button class="btn btn-dark ms-3" (click)="openRuleFormForAssociate(item)" matTooltip="Select Existing Rule">+</button> -->
             </div>
