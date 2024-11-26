@@ -26,11 +26,11 @@ export class ConfigService {
 
 
   public getSitesListForUserName(): Observable<any> {
-    let user = this.storageSrvc.getData('userData');
-    let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisusnew'}`;
-    // let url  = `${environment.configUrl}/getSitesListForUserName_1_0`;
-    // let params = new HttpParams().set('userName', user?.UserName);
-    return this.http.get(url);
+    let user = this.storageSrvc.getData('user');
+    // let url  = `${environment.configUrl}/getSitesListForUserName_1_0?userName=${'ivisusnew'}`;
+    let url  = `${environment.configUrl}/getSitesListForUserName_1_0`;
+    let params = new HttpParams().set('userName', user?.UserName);
+    return this.http.get(url, {params:params});
   }
 
   public getCamerasForSiteId(payload: any): Observable<any> {
@@ -67,7 +67,7 @@ export class ConfigService {
   }
 
   listAdsInfo(payload?:any) {
-    console.log(payload)
+    // console.log(payload)
     let url = `${environment.adsUrl}/proximity_ads/listAdsForSiteId_1_0`;
     let params = new HttpParams();
     if(payload?.siteId) {

@@ -58,7 +58,9 @@ export class AdvertisementsComponent {
     this.configSrvc.current_site_sub.subscribe({
       next: (res: any) => {
         this.currentSite = res;
-        this.listAdsInfo(res);
+        if(res) {
+          this.listAdsInfo(res);
+        }
       },
     });
   }
