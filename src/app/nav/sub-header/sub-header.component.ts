@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, signal, ViewChild } from '@angular/core';
 import { ConfigService } from '../../../services/config.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
@@ -16,6 +16,8 @@ import { StorageService } from '../../../services/storage.service';
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { CountPipe } from '../../../pipes/count.pipe';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-sub-header',
@@ -34,7 +36,9 @@ import { CountPipe } from '../../../pipes/count.pipe';
     MatIconModule,
     CommonModule,
     CountPipe,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule,
+    MatCard
 ],
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.css'
@@ -42,6 +46,9 @@ import { CountPipe } from '../../../pipes/count.pipe';
 export class SubHeaderComponent {
 
   searchText: any;
+
+  show:boolean = false
+  readonly panelOpenState = signal(this.show);
 
   gridTypes = [
     {
@@ -163,7 +170,7 @@ export class SubHeaderComponent {
     // console.log(data)
     this.camerasList = [];
     this.currentSite = data;
-    // this.listdevices();
+    this.listdevices();
     this.configSrvc.current_site_sub.next(data);
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {

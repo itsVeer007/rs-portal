@@ -32,6 +32,7 @@
                                 <iframe class="iframe" [src]="currentCam?.httpUrl | sanitize" frameborder="0"></iframe>
                             </ng-container>
         
+                            
                             <div class="camera-tile-list">
                                 @for (item of camerasList; track $index) {
                                 <!-- <iframe class="d-none" (load)="getUrl(item?.httpUrl, item)"></iframe> -->

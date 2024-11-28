@@ -110,6 +110,21 @@ export class ConfigService {
     return this.http.get(url,{params:params})
   }
 
+  listDeviceFilter(payload?:any) {
+    let url = `${environment.adsUrl}/proximity_ads/listDeviceDetails_1_0`;
+    let params = new HttpParams();
+    if(payload?.siteId) {
+      params = params.set('siteId', payload?.siteId)
+    }
+    if(payload?.deviceId) {
+      params = params.set('deviceId', payload?.deviceId)
+    }
+    if(payload?.adId) {
+      params = params.set('adId', payload?.adId)
+    }
+    return this.http.get(url,{params:params})
+  }
+
   // listRulesbyAdId(payload?:any) {
   //   let url = this.adsUrl + '/proximity_ads/listRulesByAdId_1_0';
   //   let params = new HttpParams();

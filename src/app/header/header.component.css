@@ -1,5 +1,6 @@
 .header-container {
-    background: #FD6327 0% 0% no-repeat padding-box;
+    /* background: #FD6327 0% 0% no-repeat padding-box; */
+     background: linear-gradient(50deg, #084982 18%, #7e1e0a 66%);
     opacity: 1;
     height: 50px;
 }
@@ -23,7 +24,7 @@
 
 
 .list-group-item {
-    background-color: #FD6327;
+    /* background-color: #FD6327; */
     border-radius: 5px;
     padding: 5px;
     border-style: none;
@@ -36,13 +37,13 @@
 
 
 .active {
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 5px;
     color: #FD6327;
 }
 
 .list-group-item:hover {
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 5px;
     color: #FD6327;
 }

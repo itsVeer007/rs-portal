@@ -47,7 +47,10 @@ import { HttpErrorResponse } from '@angular/common/http';
     ])
   ]
 })
+
+
 export class AddNewAdvertisementComponent {
+  
   constructor(
     private router: Router,
     private fb: FormBuilder,
@@ -58,7 +61,6 @@ export class AddNewAdvertisementComponent {
     private metaSer:MetadataService,
     private configSrvc: ConfigService,
     private storageSer: StorageService,
-   
   ) { }
 
   /* file upload */
@@ -226,6 +228,7 @@ export class AddNewAdvertisementComponent {
 
   user: any;
   currentSite:any
+  
   ngOnInit(): void {
     this.configSrvc.current_site_sub.subscribe({
       next:(res:any) => {
@@ -244,8 +247,6 @@ export class AddNewAdvertisementComponent {
       category: [{ value: '', disabled: true }, Validators.required],
       adName: [{ value: '', disabled: true }, Validators.required],
       adFile: [null, Validators.required],
-      
-      
     });
 
     this.addAssetForm.get('adFile')?.valueChanges.subscribe((value:any) => {
@@ -255,8 +256,6 @@ export class AddNewAdvertisementComponent {
         this.disableFields();
       }
     });
-
-
     this.getSites()
     this.list_categories()
     this.getMetaData()
@@ -278,7 +277,7 @@ export class AddNewAdvertisementComponent {
 
   // deviceSelection:any = 1;
   submitted:boolean = false
-showLoader:boolean = false;
+  showLoader:boolean = false;
   submit() {
     this.submitted = true;
     if(!this.addAssetForm.valid) return
@@ -302,7 +301,6 @@ showLoader:boolean = false;
   })
   }
 
-
   closeForm() {
     this.newItemEvent.emit();
   }
@@ -313,11 +311,9 @@ showLoader:boolean = false;
     event.preventDefault();
     event.stopPropagation();
   }
-
   onFileDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
-
     const files = event.dataTransfer?.files;
     if (files) {
       // Process files

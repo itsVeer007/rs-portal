@@ -24,6 +24,25 @@
                         <span>+</span>
                         }
                     </a>
+                    <!-- <mat-accordion> -->
+                    <!-- <mat-expansion-panel >
+                        <mat-expansion-panel-header (click)="getCamerasForSite(site)">
+                          <mat-panel-title>{{site.siteName}}</mat-panel-title>
+                          <mat-panel-description>
+                            {{panelOpenState()}}
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        @if (site.siteId === currentSite?.siteId && currentUrl === 'live-view') {
+                    <ng-container>
+                        @for (cam of camerasList; track $index ; let i = $index) {
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p style="font-size: 12px;">{{i+1}} - {{cam.name}}</p>
+                        </div>
+                        }
+                    </ng-container>
+                    }
+                      </mat-expansion-panel> -->
+                    <!-- </mat-accordion> -->
 
                     @if (site.siteId === currentSite?.siteId && currentUrl === 'live-view') {
                     <ng-container>
@@ -63,6 +82,7 @@
                         [style.opacity]="selectedGrid == item.noOfItems ? 1: 0.5">
                         <img [src]="item.path" width="16" alt="">
                     </a>
+               
                     }
                 </div>
         </div>
