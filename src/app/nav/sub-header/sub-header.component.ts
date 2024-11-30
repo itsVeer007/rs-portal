@@ -256,6 +256,8 @@ export class SubHeaderComponent {
     category: null,
   }
   filter() {
+    // console.log(this.currentSite)
+    this.adBody.siteId = this.currentSite.siteId
     this.configSrvc.filter_sub.next(this.adBody);
   }
 

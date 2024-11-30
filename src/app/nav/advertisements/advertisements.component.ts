@@ -79,18 +79,20 @@ export class AdvertisementsComponent {
         this.newlistAdsInfoData = this.listAdsInfoData;
         this.listdevices();
 
-        // this.configSrvc.filter_sub.subscribe({
-        //   next: (res: any) => {
-        //     console.log(res);
-        //     this.configSrvc.listAdsInfo(res).subscribe({
-        //       next: (res: any) => {
-        //         this.newlistAdsInfoData = res.sites.flatMap(
-        //           (item: any) => item.ads
-        //         );
-        //       },
-        //     });
-        //   },
-        // });
+        this.configSrvc.filter_sub.subscribe({
+          next: (res: any) => {
+            console.log(res);
+            if(res.siteId) {
+              this.configSrvc.listAdsInfo(res).subscribe({
+                next: (res: any) => {
+                  this.newlistAdsInfoData = res.sites.flatMap(
+                    (item: any) => item.ads
+                  );
+                },
+              });
+            }
+          },
+        });
       },
     });
   }
