@@ -33,10 +33,6 @@ import { CommonModule } from '@angular/common';
 })
 export class AdvertisementsComponent {
   constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    // private assetSer: AssetService,
-    // private dropDown: MetadataService,
     private alertSer: AlertService,
     private metaSer: MetadataService,
     private configSrvc: ConfigService,
@@ -74,7 +70,6 @@ export class AdvertisementsComponent {
     this.siteDataForAds = data;
   }
 
-  devicesData: any = [];
   listAdsInfoData: any = [];
   newlistAdsInfoData: any = [];
   listAdsInfo(siteId: any) {
@@ -82,6 +77,7 @@ export class AdvertisementsComponent {
       next: (res: any) => {
         this.listAdsInfoData = res.sites.flatMap((item: any) => item.ads);
         this.newlistAdsInfoData = this.listAdsInfoData;
+        this.listdevices();
 
         // this.configSrvc.filter_sub.subscribe({
         //   next: (res: any) => {
@@ -97,6 +93,17 @@ export class AdvertisementsComponent {
         // });
       },
     });
+  }
+
+  devicesData:any = [];
+  listdevices() {
+    this.configSrvc.listDeviceInfo(this.currentSite).subscribe({
+      next:(res:any) => {
+        // console.log(res)
+        this.devicesData = res.sites?.flatMap((item:any)=> item.Devices);
+        this.configSrvc.devices_sub.next(this.devicesData);
+      }
+    })
   }
 
   openContent: boolean = false;
@@ -122,9 +129,8 @@ export class AdvertisementsComponent {
     this.currentItem = item;
     this.configSrvc.listDeviceRules({ siteId: this.currentSite?.siteId, adId: item?.adId }).subscribe({
         next: (res: any) => {
-          // console.log(res);
           this.addRuleData = res.sites.flatMap((item: any) => item.Devices);
-          this.configSrvc.devices.next(this.addRuleData);
+          // this.configSrvc.devices_sub.next(this.addRuleData);
         },
       });
     this.viewLinkForm = true;

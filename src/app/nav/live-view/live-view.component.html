@@ -4,7 +4,7 @@
      <div class="grid-container" #gridContainer>
         @if(camerasList.length !== 0) {
 
-            @for(cam of getCurrentItems; track $index) {
+            @for(cam of getCurrentItems(); track $index) {
             <div class="grid-item" (dblclick)="playCurrentCam(cam)">
 
                 <iframe class="d-none" (load)="getUrl(cam?.httpUrl, cam)"></iframe>

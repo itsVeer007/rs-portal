@@ -1,5 +1,4 @@
 <div class="sub-header">
-    <!-- @if (currentUrl === 'live-view') { -->
     <div>
         <span class="site-info me-2 ms-4">
             <a class="pointer mx-2" (click)="openSites()">
@@ -24,25 +23,6 @@
                         <span>+</span>
                         }
                     </a>
-                    <!-- <mat-accordion> -->
-                    <!-- <mat-expansion-panel >
-                        <mat-expansion-panel-header (click)="getCamerasForSite(site)">
-                          <mat-panel-title>{{site.siteName}}</mat-panel-title>
-                          <mat-panel-description>
-                            {{panelOpenState()}}
-                          </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        @if (site.siteId === currentSite?.siteId && currentUrl === 'live-view') {
-                    <ng-container>
-                        @for (cam of camerasList; track $index ; let i = $index) {
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p style="font-size: 12px;">{{i+1}} - {{cam.name}}</p>
-                        </div>
-                        }
-                    </ng-container>
-                    }
-                      </mat-expansion-panel> -->
-                    <!-- </mat-accordion> -->
 
                     @if (site.siteId === currentSite?.siteId && currentUrl === 'live-view') {
                     <ng-container>
@@ -63,32 +43,29 @@
     </div>
 
     @if (currentUrl === 'live-view') {
-        <div class="d-flex pointer">   
-        <!-- <div>
-            <img src="assets/icons/arrow_back_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="">
-            <select class="form-select" aria-label="Default select example" class="w-70 pointer">
-                <option value="1">1 Of 4</option>
-                <option value="2">2 of 4</option>
-                <option value="3">3 of 4</option>
-                <option value="3">4 of 4</option>
-              </select>
-              <img src="assets/icons/arrow_forward_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="">
-        </div> -->
+    <div class="d-flex align-items-center pointer">
+        <div>
+            <img src="assets/icons/arrow_back_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="prevPage()">
+            <select class="form-select" class="pointer" [(ngModel)]="currentPage" (ngModelChange)="changePage(currentPage)">
+                @for (item of pagesList; track $index) {
+                    <option [value]="item">{{ item }} of {{ noOfPages }}</option>
+                }
+            </select>
+            <img src="assets/icons/arrow_forward_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="nextPage()">
+        </div>
 
         <div class="side-menu d-flex align-items-center">
-                <div class="pointer me-2">
-                    @for (item of gridTypes; track $index) {
-                    <a (click)="changeGrid(item)" class="grid-highlight"
-                        [style.opacity]="selectedGrid == item.noOfItems ? 1: 0.5">
-                        <img [src]="item.path" width="16" alt="">
-                    </a>
-               
-                    }
-                </div>
+            <div class="pointer me-2">
+                @for (item of gridTypes; track $index) {
+                <a (click)="changeGrid(item)" class="grid-highlight"
+                    [style.opacity]="selectedGrid == item.noOfItems ? 1: 0.5">
+                    <img [src]="item.path" width="16" alt="">
+                </a>
+                }
+            </div>
         </div>
     </div>
     }
-    <!-- } -->
 
 
     <!-- @if (currentUrl !== 'live-view') {
@@ -203,23 +180,23 @@
 </div>
 
 <!-- <div class="me-4">
-            <a class="pointer" [matMenuTriggerFor]="menu">
-                <img [src]="currentgridIcon" alt="" width="15" class="me-2">
-                <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
-            </a>
+    <a class="pointer" [matMenuTriggerFor]="menu">
+        <img [src]="currentgridIcon" alt="" width="15" class="me-2">
+        <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
+    </a>
 
-            <mat-menu xPosition="before" #menu="matMenu">
-                <div class="grid-type">
-                    @for (item of gridTypes; track $index) {
-                        <a (click)="changeGrid(item)"><img [src]="item.path" width="15" alt=""></a>
-                    }
-                </div>
-            </mat-menu>
-        </div> -->
-<!-- <div>
-            <div class="pointer me-2">
-                @for (item of gridTypes; track $index) {
-                    <a (click)="changeGrid(item)" class=" m-3"><img [src]="item.path" width="18" alt=""></a>
-                }
-            </div>
-        </div> -->
+    <mat-menu xPosition="before" #menu="matMenu">
+        <div class="grid-type">
+            @for (item of gridTypes; track $index) {
+            <a (click)="changeGrid(item)"><img [src]="item.path" width="15" alt=""></a>
+            }
+        </div>
+    </mat-menu>
+</div>
+<div>
+    <div class="pointer me-2">
+        @for (item of gridTypes; track $index) {
+        <a (click)="changeGrid(item)" class=" m-3"><img [src]="item.path" width="18" alt=""></a>
+        }
+    </div>
+</div> -->

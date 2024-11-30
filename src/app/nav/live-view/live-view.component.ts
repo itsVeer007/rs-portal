@@ -45,10 +45,7 @@ export class LiveViewComponent {
     private http: HttpClient
   ) {}
 
-
-
   searchText:any;
-  
   data: any;
   @ViewChild('gridContainer') gridContainer!: ElementRef;
   ngOnInit() {
@@ -58,14 +55,17 @@ export class LiveViewComponent {
   gridData: any;
   ngAfterViewInit() {
     this.configSrvc.numberFromSub.subscribe({
-      next:(res:any) => {
-        // this.changeGrid({
-        //   label: res.label,
-        //   noOfItems: res.noOfItems,
-        //   path: res.path
-        // });
-        this.selectedGrid = res.noOfItems;
-        this.gridContainer.nativeElement.style.gridTemplateColumns = `repeat(${Math.sqrt(res.noOfItems)}, 1fr)`;
+      next:(res) => {
+        if(res) {
+          this.selectedGrid = res.noOfItems;
+          this.gridContainer.nativeElement.style.gridTemplateColumns = `repeat(${Math.sqrt(res.noOfItems)}, 1fr)`;
+        }
+      }
+    });
+
+    this.configSrvc.currentpage_sub.subscribe((res) => {
+      if(res) {
+        this.currentPage = res;
       }
     })
   }
@@ -108,10 +108,10 @@ export class LiveViewComponent {
   currentSite: any;
   selectedGrid!: number;
   currentgridIcon!: string;
-
-  get getCurrentItems(): any {
-    let startIndex = 0;
-    let endIndex = this.selectedGrid;
+  currentPage!: number;
+  getCurrentItems(): any {
+    let startIndex = (this.currentPage - 1) * this.selectedGrid;
+    let endIndex = startIndex + this.selectedGrid;
     return this.camerasList.slice(startIndex, endIndex);
   }
 

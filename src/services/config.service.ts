@@ -21,8 +21,10 @@ export class ConfigService {
 
   public site_add_sub: BehaviorSubject<any> = new BehaviorSubject({});
 
-  public devices: BehaviorSubject<any> = new BehaviorSubject(null);
+  public devices_sub: BehaviorSubject<any> = new BehaviorSubject(null);
   public filter_sub: BehaviorSubject<any> = new BehaviorSubject({});
+
+  public currentpage_sub: BehaviorSubject<any> = new BehaviorSubject(null);
 
 
   public getSitesListForUserName(): Observable<any> {

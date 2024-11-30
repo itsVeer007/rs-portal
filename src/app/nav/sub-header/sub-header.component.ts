@@ -13,11 +13,11 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../services/storage.service';
-
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { CountPipe } from '../../../pipes/count.pipe';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCard } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-sub-header',
@@ -38,8 +38,9 @@ import { MatCard } from '@angular/material/card';
     CountPipe,
     MatPaginatorModule,
     MatExpansionModule,
-    MatCard
-],
+    MatCard,
+    MatMenuModule
+  ],
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.css'
 })
@@ -47,7 +48,7 @@ export class SubHeaderComponent {
 
   searchText: any;
 
-  show:boolean = false
+  show: boolean = false
   readonly panelOpenState = signal(this.show);
 
   gridTypes = [
@@ -89,20 +90,6 @@ export class SubHeaderComponent {
     // this.genericAdsInfo()
     this.getSites();
     this.list_categories()
-
-   
-
-    this.changeGrid({
-      label: this.gridTypes[2].label,
-      noOfItems: this.gridTypes[2].noOfItems,
-      path: this.gridTypes[2].path
-    });
-
-    // this.configSrvc.devices.subscribe({
-    //   next: (res:any) => {
-    //     console.log(res);
-    //   }
-    // })
   }
 
   currentUrl: any
@@ -123,11 +110,7 @@ export class SubHeaderComponent {
   }
 
   ngAfterViewInit() {
-    this.configSrvc.numberFromSub.subscribe({
-      next: (res: any) => {
-        this.selectedGrid = res.noOfItems
-      }
-    })
+
   }
 
   /* searches */
@@ -156,49 +139,83 @@ export class SubHeaderComponent {
   getSites() {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
-        // console.log(res);
         this.sitesList = res.sites;
         this.getCamerasForSite(this.sitesList[0]);
-        // this.listAdsInfo(this.sitesList[44]);
       }
     })
   }
 
   camerasList: any = [];
   currentSite: any;
+  devicesData: any = [];
   getCamerasForSite(data: any) {
-    // console.log(data)
     this.camerasList = [];
+
+    this.configSrvc.devices_sub.subscribe((res) => {
+      this.devicesData = res;
+    });
+
     this.currentSite = data;
-    this.listdevices();
     this.configSrvc.current_site_sub.next(data);
     this.configSrvc.getCamerasForSiteId(data).subscribe({
       next: (res: any) => {
         this.camerasList = res;
+        this.currentCam = this.camerasList[0];
         this.configSrvc.dataFromSubheader.next(res);
-        this.currentCam = this.camerasList[0]
+
+        this.changeGrid({
+          label: this.gridTypes[2].label,
+          noOfItems: this.gridTypes[2].noOfItems,
+          path: this.gridTypes[2].path
+        });
+
+        this.configSrvc.numberFromSub.subscribe({
+          next: (res: any) => {
+            this.selectedGrid = res.noOfItems
+          }
+        })
       }
     })
   }
 
-  selectedGrid: number =9;
-  currentgridIcon!: string;
+  selectedGrid!: number;
+  noOfPages!: number;
+  pagesList: Array<any> = new Array();
+  currentPage!: number;
   changeGrid(item: any) {
+    this.currentPage = 1;
     this.configSrvc.numberFromSub.next(item);
+    this.noOfPages = Math.round(this.camerasList.length / item.noOfItems);
+    this.pagesList = new Array(Math.round(this.camerasList.length / item.noOfItems)).fill(0).map((item, index) => index + 1);
+  }
 
-    // if (item.noOfItems === 1) {
-    //   this.playCurrentCam(this.camerasList[0]);
+  changePage(page: number) {
+    this.currentPage = Number(page);
+    this.configSrvc.currentpage_sub.next(Number(this.currentPage))
+  }
+
+  prevPage(): void {
+    // if (this.currentPage > 1) {
+    //   this.currentPage--;
+    //   this.configSrvc.currentpage_sub.next(Number(this.currentPage))
     // }
-    // this.currentgridIcon = item.path;
-    // this.selectedGrid = item.noOfItems;
+    this.currentPage--;
   }
 
-  get getCurrentItems(): any {
-    let startIndex = 0;
-    let endIndex = this.selectedGrid;
-    return this.camerasList?.slice(startIndex, endIndex);
+  nextPage(): void {
+    // const maxPages = Math.ceil(this.noOfPages / this.camerasList.length);
+    // if (this.currentPage < maxPages) {
+    //   this.currentPage++;
+    //   this.configSrvc.currentpage_sub.next(Number(this.currentPage));
+    // }
+    this.currentPage++;
   }
 
+  // getCurrentItems(): any {
+  //   let startIndex = (this.currentPage - 1) * this.selectedGrid;
+  //   let endIndex = startIndex + this.selectedGrid;
+  //   return this.camerasList.slice(startIndex, endIndex);
+  // }
 
   currentCam: any;
   playCurrentCam(item: any) {
@@ -207,51 +224,28 @@ export class SubHeaderComponent {
 
   loadPrevCam() {
     let index: number = this.camerasList.indexOf(this.currentCam);
-    this.currentCam = this.camerasList[index - 1]
+    this.currentCam = this.camerasList[index - 1];
   }
 
   loadNextCam() {
     let index: number = this.camerasList.indexOf(this.currentCam);
-    this.currentCam = this.camerasList[index + 1]
+    this.currentCam = this.camerasList[index + 1];
   }
 
 
-  listCategoriesData:any;
-
+  listCategoriesData: any;
   list_categories() {
     this.configSrvc.list_categories().subscribe({
-      next:(res:any) =>{
-        // console.log(res)
-        this.listCategoriesData = res.rules
-      }
-
-    })
-  }
-  getType(type: any) {
-    return this.storageSer.getType(type)[0].metadata
-  }
-
-
-  devicesData:any = [];
-  listdevices() {
-    this.configSrvc.listDeviceInfo(this.currentSite).subscribe({
-      next:(res:any) => {
-        // console.log(res)
-        this.devicesData = res.sites?.flatMap((item:any)=> item.Devices)
-      }
-    })
-  }
-
-  listAdsInfoData:any = [];
-  newlistAdsInfoData:any = [];
-  listAdsInfo(siteId: any) {
-    // console.log(siteId)
-    this.configSrvc.listAdsInfo(siteId).subscribe({
       next: (res: any) => {
-        this.listAdsInfoData = res.sites.flatMap((item: any) => item.ads);
-        this.newlistAdsInfoData = this.listAdsInfoData;
+        // console.log(res)
+        this.listCategoriesData = res.rules;
       }
-    });
+
+    })
+  }
+
+  getType(type: any) {
+    return this.storageSer.getType(type)[0].metadata;
   }
 
 
@@ -261,7 +255,6 @@ export class SubHeaderComponent {
     adType: null,
     category: null,
   }
-
   filter() {
     this.configSrvc.filter_sub.next(this.adBody);
   }
