@@ -42,11 +42,12 @@
         <span>{{currentSite?.siteName}}</span>
     </div>
 
+    <!-- @if (camerasList.length) { -->
+        <div>
+            {{ configSrvc.paginated_cam_sub.next(getCurrentItems()) }}
+        </div>
+    <!-- } -->
     @if (currentUrl === 'live-view') {
-    <div class="d-none">
-        {{getCurrentItems()}}
-    </div>
-
     <div class="d-flex align-items-center pointer">
         @if (selectedGrid) {
         <div>

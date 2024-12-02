@@ -9,13 +9,10 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { CommonModule,  } from '@angular/common';
 import { StorageService } from '../../../services/storage.service';
-import { SubHeaderComponent } from '../../sub-header/sub-header.component';
-
 @Component({
   selector: 'app-alerts',
   standalone: true,
   imports: [
-    SubHeaderComponent,
     FormsModule,
     ReactiveFormsModule,
     MatOption,

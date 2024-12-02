@@ -11,8 +11,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { VideoPlrComponent } from '../../utilities/video-plr/video-plr.component';
 import { DummyPlrComponent } from '../../utilities/dummy-plr/dummy-plr.component';
-import { SubHeaderComponent } from '../../sub-header/sub-header.component';
-
 @Component({
   selector: 'app-live-view',
   standalone: true,
@@ -25,8 +23,7 @@ import { SubHeaderComponent } from '../../sub-header/sub-header.component';
     ReactiveFormsModule,
     VideoPlrComponent,
     CommonModule,
-    DummyPlrComponent,
-    SubHeaderComponent
+    DummyPlrComponent
 ],
   templateUrl: './live-view.component.html',
   styleUrl: './live-view.component.css'
@@ -39,7 +36,7 @@ export class LiveViewComponent {
   // }
 
   constructor(
-    private configSrvc: ConfigService,
+    public configSrvc: ConfigService,
     private http: HttpClient
   ) {}
 
@@ -66,6 +63,7 @@ export class LiveViewComponent {
 
     this.configSrvc.paginated_cam_sub.subscribe((res) => {
       if(res) {
+        this.newCamerasList = [];
         this.newCamerasList = res;
         console.log(this.newCamerasList)
       }

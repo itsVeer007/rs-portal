@@ -14,10 +14,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCard } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { SearchPipe } from '../../pipes/search.pipe';
-import { CountPipe } from '../../pipes/count.pipe';
-import { ConfigService } from '../../services/config.service';
-import { StorageService } from '../../services/storage.service';
+import { CountPipe } from '../../../pipes/count.pipe';
+import { SearchPipe } from '../../../pipes/search.pipe';
+import { ConfigService } from '../../../services/config.service';
+import { StorageService } from '../../../services/storage.service';
 
 @Component({
   selector: 'app-sub-header',
@@ -76,7 +76,7 @@ export class SubHeaderComponent {
 
   filteredOptions: any;
   constructor(
-    private configSrvc: ConfigService,
+    public configSrvc: ConfigService,
     private http: HttpClient,
     private router: Router,
     private storageSer: StorageService,
@@ -162,7 +162,7 @@ export class SubHeaderComponent {
         this.camerasList = res;
         this.currentCam = this.camerasList[0];
         this.configSrvc.dataFromSubheader.next(res);
-        this.configSrvc.paginated_cam_sub.next(this.getCurrentItems())
+        // this.configSrvc.paginated_cam_sub.next(this.getCurrentItems())
 
         this.changePage(1);
         this.changeGrid({

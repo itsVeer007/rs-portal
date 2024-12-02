@@ -12,8 +12,6 @@ import { MetadataService } from '../../../services/metadata.service';
 import { StorageService } from '../../../services/storage.service';
 import { LinkAddRuleDeviceComponent } from '../link-add-rule-device/link-add-rule-device.component';
 import { CommonModule } from '@angular/common';
-import { SubHeaderComponent } from '../../sub-header/sub-header.component';
-
 @Component({
   selector: 'app-advertisements',
   standalone: true,
@@ -24,7 +22,6 @@ import { SubHeaderComponent } from '../../sub-header/sub-header.component';
     MatInputModule,
     LiveViewComponent,
     ViewAdvertisementComponent,
-    SubHeaderComponent,
     LinkAddRuleDeviceComponent,
     CommonModule,
   ],
