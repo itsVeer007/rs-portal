@@ -24,7 +24,8 @@ export class ConfigService {
   public devices_sub: BehaviorSubject<any> = new BehaviorSubject(null);
   public filter_sub: BehaviorSubject<any> = new BehaviorSubject({});
 
-  public currentpage_sub: BehaviorSubject<any> = new BehaviorSubject(null);
+  // public currentpage_sub: BehaviorSubject<any> = new BehaviorSubject(1);
+  public paginated_cam_sub: BehaviorSubject<any> = new BehaviorSubject(null);
 
 
   public getSitesListForUserName(): Observable<any> {

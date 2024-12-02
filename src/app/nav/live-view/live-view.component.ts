@@ -17,18 +17,16 @@ import { DummyPlrComponent } from "../../dummy-plr/dummy-plr.component";
   selector: 'app-live-view',
   standalone: true,
   imports: [
-    HeaderComponent,
     MatGridListModule,
     MatMenuModule,
     MatInputModule,
     SanitizePipe,
     FormsModule,
     ReactiveFormsModule,
-    SearchPipe,
     VideoPlrComponent,
     CommonModule,
-    SubHeaderComponent,
-    DummyPlrComponent
+    DummyPlrComponent,
+    SubHeaderComponent
 ],
   templateUrl: './live-view.component.html',
   styleUrl: './live-view.component.css'
@@ -53,6 +51,9 @@ export class LiveViewComponent {
   }
   
   gridData: any;
+  selectedGrid!: number;
+  camerasList: any = [];
+  newCamerasList: any = [];
   ngAfterViewInit() {
     this.configSrvc.numberFromSub.subscribe({
       next:(res) => {
@@ -63,11 +64,12 @@ export class LiveViewComponent {
       }
     });
 
-    this.configSrvc.currentpage_sub.subscribe((res) => {
+    this.configSrvc.paginated_cam_sub.subscribe((res) => {
       if(res) {
-        this.currentPage = res;
+        this.newCamerasList = res;
+        console.log(this.newCamerasList)
       }
-    })
+    });
   }
 
   getUrl(data: any, camData: any) {
@@ -91,6 +93,7 @@ export class LiveViewComponent {
     this.configSrvc.getSitesListForUserName().subscribe({
       next: (res: any) => {
         this.sitesList = res.sites;
+
         this.configSrvc.dataFromSubheader.subscribe({
           next: (res: any) => {
             this.camerasList = [];
@@ -104,22 +107,10 @@ export class LiveViewComponent {
     })
   }
 
-  camerasList: any = [];
-  currentSite: any;
-  selectedGrid!: number;
-  currentgridIcon!: string;
-  currentPage!: number;
-  getCurrentItems(): any {
-    let startIndex = (this.currentPage - 1) * this.selectedGrid;
-    let endIndex = startIndex + this.selectedGrid;
-    return this.camerasList.slice(startIndex, endIndex);
-  }
-
 
   currentCam: any;
   playCurrentCam(item:any) {
     this.configSrvc.numberFromSub.next({noOfItems: 1});
-    this.selectedGrid = 1;
     this.currentCam = item;
   }
 

@@ -162,7 +162,9 @@ export class SubHeaderComponent {
         this.camerasList = res;
         this.currentCam = this.camerasList[0];
         this.configSrvc.dataFromSubheader.next(res);
+        this.configSrvc.paginated_cam_sub.next(this.getCurrentItems())
 
+        this.changePage(1);
         this.changeGrid({
           label: this.gridTypes[2].label,
           noOfItems: this.gridTypes[2].noOfItems,
@@ -171,9 +173,9 @@ export class SubHeaderComponent {
 
         this.configSrvc.numberFromSub.subscribe({
           next: (res: any) => {
-            this.selectedGrid = res.noOfItems
+            this.selectedGrid = res.noOfItems;
           }
-        })
+        });
       }
     })
   }
@@ -183,7 +185,6 @@ export class SubHeaderComponent {
   pagesList: Array<any> = new Array();
   currentPage!: number;
   changeGrid(item: any) {
-    this.currentPage = 1;
     this.configSrvc.numberFromSub.next(item);
     this.noOfPages = Math.round(this.camerasList.length / item.noOfItems);
     this.pagesList = new Array(Math.round(this.camerasList.length / item.noOfItems)).fill(0).map((item, index) => index + 1);
@@ -191,13 +192,11 @@ export class SubHeaderComponent {
 
   changePage(page: number) {
     this.currentPage = Number(page);
-    this.configSrvc.currentpage_sub.next(Number(this.currentPage))
   }
 
   prevPage(): void {
     // if (this.currentPage > 1) {
     //   this.currentPage--;
-    //   this.configSrvc.currentpage_sub.next(Number(this.currentPage))
     // }
     this.currentPage--;
   }
@@ -206,16 +205,15 @@ export class SubHeaderComponent {
     // const maxPages = Math.ceil(this.noOfPages / this.camerasList.length);
     // if (this.currentPage < maxPages) {
     //   this.currentPage++;
-    //   this.configSrvc.currentpage_sub.next(Number(this.currentPage));
     // }
     this.currentPage++;
   }
 
-  // getCurrentItems(): any {
-  //   let startIndex = (this.currentPage - 1) * this.selectedGrid;
-  //   let endIndex = startIndex + this.selectedGrid;
-  //   return this.camerasList.slice(startIndex, endIndex);
-  // }
+  getCurrentItems(): any {
+    let startIndex = (this.currentPage - 1) * this.selectedGrid;
+    let endIndex = startIndex + this.selectedGrid;
+    return this.camerasList.slice(startIndex, endIndex);
+  }
 
   currentCam: any;
   playCurrentCam(item: any) {
@@ -248,13 +246,13 @@ export class SubHeaderComponent {
     return this.storageSer.getType(type)[0].metadata;
   }
 
-
   adBody = {
     siteId: null,
     deviceId: null,
     adType: null,
     category: null,
   }
+  
   filter() {
     this.configSrvc.filter_sub.next(this.adBody);
   }

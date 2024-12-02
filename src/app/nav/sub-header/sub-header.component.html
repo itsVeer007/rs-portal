@@ -43,16 +43,24 @@
     </div>
 
     @if (currentUrl === 'live-view') {
+    <div class="d-none">
+        {{getCurrentItems()}}
+    </div>
+
     <div class="d-flex align-items-center pointer">
+        @if (selectedGrid) {
         <div>
             <img src="assets/icons/arrow_back_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="prevPage()">
-            <select class="form-select" class="pointer" [(ngModel)]="currentPage" (ngModelChange)="changePage(currentPage)">
+            <select class="form-select" class="pointer" [(ngModel)]="currentPage"
+                (ngModelChange)="changePage(currentPage)">
                 @for (item of pagesList; track $index) {
-                    <option [value]="item">{{ item }} of {{ noOfPages }}</option>
+                <option [value]="item">{{ item }} of {{ noOfPages }}</option>
                 }
             </select>
-            <img src="assets/icons/arrow_forward_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="nextPage()">
+            <img src="assets/icons/arrow_forward_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt=""
+                (click)="nextPage()">
         </div>
+        }
 
         <div class="side-menu d-flex align-items-center">
             <div class="pointer me-2">
