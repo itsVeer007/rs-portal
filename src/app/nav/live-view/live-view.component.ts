@@ -7,11 +7,11 @@ import {MatInputModule} from '@angular/material/input';
 import { SanitizePipe } from '../../../pipes/sanitize.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchPipe } from '../../../pipes/search.pipe';
-import { VideoPlrComponent } from "../../video-plr/video-plr.component";
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { SubHeaderComponent } from "../sub-header/sub-header.component";
-import { DummyPlrComponent } from "../../dummy-plr/dummy-plr.component";
+import { VideoPlrComponent } from '../../utilities/video-plr/video-plr.component';
+import { DummyPlrComponent } from '../../utilities/dummy-plr/dummy-plr.component';
+import { SubHeaderComponent } from '../../sub-header/sub-header.component';
 
 @Component({
   selector: 'app-live-view',

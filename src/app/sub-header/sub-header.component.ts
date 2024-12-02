@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Output, signal, ViewChild } from '@angular/core';
-import { ConfigService } from '../../../services/config.service';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SearchPipe } from '../../../pipes/search.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -12,12 +10,14 @@ import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { StorageService } from '../../../services/storage.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { CountPipe } from '../../../pipes/count.pipe';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCard } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { SearchPipe } from '../../pipes/search.pipe';
+import { CountPipe } from '../../pipes/count.pipe';
+import { ConfigService } from '../../services/config.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-sub-header',
@@ -254,6 +254,8 @@ export class SubHeaderComponent {
   }
   
   filter() {
+    // console.log(this.currentSite)
+    this.adBody.siteId = this.currentSite.siteId
     this.configSrvc.filter_sub.next(this.adBody);
   }
 

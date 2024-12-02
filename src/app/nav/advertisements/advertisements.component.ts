@@ -5,7 +5,6 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { LiveViewComponent } from '../live-view/live-view.component';
 import { ViewAdvertisementComponent } from '../view-advertisement/view-advertisement.component';
-import { SubHeaderComponent } from '../sub-header/sub-header.component';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../services/alert.service';
 import { ConfigService } from '../../../services/config.service';
@@ -13,6 +12,7 @@ import { MetadataService } from '../../../services/metadata.service';
 import { StorageService } from '../../../services/storage.service';
 import { LinkAddRuleDeviceComponent } from '../link-add-rule-device/link-add-rule-device.component';
 import { CommonModule } from '@angular/common';
+import { SubHeaderComponent } from '../../sub-header/sub-header.component';
 
 @Component({
   selector: 'app-advertisements',
@@ -79,18 +79,20 @@ export class AdvertisementsComponent {
         this.newlistAdsInfoData = this.listAdsInfoData;
         this.listdevices();
 
-        // this.configSrvc.filter_sub.subscribe({
-        //   next: (res: any) => {
-        //     console.log(res);
-        //     this.configSrvc.listAdsInfo(res).subscribe({
-        //       next: (res: any) => {
-        //         this.newlistAdsInfoData = res.sites.flatMap(
-        //           (item: any) => item.ads
-        //         );
-        //       },
-        //     });
-        //   },
-        // });
+        this.configSrvc.filter_sub.subscribe({
+          next: (res: any) => {
+            console.log(res);
+            if(res.siteId) {
+              this.configSrvc.listAdsInfo(res).subscribe({
+                next: (res: any) => {
+                  this.newlistAdsInfoData = res.sites.flatMap(
+                    (item: any) => item.ads
+                  );
+                },
+              });
+            }
+          },
+        });
       },
     });
   }

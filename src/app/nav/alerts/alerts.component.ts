@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ConfigService } from '../../../services/config.service';
 import { HeaderComponent } from '../../header/header.component';
-import { SubHeaderComponent } from '../sub-header/sub-header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatError } from '@angular/material/form-field';
@@ -10,6 +9,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { CommonModule,  } from '@angular/common';
 import { StorageService } from '../../../services/storage.service';
+import { SubHeaderComponent } from '../../sub-header/sub-header.component';
 
 @Component({
   selector: 'app-alerts',
