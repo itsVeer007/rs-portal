@@ -185,6 +185,7 @@ export class SubHeaderComponent {
   pagesList: Array<any> = new Array();
   currentPage!: number;
   changeGrid(item: any) {
+    this.currentPage = 1
     this.configSrvc.numberFromSub.next(item);
     this.noOfPages = Math.round(this.camerasList.length / item.noOfItems);
     this.pagesList = new Array(Math.round(this.camerasList.length / item.noOfItems)).fill(0).map((item, index) => index + 1);

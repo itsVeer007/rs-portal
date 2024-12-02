@@ -62,11 +62,11 @@ export class LiveViewComponent {
     });
 
     this.configSrvc.paginated_cam_sub.subscribe((res) => {
-      if(res) {
-        this.newCamerasList = [];
+      this.newCamerasList = [];
+      // if(res) {
+        console.log(res)
         this.newCamerasList = res;
-        console.log(this.newCamerasList)
-      }
+      // }
     });
   }
 
@@ -81,7 +81,7 @@ export class LiveViewComponent {
     });
   }
   
-  opensiteDialog:boolean = false; 
+  opensiteDialog: boolean = false;
   openSites() {
     this.opensiteDialog = !this.opensiteDialog
   }
@@ -97,7 +97,7 @@ export class LiveViewComponent {
             this.camerasList = [];
             setTimeout(() => {
               this.camerasList = res;
-              this.currentCam = this.camerasList[0]
+              this.currentCam = this.camerasList[0];
             }, 100)
           }
         })

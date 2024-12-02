@@ -2,7 +2,7 @@
 
 <!-- grid container -->
      <div class="grid-container" #gridContainer>
-        @if(camerasList.length !== 0) {
+        @if(newCamerasList.length !== 0) {
 
             @for(cam of newCamerasList; track $index) {
             <div class="grid-item" (dblclick)="playCurrentCam(cam)">
