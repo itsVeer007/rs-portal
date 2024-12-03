@@ -2,11 +2,11 @@
 
 <!-- grid container -->
      <div class="grid-container" #gridContainer>
-        @if(newCamerasList.length !== 0) {
-
-            @for(cam of newCamerasList; track $index) {
+        <!-- @if(newCamerasList.length !== 0) { -->
+        @for(cam of newCamerasList; track $index) {
+            <!-- <p class="text-light">{{cam | json}}</p> -->
             <div class="grid-item" (dblclick)="playCurrentCam(cam)">
-                <iframe class="d-none" (load)="getUrl(cam?.httpUrl, cam)"></iframe>
+                <iframe class="d-none" (load)="getUrl(cam.httpUrl, cam)"></iframe>
                 @if (cam.videoUrl && selectedGrid !== 1) {
                     <ng-container>
                         <app-video-plr [videoData]="cam?.videoUrl"></app-video-plr>
@@ -31,7 +31,6 @@
                                 <iframe class="iframe" [src]="currentCam?.httpUrl | sanitize" frameborder="0"></iframe>
                             </ng-container>
         
-                            
                             <div class="camera-tile-list">
                                 @for (item of camerasList; track $index) {
                                 <!-- <iframe class="d-none" (load)="getUrl(item?.httpUrl, item)"></iframe> -->
@@ -55,5 +54,5 @@
                 }
             </div>
             }
-        }
+        <!-- } -->
      </div>

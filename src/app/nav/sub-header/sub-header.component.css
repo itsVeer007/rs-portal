@@ -35,8 +35,15 @@
 
 .grid-highlight {
     padding: 5px;
-    margin: 10px;
-    color: #e3610b;
+    margin: 5px;
+    /* color: #e3610b; */
+}
+
+.grid-highlight-active{
+    background: #000;
+    border-radius: 5px;
+    padding: 3px;
+    width: 18px;
 }
 
 
@@ -123,11 +130,28 @@
     right: 25px;
 }
 
+.dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #084982;
+    margin: 0 10px;
+}
+
 .site-name {
     text-decoration: none;
     text-transform: uppercase;
-    font-weight: 500;
-    width: 100%;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
+}
+
+.cam-name {
+    font-size: 14px;
+    margin: 3px 0;
 }
 
 .bars::before {

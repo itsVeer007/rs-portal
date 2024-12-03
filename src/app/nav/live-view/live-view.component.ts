@@ -62,9 +62,8 @@ export class LiveViewComponent {
     });
 
     this.configSrvc.paginated_cam_sub.subscribe((res) => {
-      this.newCamerasList = [];
       // if(res) {
-        console.log(res)
+        // console.log(res);
         this.newCamerasList = res;
       // }
     });
@@ -104,7 +103,6 @@ export class LiveViewComponent {
       }
     })
   }
-
 
   currentCam: any;
   playCurrentCam(item:any) {

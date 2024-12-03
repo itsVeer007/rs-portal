@@ -1,6 +1,6 @@
 <div class="sub-header">
     <div>
-        <span class="site-info me-2 ms-4">
+        <span class="site-info d-flex me-2 ms-4">
             <a class="pointer mx-2" (click)="openSites()">
                 <img src="assets/icons/site-image.svg" alt="" width="14px" class="me-2">
                 <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
@@ -9,26 +9,26 @@
             @if(opensiteDialog) {
             <div class="sites-list">
                 <input type="text" class="input-search mb-3" placeholder="Search-Site" [(ngModel)]="searchText">
-                <div class="search-image">
-                    <img src="assets/icons/search.svg" alt="">
-                </div>
+                <span class="search-image"><img src="assets/icons/search.svg" alt=""></span>
+
                 @for (site of sitesList | search: searchText; track $index) {
                 <div class="sites-list-items">
-                    <a class="d-flex justify-content-between align-items-center" (click)="getCamerasForSite(site)">
-                        <span class="site-name" style="font-size: 14px;">{{site.siteName}}</span>
-                        @if (site.siteId === currentSite?.siteId) {
-                        <span>-</span>
-                        }
-                        @if (site.siteId !== currentSite?.siteId) {
-                        <span>+</span>
-                        }
-                    </a>
+                    <div class="d-flex justify-content-between align-items-center pointer" (click)="getCamerasForSite(site)">
+                        <div class="d-flex">
+                            <span class="mx-1"><img src="assets/icons/ivisEye.png" width="16" alt=""></span>
+                            <span class="site-name">{{site.siteName}}</span>
+                        </div>
+                        <span>
+                            <img src="assets/icons/arrow.svg" width="18" [ngStyle]="{'transform': site.siteId === currentSite?.siteId ? 'rotate(90deg)' : 'rotate(270deg)'}" alt="">
+                        </span>
+                    </div>
 
                     @if (site.siteId === currentSite?.siteId && currentUrl === 'live-view') {
                     <ng-container>
                         @for (cam of camerasList; track $index ; let i = $index) {
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p style="font-size: 12px;">{{i+1}} - {{cam.name}}</p>
+                        <div class="d-flex justify-content-start align-items-center">
+                            <span class="dot"></span>
+                            <span class="cam-name">{{ cam.name }}</span>
                         </div>
                         }
                     </ng-container>
@@ -37,9 +37,9 @@
                 }
             </div>
             }
+            <span class="d-none d-lg-flex me-2">{{currentSite?.siteName}}</span>
         </span>
 
-        <span>{{currentSite?.siteName}}</span>
     </div>
 
     <!-- @if (camerasList.length) { -->
@@ -49,8 +49,8 @@
     <!-- } -->
     @if (currentUrl === 'live-view') {
     <div class="d-flex align-items-center pointer">
-        @if (selectedGrid) {
-        <div>
+        @if (selectedGrid && selectedGrid !== 1) {
+        <div class="d-flex me-2">
             <img src="assets/icons/arrow_back_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="prevPage()">
             <select class="form-select" class="pointer" [(ngModel)]="currentPage"
                 (ngModelChange)="changePage(currentPage)">
@@ -66,13 +66,27 @@
         <div class="side-menu d-flex align-items-center">
             <div class="pointer me-2">
                 @for (item of gridTypes; track $index) {
-                <a (click)="changeGrid(item)" class="grid-highlight"
-                    [style.opacity]="selectedGrid == item.noOfItems ? 1: 0.5">
-                    <img [src]="item.path" width="16" alt="">
+                <a (click)="changeGrid(item)" class="grid-highlight">
+                    <img [src]="item.path" width="16px" [ngClass]="selectedGrid == item.noOfItems ? 'grid-highlight-active': ''" alt="">
                 </a>
                 }
             </div>
         </div>
+
+        <!-- <div class="me-4">
+            <a class="pointer" [matMenuTriggerFor]="menu">
+                <img [src]="currentgridIcon" alt="" width="15" class="me-2">
+                <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
+            </a>
+        
+            <mat-menu xPosition="before" #menu="matMenu">
+                <div class="grid-type">
+                    @for (item of gridTypes; track $index) {
+                    <a (click)="changeGrid(item)"><img [src]="item.path" width="15" alt=""></a>
+                    }
+                </div>
+            </mat-menu>
+        </div> -->
     </div>
     }
 
@@ -188,21 +202,8 @@
     }
 </div>
 
-<!-- <div class="me-4">
-    <a class="pointer" [matMenuTriggerFor]="menu">
-        <img [src]="currentgridIcon" alt="" width="15" class="me-2">
-        <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
-    </a>
 
-    <mat-menu xPosition="before" #menu="matMenu">
-        <div class="grid-type">
-            @for (item of gridTypes; track $index) {
-            <a (click)="changeGrid(item)"><img [src]="item.path" width="15" alt=""></a>
-            }
-        </div>
-    </mat-menu>
-</div>
-<div>
+<!-- <div>
     <div class="pointer me-2">
         @for (item of gridTypes; track $index) {
         <a (click)="changeGrid(item)" class=" m-3"><img [src]="item.path" width="18" alt=""></a>

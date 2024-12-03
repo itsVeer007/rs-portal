@@ -26,13 +26,17 @@ export class VideoPlrComponent {
   queuedCandidates: RTCIceCandidate[] = [];
   offerData: any;
 
+  // ngOnChanges() {
+  //   console.log(this.videoData)
+  // }
+
 
   hitStream: boolean = false;
   ngOnInit(): void {
     this.hitStream = true;
     this.requestICEServers();
   }
-
+  
   ngAfterViewInit() {
     this.video.nativeElement.controls = false;
     this.video.nativeElement.muted = true;
