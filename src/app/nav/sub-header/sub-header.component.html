@@ -2,24 +2,24 @@
     <div>
         <span class="site-info d-flex me-2 ms-4">
             <a class="pointer mx-2" (click)="openSites()">
-                <img src="assets/icons/site-image.svg" alt="" width="14px" class="me-2">
-                <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
+                <img src="icons/site-image.svg" alt="" width="14px" class="me-2">
+                <img src="icons/arrow-ios-downward-outline.svg" alt="" width="14px">
             </a>
 
             @if(opensiteDialog) {
             <div class="sites-list">
                 <input type="text" class="input-search mb-3" placeholder="Search-Site" [(ngModel)]="searchText">
-                <span class="search-image"><img src="assets/icons/search.svg" alt=""></span>
+                <span class="search-image"><img src="icons/search.svg" alt=""></span>
 
                 @for (site of sitesList | search: searchText; track $index) {
                 <div class="sites-list-items">
                     <div class="d-flex justify-content-between align-items-center pointer" (click)="getCamerasForSite(site)">
                         <div class="d-flex">
-                            <span class="mx-1"><img src="assets/icons/ivisEye.png" width="16" alt=""></span>
+                            <span class="mx-1"><img src="icons/ivisEye.png" width="16" alt=""></span>
                             <span class="site-name">{{site.siteName}}</span>
                         </div>
                         <span>
-                            <img src="assets/icons/arrow.svg" width="18" [ngStyle]="{'transform': site.siteId === currentSite?.siteId ? 'rotate(90deg)' : 'rotate(270deg)'}" alt="">
+                            <img src="icons/arrow.svg" width="18" [ngStyle]="{'transform': site.siteId === currentSite?.siteId ? 'rotate(90deg)' : 'rotate(270deg)'}" alt="">
                         </span>
                     </div>
 
@@ -51,14 +51,14 @@
     <div class="d-flex align-items-center pointer">
         @if (selectedGrid && selectedGrid !== 1) {
         <div class="d-flex me-2">
-            <img src="assets/icons/arrow_back_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="prevPage()">
+            <img src="icons/arrow_back_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt="" (click)="prevPage()">
             <select class="form-select" class="pointer" [(ngModel)]="currentPage"
                 (ngModelChange)="changePage(currentPage)">
                 @for (item of pagesList; track $index) {
                 <option [value]="item">{{ item }} of {{ noOfPages }}</option>
                 }
             </select>
-            <img src="assets/icons/arrow_forward_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt=""
+            <img src="icons/arrow_forward_24dp_434343_FILL0_wght400_GRAD0_opsz24.svg" alt=""
                 (click)="nextPage()">
         </div>
         }
@@ -76,7 +76,7 @@
         <!-- <div class="me-4">
             <a class="pointer" [matMenuTriggerFor]="menu">
                 <img [src]="currentgridIcon" alt="" width="15" class="me-2">
-                <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="14px">
+                <img src="icons/arrow-ios-downward-outline.svg" alt="" width="14px">
             </a>
         
             <mat-menu xPosition="before" #menu="matMenu">
@@ -114,27 +114,27 @@
 
         <div>
             <a class="mx-2" style="text-decoration: none;color: black;">
-                <img src="assets/icons/youtube-video-green.svg" alt="" class="me-2">
+                <img src="icons/youtube-video-green.svg" alt="" class="me-2">
                 <span style="font-size: 12px;">{{newlistAdsInfoData | count: 'active' : 1 || 2 || 4}}</span>
             </a>
         </div>
         <div>
             <a>
-                <img src="assets/icons/youtube-video-grey.svg" alt="" class="me-2">
+                <img src="icons/youtube-video-grey.svg" alt="" class="me-2">
                 <span style="font-size: 12px;">{{newlistAdsInfoData | count: 'active' : 3 || 5}}</span>
             </a>
         </div> -->
         <!-- <div>
             <a>
-                <img src="assets/icons/youtube-video-yellow.svg" alt="" class="me-2" width="10px">
+                <img src="icons/youtube-video-yellow.svg" alt="" class="me-2" width="10px">
                 <span style="font-size: 12px;">3</span>
             </a>
         </div> -->
         <!-- <p class="pointer" style="font-size: 14px;">Generic Ads</p> -->
         <div>
             <a class="site-info pointer me-3" (click)="openFilter()">
-                <img src="assets/icons/selection-for-ad.svg" alt="" width="10px" class="m-2">
-                <img src="assets/icons/arrow-ios-downward-outline.svg" alt="" width="10px" class="me-2">
+                <img src="icons/selection-for-ad.svg" alt="" width="10px" class="m-2">
+                <img src="icons/arrow-ios-downward-outline.svg" alt="" width="10px" class="me-2">
             </a>
         </div>
 

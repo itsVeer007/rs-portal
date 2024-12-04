@@ -12,7 +12,7 @@
           <p class="bevarege">{{currentAdd?.category}}</p>
         </div>
       </div>
-      <a class="pointer ms-2" (click)="closeForm()"><img src="assets/icons/cancel_24dp_999999.svg" alt=""width="28px"></a>
+      <a class="pointer ms-2" (click)="closeForm()"><img src="icons/cancel_24dp_999999.svg" alt=""width="28px"></a>
       <!-- <button class=" btn btn-secondary pointer" (click)="openRuleFormNew()">ADD RULE</button> -->
     </div>
     <!-- <p (click)="createRuleForm()" style="color: #989fb4;" >add</p> -->
@@ -58,7 +58,7 @@
               <!-- <p class="device-details">{{item.cameraName}}</p> -->
               <img [src]="item.camSnapShotUrl" alt="" width="60px">
               @if(item.camSnapShotUrl =="No snapshotUrl") {
-                <img src="assets/icons/images.jpg" alt="" width="60px">
+                <img src="icons/images.jpg" alt="" width="60px">
               }
             </div>
             <!-- <p class="device-details">{{item.main}}</p> -->
@@ -74,7 +74,7 @@
             <div>
               <span class="button-btt pointer me-3" (click)="openRuleForm(item)">Add Rule</span>
                 @if(item.cameraId != null) {
-                  <img src="assets/icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}" (click)="openUpdate(item)">
+                  <img src="icons/camera-green.svg" alt="" width="30px" class="me-2" matTooltip="{{item.cameraName}}" (click)="openUpdate(item)">
                 }
                 @if(item.cameraId == null) {
                   <img src="assets\icons\plus (1).svg" alt="" width="25px" class="me-3" matTooltip="Add Camera" (click)="openAdverForm(item)">

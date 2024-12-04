@@ -22,7 +22,7 @@
                 <ng-container>
                     <div class="d-flex align-items-center justify-content-around h-100">
                         <a class="first-arrow" (click)="loadPrevCam()">
-                            <img src="assets/icons/arrow-down-short-orange.svg" alt="">
+                            <img src="icons/arrow-down-short-orange.svg" alt="">
                         </a>
         
                         <div>
@@ -38,7 +38,7 @@
                                     <div [ngClass]="currentCam.cameraId == item.cameraId ? 'camera-tile tile-active' : 'camera-tile'"
                                         (click)="playCurrentCam(item)">
                                         <img [src]="item.snapshotUrl" width="100%" height="100%" alt="">
-                                         <!-- <img src="assets/icons/camera-grey (2).svg" alt=""> -->
+                                         <!-- <img src="icons/camera-grey (2).svg" alt=""> -->
                                     </div>
                                     <p class="tile-name">{{item.name}}</p>
                                 </div>
@@ -47,7 +47,7 @@
                         </div>
         
                         <a class="second-arrow" (click)="loadNextCam()">
-                            <img src="assets/icons/arrow-down-short-orange.svg" alt="">
+                            <img src="icons/arrow-down-short-orange.svg" alt="">
                         </a>
                     </div>
                 </ng-container>

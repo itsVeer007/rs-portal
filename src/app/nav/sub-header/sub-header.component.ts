@@ -55,22 +55,22 @@ export class SubHeaderComponent {
     {
       label: '1*1',
       noOfItems: 1,
-      path: 'assets/icons/dot-1.svg'
+      path: 'icons/dot-1.svg'
     },
     {
       label: '2*2',
       noOfItems: 4,
-      path: 'assets/icons/dot-2.svg'
+      path: 'icons/dot-2.svg'
     },
     {
       label: '3*3',
       noOfItems: 9,
-      path: 'assets/icons/grid.svg'
+      path: 'icons/grid.svg'
     },
     {
       label: '4*4',
       noOfItems: 16,
-      path: 'assets/icons/dot4.svg'
+      path: 'icons/dot4.svg'
     }
   ];
 

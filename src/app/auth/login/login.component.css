@@ -1,7 +1,6 @@
-.login-background{
-    background: url("/assets/icons/login-background.png");
+.login-background {
+    background: url("/icons/login-background.png") no-repeat;
     background-size: cover;
-    background-repeat: no-repeat;
     max-width: 100%;
     height: 100vh;
     position: relative;
@@ -18,17 +17,16 @@
     position: absolute;
     top: 20px;
     left: 50px;
-   
 }
 
 .login-heading {
     position: absolute;
     left: 50px;
     bottom: 20px;
-    color:#FFFFFF;
+    color: #FFFFFF;
     text-shadow: 0px 10px 20px #000000;
     text-transform: uppercase;
-    font: normal normal 600 48px/40px Montserrat;    
+    font: normal normal 600 48px/40px Montserrat;
 }
 
 .login-section {
@@ -38,6 +36,7 @@
     justify-content: center;
     align-items: center;
 }
+
 /* .login-details {
     position: absolute;
     top: 50%;
@@ -45,6 +44,7 @@
     transform: translate(-50%, -50%);
     width: 300px;
 } */
+
 .welcome-text {
     color: #000000;
     text-transform: uppercase;
@@ -52,21 +52,24 @@
     font-weight: 800;
 
 }
+
 .sign-text {
     color: #989FB4;
     letter-spacing: 0px;
 
 }
+
 .user-heading {
-letter-spacing: 0px;
-color: #000000;
-opacity: 1;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
 }
+
 .Password-heading {
-font: normal normal medium 10px/13px Montserrat;
-letter-spacing: 0px;
-color: #000000;
-opacity: 1;
+    font: normal normal medium 10px/13px Montserrat;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
 }
 
 .login-details input {
@@ -78,15 +81,16 @@ opacity: 1;
     width: 100%;
     position: relative;
 }
+
 .login-button {
- background: #FD6327 0% 0% no-repeat padding-box;
-border-radius: 3px;
-opacity: 1;
-width: 295px;
-height: 43px;
-border-style: none;
-color: #FFFFFF;
-text-transform: uppercase;
+    background: #FD6327 0% 0% no-repeat padding-box;
+    border-radius: 3px;
+    opacity: 1;
+    width: 295px;
+    height: 43px;
+    border-style: none;
+    color: #FFFFFF;
+    text-transform: uppercase;
 }
 
 .login-details input:focus {
@@ -97,6 +101,7 @@ text-transform: uppercase;
 /* .input-container {
     position: relative;
 } */
+
 .visible-image {
     position: absolute;
     top: 40px;
@@ -108,6 +113,7 @@ text-transform: uppercase;
     top: 40px;
     left: 15px;
 }
+
 .key-image {
     position: absolute;
     top: 40px;
